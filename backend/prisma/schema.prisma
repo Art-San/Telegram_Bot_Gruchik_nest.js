@@ -11,11 +11,12 @@ datasource db {
 model User {
  id           Int        @id @default(autoincrement())
  telegramId   String     @unique
- chatId       String     @unique
+ fullName     String
  userName     String
  phone        String?    @unique
  rating       Int        @default(5)
- isAdmin      Boolean    @default(false)
+ role         Role       @default(user)
+ root         Boolean    @default(false)
  createdAt    DateTime   @default(now())
  updatedAt    DateTime   @updatedAt
  executorOrders OrderExecutor[] // Добавляем связь с исполнительными заказами
@@ -43,3 +44,9 @@ model OrderExecutor {
  @@id([orderId, userId])
 }
 
+enum Role {
+  user
+  loader
+  foreman
+  admin
+}
