@@ -9,21 +9,35 @@ datasource db {
 }
 
 model User {
- id           Int        @id @default(autoincrement())
- telegramId   String     @unique
- fullName     String
- userName     String
- phone        String?    @unique
- rating       Int        @default(5)
- role         Role       @default(user)
- root         Boolean    @default(false)
- createdAt    DateTime   @default(now())
- updatedAt    DateTime   @updatedAt
+ id             Int        @id @default(autoincrement())
+ telegramId     String     @unique
+ userName       String
+ root           Boolean    @default(false)
+ profile        Profile?
+ profileFilled  Boolean    @default(false)
+ createdAt      DateTime   @default(now())
+ updatedAt      DateTime   @updatedAt
  executorOrders OrderExecutor[] // Добавляем связь с исполнительными заказами
+}
+
+model Profile {
+  id           Int        @id @default(autoincrement())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       Int        @unique
+  telegramId   String     @unique
+  fullName     String?
+  phone        String?    @unique
+  userAvatar   String?
+  role         Role       @default(user)
+  rating       Int        @default(5)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
 }
 
 model Order {
  id            Int      @id @default(autoincrement())
+ createdBy     String   // Добавляем поле для указания создателя заказа
  text          String
  address       String?
  numExecutors  Int      @default(1)
@@ -31,8 +45,9 @@ model Order {
  hourCount     Int      @default(1)
  createdAt     DateTime @default(now())
  updatedAt     DateTime @updatedAt
- executors     OrderExecutor[] // Указываем, что у заказа может быть несколько исполнителей
  potentialExecutors String[]
+ executors     OrderExecutor[] // Указываем, что у заказа может быть несколько исполнителей
+ status        String   @default("created") // Добавляем поле для отслеживания статуса заказа
 }
 
 model OrderExecutor {
@@ -49,4 +64,10 @@ enum Role {
   loader
   foreman
   admin
+}
+
+enum OrderStatus {
+ created
+ inProgress
+ completed
 }
