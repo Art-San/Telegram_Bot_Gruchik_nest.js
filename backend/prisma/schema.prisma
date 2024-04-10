@@ -1,0 +1,45 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+ id           Int        @id @default(autoincrement())
+ telegramId   String     @unique
+ chatId       String     @unique
+ userName     String
+ phone        String?    @unique
+ rating       Int        @default(5)
+ isAdmin      Boolean    @default(false)
+ createdAt    DateTime   @default(now())
+ updatedAt    DateTime   @updatedAt
+ executorOrders OrderExecutor[] // Добавляем связь с исполнительными заказами
+}
+
+model Order {
+ id            Int      @id @default(autoincrement())
+ text          String
+ address       String?
+ numExecutors  Int      @default(1)
+ hourCost      Int      @default(500)
+ hourCount     Int      @default(1)
+ createdAt     DateTime @default(now())
+ updatedAt     DateTime @updatedAt
+ executors     OrderExecutor[] // Указываем, что у заказа может быть несколько исполнителей
+ potentialExecutors String[]
+}
+
+model OrderExecutor {
+ orderId    Int
+ userId     String
+ order      Order @relation(fields: [orderId], references: [id])
+ user       User @relation(fields: [userId], references: [telegramId])
+
+ @@id([orderId, userId])
+}
+
