@@ -23,7 +23,7 @@ export function setBotCommandsUser(bot: TelegramBot) {
 	bot.setMyCommands([
 		{ command: '/start', description: 'Начальное приветствие юзера' },
 		{ command: '/info', description: 'Получить информацию о пользователе' },
-		{ command: '/num', description: 'Игра число' },
+		{ command: '/help', description: 'Игра число' },
 	])
 }
 export function setBotCommandsAdmin(bot: TelegramBot) {

@@ -67,6 +67,34 @@ export class BotService implements OnModuleInit {
 			polling: true,
 		})
 
+		// bot.on('text', async (msg) => {
+		// 	const msgWait = await bot.sendMessage(
+		// 		msg.chat.id,
+		// 		`Бот генерирует ответ...`
+		// 	)
+
+		// 	setTimeout(async () => {
+		// 		await bot.deleteMessage(msgWait.chat.id, msgWait.message_id)
+		// 		await bot.sendMessage(msg.chat.id, msg.text)
+		// 	}, 5000)
+		// })
+
+		// bot.on('text', async (msg) => {
+		// 	const msgWait = await bot.sendMessage(
+		// 		msg.chat.id,
+		// 		`Бот генерирует ответ...`
+		// 	)
+
+		// 	console.log(0, msgWait)
+
+		// 	setTimeout(async () => {
+		// 		await bot.editMessageText(msg.text, {
+		// 			chat_id: msgWait.chat.id,
+		// 			message_id: msgWait.message_id,
+		// 		})
+		// 	}, 5000)
+		// })
+
 		bot.on('message', async (ctx) => {
 			const text = ctx.text
 			const telegramId = String(ctx.from.id)
@@ -92,5 +120,7 @@ export class BotService implements OnModuleInit {
 				}
 			}
 		})
+
+		bot.on('polling_error', (err) => console.log(err.message))
 	}
 }
