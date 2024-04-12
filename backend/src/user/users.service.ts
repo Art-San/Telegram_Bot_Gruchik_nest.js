@@ -46,6 +46,19 @@ export class UserService {
 		}
 	}
 
+	async updateUserIsActive(telegramId: string, isActive: Boolean) {
+		try {
+			await this.db.user.update({
+				where: { telegramId }, // Предполагаем, что у вас есть поле id в модели User
+				data: { isActive: !isActive },
+			})
+			return { msg: 'Обновление поля isActive  на противоположное значение' }
+		} catch (error) {
+			console.log('Ошибка в updateUserIsActive', error)
+			throw error
+		}
+	}
+
 	async getRootUsers() {
 		try {
 			const adminUsers = await this.db.user.findMany({

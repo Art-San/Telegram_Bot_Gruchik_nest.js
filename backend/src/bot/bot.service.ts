@@ -1,51 +1,9 @@
-// import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common'
-// import { Prisma, PrismaClient, User } from '@prisma/client'
-// import { DbService } from 'src/db/db.service'
-// import TelegramBot = require('node-telegram-bot-api')
-// import { setBotCommandsUser } from './commands/setBotCommands'
-// // src/
-// // |-- bot/
-// // |   |-- bot.module.ts
-// // |   |-- bot.service.ts
-// // |   |-- bot.controller.ts (если используется)
-// // |   |-- commands/
-// // |       |-- setBotCommands.ts
-// // |-- app.module.ts
-// // |-- main.ts
-
-// @Injectable()
-// export class BotService implements OnModuleInit {
-// 	constructor(private readonly db: DbService) {}
-// 	async onModuleInit() {
-// 		await this.botMessage()
-// 	}
-
-// 	async botMessage() {
-// 		const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {
-// 			polling: true,
-// 		})
-
-// 		setBotCommandsUser(bot)
-
-// 		bot.on('message', async (ctx) => {
-// 			const text = ctx.text
-// 			console.log(1, text)
-// 			const chatId = String(ctx.chat.id)
-// 			const firstName = ctx.chat.first_name
-
-// 			if (text === '/start') {
-// 				return bot.sendMessage(chatId, `Добро пожаловать в наш бот:`)
-// 			}
-// 		})
-// 	}
-// }
-
 import { Injectable, OnModuleInit } from '@nestjs/common'
 import * as TelegramBot from 'node-telegram-bot-api'
 import {
-	setBotCommandsUser,
-	setBotCommandsAdmin,
+	setBotCommands,
 	commandStart,
+	commandEnd,
 } from './commands/setBotCommands'
 
 import { DbService } from 'src/db/db.service'
@@ -66,34 +24,7 @@ export class BotService implements OnModuleInit {
 		const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {
 			polling: true,
 		})
-
-		// bot.on('text', async (msg) => {
-		// 	const msgWait = await bot.sendMessage(
-		// 		msg.chat.id,
-		// 		`Бот генерирует ответ...`
-		// 	)
-
-		// 	setTimeout(async () => {
-		// 		await bot.deleteMessage(msgWait.chat.id, msgWait.message_id)
-		// 		await bot.sendMessage(msg.chat.id, msg.text)
-		// 	}, 5000)
-		// })
-
-		// bot.on('text', async (msg) => {
-		// 	const msgWait = await bot.sendMessage(
-		// 		msg.chat.id,
-		// 		`Бот генерирует ответ...`
-		// 	)
-
-		// 	console.log(0, msgWait)
-
-		// 	setTimeout(async () => {
-		// 		await bot.editMessageText(msg.text, {
-		// 			chat_id: msgWait.chat.id,
-		// 			message_id: msgWait.message_id,
-		// 		})
-		// 	}, 5000)
-		// })
+		setBotCommands(bot)
 
 		bot.on('message', async (ctx) => {
 			const text = ctx.text
@@ -115,7 +46,24 @@ export class BotService implements OnModuleInit {
 					console.error('Ошибка при обработке команды /start:', error)
 					bot.sendMessage(
 						chatId,
-						'Произошла ошибка при обработке вашего запроса.'
+						'Произошла ошибка при обработке команды /start.'
+					)
+				}
+			}
+
+			if (text === '/info') {
+				console.log(1, 'info')
+			}
+
+			if (text === '/end') {
+				try {
+					const response = await commandEnd(telegramId, this.userService)
+					bot.sendMessage(chatId, response.msg)
+				} catch (error) {
+					console.error('Ошибка при обработке команды /end:', error)
+					bot.sendMessage(
+						chatId,
+						'Произошла ошибка при обработке команды /end.'
 					)
 				}
 			}

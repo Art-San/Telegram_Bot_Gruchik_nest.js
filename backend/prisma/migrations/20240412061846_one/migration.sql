@@ -9,6 +9,7 @@ CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "telegramId" TEXT NOT NULL,
     "userName" TEXT NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
     "root" BOOLEAN NOT NULL DEFAULT false,
     "profileFilled" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
