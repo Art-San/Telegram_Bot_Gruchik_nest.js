@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { DbService } from 'src/db/db.service'
+import { CreateOrderDto, IOrderData } from './dto/order.dto'
 
 const newOrder = {
 	createdBy: '23456',
@@ -12,16 +13,18 @@ const newOrder = {
 export class OrdersService {
 	constructor(private readonly db: DbService) {}
 
-	async createOrder() {
+	async creatingOrder(orderData: CreateOrderDto) {
 		try {
 			const createdOrder = await this.db.order.create({
-				data: newOrder,
+				data: orderData,
 			})
 
 			return createdOrder
 		} catch (error) {
-			console.log('Ошибка в createOrder', error)
+			console.log('Ошибка в creatingOrder', error)
 			return error
 		}
 	}
 }
+
+// createOrder

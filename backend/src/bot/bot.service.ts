@@ -9,19 +9,16 @@ import {
 
 import { DbService } from 'src/db/db.service'
 import { UserService } from 'src/user/users.service'
-
-interface OrderData {
-	createdBy?: string
-	numExecutors?: number
-	text?: string
-	address?: string
-}
+import { IOrderData } from 'src/orders/dto/order.dto'
+import { createNewOrder } from './commands/setBotCommandsOrder'
+import { OrdersService } from 'src/orders/orders.service'
 
 @Injectable()
 export class BotService implements OnModuleInit {
 	constructor(
 		private readonly db: DbService,
-		private readonly userService: UserService
+		private readonly userService: UserService,
+		private readonly ordersService: OrdersService
 	) {}
 
 	async onModuleInit() {
@@ -34,7 +31,7 @@ export class BotService implements OnModuleInit {
 		})
 		setBotCommands(bot)
 
-		let orderData: OrderData = {}
+		let orderData: IOrderData = {}
 		let currentStep = ''
 
 		bot.on('message', async (ctx) => {
@@ -60,8 +57,9 @@ export class BotService implements OnModuleInit {
 			} else if (currentStep === 'address') {
 				orderData.address = text
 				currentStep = null // Сброс состояния
-				// await saveOrderToDB(orderData); // Сохранение заказа в БД
-				bot.sendMessage(chatId, 'Ваш заказ успешно сохранен!')
+				const response = await createNewOrder(orderData, this.ordersService)
+				// await saveOrderToDB(orderData
+				bot.sendMessage(chatId, `Ваш заказ успешно сохранен! ${response.msg}`)
 			}
 			// if (text === '/createorder') {
 			// 	currentStep = 'numExecutors'
@@ -81,8 +79,6 @@ export class BotService implements OnModuleInit {
 			// 	// await saveOrderToDB(orderData); // Сохранение заказа в БД
 			// 	bot.sendMessage(chatId, 'Ваш заказ успешно сохранен!')
 			// }
-			console.log(1, orderData)
-			console.log(2, currentStep)
 
 			if (text === '/start') {
 				try {
