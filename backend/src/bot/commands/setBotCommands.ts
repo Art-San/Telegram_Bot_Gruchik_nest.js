@@ -10,6 +10,7 @@
 
 import * as TelegramBot from 'node-telegram-bot-api'
 import { UserService } from 'src/user/users.service'
+import { formatUserInfoMessage } from '../templates/user.templates'
 
 export async function commandStart(
 	telegramId: string,
@@ -29,6 +30,23 @@ export async function commandStart(
 		throw error
 	}
 }
+
+export async function getUserInfoMessage(
+	telegramId: string,
+	userService: UserService
+) {
+	try {
+		const user = await userService.getUserByTelegramId(telegramId)
+		if (!user) {
+			throw new Error('Пользователь не найден')
+		}
+		return formatUserInfoMessage(user)
+	} catch (error) {
+		console.log('Ошибка в commandStart', error)
+		throw error
+	}
+}
+
 export async function commandEnd(telegramId: string, userService: UserService) {
 	try {
 		const user = await userService.getUserByTelegramId(telegramId)
@@ -54,6 +72,8 @@ export function setBotCommands(bot: TelegramBot) {
 		{ command: '/start', description: 'Запускает бота' },
 		{ command: '/info', description: 'Получить информацию о пользователе' },
 		{ command: '/end', description: 'Останавливает бота' },
+		{ command: '/createorder', description: 'добавить заказ' },
+		// { command: '/help', description: 'Останавливает бота' },
 	])
 }
 // export function setBotCommandsAdmin(bot: TelegramBot) {
