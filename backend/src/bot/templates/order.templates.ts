@@ -1,5 +1,24 @@
 import { IOrderData } from 'src/orders/dto/order.dto'
 
+const buttonsOrder = {
+	reply_markup: {
+		inline_keyboard: [
+			[
+				{
+					text: 'Редактировать',
+					callback_data: 'edit_order',
+				},
+			],
+			[
+				{
+					text: 'Отправить',
+					callback_data: 'send_order',
+				},
+			],
+		],
+	},
+}
+
 // interface IOrder {
 // 	id: Number
 // 	createdBy: String
@@ -31,5 +50,5 @@ export function formatOrderInfoMessage(orderData: IOrderData) {
 	<b>Оплата за час работы: ${orderData.hourCost}</b> 
 	`
 	// telegramId
-	return templatesOrderInit
+	return { templatesOrderInit, buttonsOrder }
 }

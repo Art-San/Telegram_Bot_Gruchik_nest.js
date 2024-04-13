@@ -35,6 +35,12 @@ export class BotService implements OnModuleInit {
 		let orderData: IOrderData = {}
 		let currentStep = ''
 
+		bot.on('callback_query', async (msg) => {
+			console.log(0, msg.data)
+			const data = msg.data
+			const chatId = String(msg.message.chat.id)
+		})
+
 		bot.on('message', async (ctx) => {
 			const text = ctx.text
 			const telegramId = String(ctx.from.id)
@@ -67,53 +73,16 @@ export class BotService implements OnModuleInit {
 				orderData.hourCost = text
 				currentStep = null // Сброс состояния
 
-				// const response = await createOrder(orderData, this.ordersService)
-				// await saveOrderToDB(orderData)
-				const data = formatOrderInfoMessage(orderData)
-				console.log(2, 'data', data)
-				// bot.sendMessage(chatId, `Черновик заказа: ${data}`, {
-				// 	parse_mode: 'HTML',
-				// })
-				bot.sendMessage(chatId, `Новый заказ: ${data}`, {
+				const { templatesOrderInit, buttonsOrder } =
+					formatOrderInfoMessage(orderData)
+
+				bot.sendMessage(chatId, `Новый заказ: ${templatesOrderInit}`, {
+					...buttonsOrder,
 					parse_mode: 'HTML',
-					reply_markup: {
-						inline_keyboard: [
-							[
-								{
-									text: 'Редактировать',
-									callback_data: 'edit_order',
-								},
-							],
-							[
-								{
-									text: 'Отправить',
-									callback_data: 'send_order',
-								},
-							],
-						],
-					},
 				})
 			}
 
-			console.log(0, orderData)
-			// if (text === '/createorder') {
-			// 	currentStep = 'numExecutors'
-			// 	orderData.createdBy = telegramId
-			// 	bot.sendMessage(chatId, 'Введите количество грузчиков:')
-			// } else if (currentStep === 'numExecutors') {
-			// 	orderData.numExecutors = Number(text)
-			// 	currentStep = 'text'
-			// 	bot.sendMessage(chatId, 'Введите детали заказа:')
-			// } else if (currentStep === 'text') {
-			// 	orderData.text = text
-			// 	currentStep = 'address'
-			// 	bot.sendMessage(chatId, 'Введите адрес:')
-			// } else if (currentStep === 'address') {
-			// 	orderData.address = text
-			// 	currentStep = null // Сброс состояния
-			// 	// await saveOrderToDB(orderData); // Сохранение заказа в БД
-			// 	bot.sendMessage(chatId, 'Ваш заказ успешно сохранен!')
-			// }
+			console.log(0, ctx)
 
 			if (text === '/start') {
 				try {
