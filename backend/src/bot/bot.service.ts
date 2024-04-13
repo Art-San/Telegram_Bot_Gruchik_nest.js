@@ -13,6 +13,8 @@ import { IOrderData } from 'src/orders/dto/order.dto'
 import { createOrder } from './commands/setBotCommandsOrder'
 import { OrdersService } from 'src/orders/orders.service'
 import { formatOrderInfoMessage } from './templates/order.templates'
+import { handleOrderCreation } from './orderProcessing'
+import { handleUserCreation } from './userProcessing'
 
 @Injectable()
 export class BotService implements OnModuleInit {
@@ -32,11 +34,11 @@ export class BotService implements OnModuleInit {
 		})
 		setBotCommands(bot)
 
-		let orderData: IOrderData = {}
-		let currentStep = ''
+		// let orderData: IOrderData = {}
+		// let currentStep = ''
 
 		bot.on('callback_query', async (msg) => {
-			console.log(0, msg.data)
+			// console.log(0, msg.data)
 			const data = msg.data
 			const chatId = String(msg.message.chat.id)
 		})
@@ -49,57 +51,60 @@ export class BotService implements OnModuleInit {
 				? `@${ctx.from.username}`
 				: `${ctx.from.first_name} ${ctx.from.last_name}`
 
-			if (text === '/createorder') {
-				currentStep = 'startTime'
-				orderData.createdBy = telegramId
-				bot.sendMessage(chatId, 'Введите время начала заказа:')
-			} else if (currentStep === 'startTime') {
-				orderData.startTime = text
-				currentStep = 'numExecutors'
-				bot.sendMessage(chatId, 'Введите количество грузчиков:')
-			} else if (currentStep === 'numExecutors') {
-				orderData.numExecutors = Number(text)
-				currentStep = 'text'
-				bot.sendMessage(chatId, 'Введите детали заказа:')
-			} else if (currentStep === 'text') {
-				orderData.text = text
-				currentStep = 'address'
-				bot.sendMessage(chatId, 'Введите адрес:')
-			} else if (currentStep === 'address') {
-				orderData.address = text
-				currentStep = 'hourCost'
-				bot.sendMessage(chatId, 'Введите стоимость час:')
-			} else if (currentStep === 'hourCost') {
-				orderData.hourCost = text
-				currentStep = null // Сброс состояния
+			await handleUserCreation(ctx, bot, this.userService)
 
-				const { templatesOrderInit, buttonsOrder } =
-					formatOrderInfoMessage(orderData)
+			await handleOrderCreation(ctx, bot)
+			// if (text === '/createorder') {
+			// 	currentStep = 'startTime'
+			// 	orderData.createdBy = telegramId
+			// 	bot.sendMessage(chatId, 'Введите время начала заказа:')
+			// } else if (currentStep === 'startTime') {
+			// 	orderData.startTime = text
+			// 	currentStep = 'numExecutors'
+			// 	bot.sendMessage(chatId, 'Введите количество грузчиков:')
+			// } else if (currentStep === 'numExecutors') {
+			// 	orderData.numExecutors = Number(text)
+			// 	currentStep = 'text'
+			// 	bot.sendMessage(chatId, 'Введите детали заказа:')
+			// } else if (currentStep === 'text') {
+			// 	orderData.text = text
+			// 	currentStep = 'address'
+			// 	bot.sendMessage(chatId, 'Введите адрес:')
+			// } else if (currentStep === 'address') {
+			// 	orderData.address = text
+			// 	currentStep = 'hourCost'
+			// 	bot.sendMessage(chatId, 'Введите стоимость час:')
+			// } else if (currentStep === 'hourCost') {
+			// 	orderData.hourCost = text
+			// 	currentStep = null // Сброс состояния
 
-				bot.sendMessage(chatId, `Новый заказ: ${templatesOrderInit}`, {
-					...buttonsOrder,
-					parse_mode: 'HTML',
-				})
-			}
+			// 	const { templatesOrderInit, buttonsOrder } =
+			// 		formatOrderInfoMessage(orderData)
 
-			console.log(0, ctx)
+			// 	bot.sendMessage(chatId, `Новый заказ: ${templatesOrderInit}`, {
+			// 		...buttonsOrder,
+			// 		parse_mode: 'HTML',
+			// 	})
+			// }
 
-			if (text === '/start') {
-				try {
-					const response = await commandStart(
-						telegramId,
-						userName,
-						this.userService
-					)
-					bot.sendMessage(chatId, response.msg)
-				} catch (error) {
-					console.error('Ошибка при обработке команды /start:', error)
-					bot.sendMessage(
-						chatId,
-						'Произошла ошибка при обработке команды /start.'
-					)
-				}
-			}
+			// console.log(0, ctx)
+
+			// if (text === '/start') {
+			// 	try {
+			// 		const response = await commandStart(
+			// 			telegramId,
+			// 			userName,
+			// 			this.userService
+			// 		)
+			// 		bot.sendMessage(chatId, response.msg)
+			// 	} catch (error) {
+			// 		console.error('Ошибка при обработке команды /start:', error)
+			// 		bot.sendMessage(
+			// 			chatId,
+			// 			'Произошла ошибка при обработке команды /start.'
+			// 		)
+			// 	}
+			// }
 
 			if (text == '/help') {
 				await bot.sendMessage(
@@ -180,3 +185,65 @@ export class BotService implements OnModuleInit {
 // 	bot.sendMessage(chatId, 'Ваш заказ успешно сохранен!');
 //  }
 // });
+
+// bot.on('message', async (ctx) => {
+// 	const text = ctx.text
+// 	const telegramId = String(ctx.from.id)
+// 	const chatId = String(ctx.chat.id)
+// 	const userName = ctx.from.username
+// 		? `@${ctx.from.username}`
+// 		: `${ctx.from.first_name} ${ctx.from.last_name}`
+
+// 	if (text === '/createorder') {
+// 		currentStep = 'startTime'
+// 		orderData.createdBy = telegramId
+// 		bot.sendMessage(chatId, 'Введите время начала заказа:')
+// 	} else if (currentStep === 'startTime') {
+// 		orderData.startTime = text
+// 		currentStep = 'numExecutors'
+// 		bot.sendMessage(chatId, 'Введите количество грузчиков:')
+// 	} else if (currentStep === 'numExecutors') {
+// 		orderData.numExecutors = Number(text)
+// 		currentStep = 'text'
+// 		bot.sendMessage(chatId, 'Введите детали заказа:')
+// 	} else if (currentStep === 'text') {
+// 		orderData.text = text
+// 		currentStep = 'address'
+// 		bot.sendMessage(chatId, 'Введите адрес:')
+// 	} else if (currentStep === 'address') {
+// 		orderData.address = text
+// 		currentStep = 'hourCost'
+// 		bot.sendMessage(chatId, 'Введите стоимость час:')
+// 	} else if (currentStep === 'hourCost') {
+// 		orderData.hourCost = text
+// 		currentStep = null // Сброс состояния
+
+// 		const { templatesOrderInit, buttonsOrder } =
+// 			formatOrderInfoMessage(orderData)
+
+// 		bot.sendMessage(chatId, `Новый заказ: ${templatesOrderInit}`, {
+// 			...buttonsOrder,
+// 			parse_mode: 'HTML',
+// 		})
+// 	}
+
+// 	console.log(0, ctx)
+
+// 	if (text === '/start') {
+// 		try {
+// 			const response = await commandStart(
+// 				telegramId,
+// 				userName,
+// 				this.userService
+// 			)
+// 			bot.sendMessage(chatId, response.msg)
+// 		} catch (error) {
+// 			console.error('Ошибка при обработке команды /start:', error)
+// 			bot.sendMessage(
+// 				chatId,
+// 				'Произошла ошибка при обработке команды /start.'
+// 			)
+// 		}
+// 	}
+
+// })
