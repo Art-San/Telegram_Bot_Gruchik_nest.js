@@ -10,8 +10,9 @@ import {
 import { DbService } from 'src/db/db.service'
 import { UserService } from 'src/user/users.service'
 import { IOrderData } from 'src/orders/dto/order.dto'
-import { createNewOrder } from './commands/setBotCommandsOrder'
+import { createOrder } from './commands/setBotCommandsOrder'
 import { OrdersService } from 'src/orders/orders.service'
+import { formatOrderInfoMessage } from './templates/order.templates'
 
 @Injectable()
 export class BotService implements OnModuleInit {
@@ -43,8 +44,12 @@ export class BotService implements OnModuleInit {
 				: `${ctx.from.first_name} ${ctx.from.last_name}`
 
 			if (text === '/createorder') {
-				currentStep = 'numExecutors'
+				currentStep = 'startTime'
 				orderData.createdBy = telegramId
+				bot.sendMessage(chatId, 'Введите время начала заказа:')
+			} else if (currentStep === 'startTime') {
+				orderData.startTime = text
+				currentStep = 'numExecutors'
 				bot.sendMessage(chatId, 'Введите количество грузчиков:')
 			} else if (currentStep === 'numExecutors') {
 				orderData.numExecutors = Number(text)
@@ -56,11 +61,41 @@ export class BotService implements OnModuleInit {
 				bot.sendMessage(chatId, 'Введите адрес:')
 			} else if (currentStep === 'address') {
 				orderData.address = text
+				currentStep = 'hourCost'
+				bot.sendMessage(chatId, 'Введите стоимость час:')
+			} else if (currentStep === 'hourCost') {
+				orderData.hourCost = text
 				currentStep = null // Сброс состояния
-				const response = await createNewOrder(orderData, this.ordersService)
-				// await saveOrderToDB(orderData
-				bot.sendMessage(chatId, `Ваш заказ успешно сохранен! ${response.msg}`)
+
+				// const response = await createOrder(orderData, this.ordersService)
+				// await saveOrderToDB(orderData)
+				const data = formatOrderInfoMessage(orderData)
+				console.log(2, 'data', data)
+				// bot.sendMessage(chatId, `Черновик заказа: ${data}`, {
+				// 	parse_mode: 'HTML',
+				// })
+				bot.sendMessage(chatId, `Новый заказ: ${data}`, {
+					parse_mode: 'HTML',
+					reply_markup: {
+						inline_keyboard: [
+							[
+								{
+									text: 'Редактировать',
+									callback_data: 'edit_order',
+								},
+							],
+							[
+								{
+									text: 'Отправить',
+									callback_data: 'send_order',
+								},
+							],
+						],
+					},
+				})
 			}
+
+			console.log(0, orderData)
 			// if (text === '/createorder') {
 			// 	currentStep = 'numExecutors'
 			// 	orderData.createdBy = telegramId

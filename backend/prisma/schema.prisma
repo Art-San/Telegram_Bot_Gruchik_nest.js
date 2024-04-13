@@ -39,9 +39,10 @@ model Profile {
 model Order {
  id            Int      @id @default(autoincrement())
  createdBy     String   // Добавляем поле для указания создателя заказа
- text          String
- address       String?
+ startTime     String
  numExecutors  Int      @default(1)
+ address       String?
+ text          String
  hourCost      Int      @default(500)
  hourCount     Int      @default(1)
  createdAt     DateTime @default(now())

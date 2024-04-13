@@ -1,9 +1,12 @@
 import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator'
 
 export interface IOrderData {
+	id?: number
 	createdBy?: string
+	startTime?: string
 	numExecutors?: number
 	text?: string
+	hourCost?: string
 	address?: string
 }
 
@@ -11,14 +14,17 @@ export class CreateOrderDto {
 	@IsNotEmpty()
 	createdBy: string
 
+	@IsNumber()
+	numExecutors: number
+
+	@IsString()
+	startTime: string
+
 	@IsString()
 	text: string
 
 	@IsString()
 	address: string
-
-	@IsNumber()
-	numExecutors: number
 }
 // export class OrderDto {
 // 	id?: number

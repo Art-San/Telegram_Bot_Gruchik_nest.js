@@ -38,9 +38,10 @@ CREATE TABLE "Profile" (
 CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
     "createdBy" TEXT NOT NULL,
-    "text" TEXT NOT NULL,
-    "address" TEXT,
+    "startTime" TEXT NOT NULL,
     "numExecutors" INTEGER NOT NULL DEFAULT 1,
+    "address" TEXT,
+    "text" TEXT NOT NULL,
     "hourCost" INTEGER NOT NULL DEFAULT 500,
     "hourCount" INTEGER NOT NULL DEFAULT 1,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

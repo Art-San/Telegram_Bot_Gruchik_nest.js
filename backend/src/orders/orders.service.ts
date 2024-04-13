@@ -15,14 +15,24 @@ export class OrdersService {
 
 	async creatingOrder(orderData: CreateOrderDto) {
 		try {
-			const createdOrder = await this.db.order.create({
+			const newOrder = await this.db.order.create({
 				data: orderData,
 			})
 
-			return createdOrder
+			return newOrder
 		} catch (error) {
-			console.log('Ошибка в creatingOrder', error)
+			console.log('Ошибка в creatingOrder', error.message)
 			return error
+		}
+	}
+
+	async gettingAllOrders() {
+		try {
+			const orders = await this.db.order.findMany()
+			return orders
+		} catch (error) {
+			console.log('Ошибка в getAllUsers', error)
+			throw error
 		}
 	}
 }
