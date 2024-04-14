@@ -9,19 +9,12 @@ interface IData {
 }
 let orderData: IOrderData = {}
 let currentStep = ''
-export async function handleOrderCreation(
-	bot: TelegramBot,
-	text: string,
-	chatId: string
-) {
-	// const { text, telegramId, chatId } = data
-	// const text = ctx.text
-	// const telegramId = String(ctx.from.id)
-	// const chatId = String(ctx.chat.id)
+export async function handleOrderCreation(bot: TelegramBot, data: IData) {
+	const { text, telegramId, chatId } = data
 
 	if (text === '/createorder') {
 		currentStep = 'startTime'
-		orderData.createdBy = chatId
+		orderData.createdBy = telegramId
 		bot.sendMessage(chatId, 'Введите время начала заказа:')
 	} else if (currentStep === 'startTime') {
 		orderData.startTime = text

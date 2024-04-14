@@ -36,17 +36,31 @@ export class BotService implements OnModuleInit {
 		// let currentStep = ''
 
 		bot.on('callback_query', async (ctx) => {
-			console.log(0, ctx)
 			const data = ctx.data
+			const telegramId = String(ctx.from.id)
 			const chatId = String(ctx.message.chat.id)
-			// const botId = String(ctx.message)
-			if (data === 'edit_order') {
-				// bot.sendMessage(chatId, '/createorder')
-				console.log(1, 'chatId', chatId)
 
-				await handleOrderCreation(bot, '/createorder', chatId)
+			if (data === 'edit_order') {
+				await handleOrderCreation(bot, {
+					text: '/createorder',
+					telegramId,
+					chatId,
+				})
+			} else if (data === 'send_order') {
+				console.log(1, ctx)
 			}
 		})
+
+		function extractInfoFromContext(ctx) {
+			const text = ctx.text
+			const telegramId = String(ctx.from.id)
+			const chatId = String(ctx.chat.id)
+			const userName = ctx.from.username
+				? `@${ctx.from.username}`
+				: `${ctx.from.first_name} ${ctx.from.last_name}`
+
+			return { text, telegramId, chatId, userName }
+		}
 
 		bot.on('message', async (ctx) => {
 			const text = ctx.text
@@ -56,9 +70,15 @@ export class BotService implements OnModuleInit {
 				? `@${ctx.from.username}`
 				: `${ctx.from.first_name} ${ctx.from.last_name}`
 
-			await handleUserCreation(ctx, bot, this.userService)
+			// {text,telegramId,chatId, userName}
+			await handleUserCreation(bot, this.userService, {
+				text,
+				telegramId,
+				chatId,
+				userName,
+			})
 			console.log(0, 'chatId', chatId)
-			await handleOrderCreation(bot, text, chatId)
+			await handleOrderCreation(bot, { text, telegramId, chatId })
 
 			if (text == '/help') {
 				await bot.sendMessage(

@@ -2,21 +2,24 @@ import * as TelegramBot from 'node-telegram-bot-api'
 import { commandStart } from './commands/setBotCommands'
 import { UserService } from 'src/user/users.service'
 
+interface IData {
+	text: string
+	telegramId: string
+	chatId: string
+	userName: string
+}
 export async function handleUserCreation(
-	ctx: any,
 	bot: TelegramBot,
-	userService: UserService
+	userService: UserService,
+	data: IData
 ) {
-	const text = ctx.text
-	const telegramId = String(ctx.from.id)
-	const chatId = String(ctx.chat.id)
-	const userName = ctx.from.username
-		? `@${ctx.from.username}`
-		: `${ctx.from.first_name} ${ctx.from.last_name}`
-
-	// console.log(1, text)
-	// console.log(2, telegramId)
-	// console.log(3, userName)
+	const { text, telegramId, chatId, userName } = data
+	// const text = ctx.text
+	// const telegramId = String(ctx.from.id)
+	// const chatId = String(ctx.chat.id)
+	// const userName = ctx.from.username
+	// 	? `@${ctx.from.username}`
+	// 	: `${ctx.from.first_name} ${ctx.from.last_name}`
 
 	if (text === '/start') {
 		try {
