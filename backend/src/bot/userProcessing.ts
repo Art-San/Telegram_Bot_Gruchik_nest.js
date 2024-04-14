@@ -14,9 +14,9 @@ export async function handleUserCreation(
 		? `@${ctx.from.username}`
 		: `${ctx.from.first_name} ${ctx.from.last_name}`
 
-	console.log(1, text)
-	console.log(2, telegramId)
-	console.log(3, userName)
+	// console.log(1, text)
+	// console.log(2, telegramId)
+	// console.log(3, userName)
 
 	if (text === '/start') {
 		try {

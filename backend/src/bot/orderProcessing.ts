@@ -2,16 +2,26 @@ import * as TelegramBot from 'node-telegram-bot-api'
 import { IOrderData } from 'src/orders/dto/order.dto'
 import { formatOrderInfoMessage } from './templates/order.templates'
 
+interface IData {
+	text: string
+	telegramId?: string
+	chatId: string
+}
 let orderData: IOrderData = {}
 let currentStep = ''
-export async function handleOrderCreation(ctx: any, bot: TelegramBot) {
-	const text = ctx.text
-	const telegramId = String(ctx.from.id)
-	const chatId = String(ctx.chat.id)
+export async function handleOrderCreation(
+	bot: TelegramBot,
+	text: string,
+	chatId: string
+) {
+	// const { text, telegramId, chatId } = data
+	// const text = ctx.text
+	// const telegramId = String(ctx.from.id)
+	// const chatId = String(ctx.chat.id)
 
 	if (text === '/createorder') {
 		currentStep = 'startTime'
-		orderData.createdBy = telegramId
+		orderData.createdBy = chatId
 		bot.sendMessage(chatId, 'Введите время начала заказа:')
 	} else if (currentStep === 'startTime') {
 		orderData.startTime = text
