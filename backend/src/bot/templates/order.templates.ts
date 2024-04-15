@@ -40,7 +40,7 @@ const buttonsOrder = {
 // 	// telegramId
 // 	return templatesOrderInit
 // }
-export function formatOrderInfoMessage(orderData: IOrderData) {
+export function formatOrderInfoMessageInit(orderData: IOrderData) {
 	// console.log(1, 'orderData', orderData)
 	const templatesOrderInit = `
 	Заказ № \n
@@ -51,4 +51,16 @@ export function formatOrderInfoMessage(orderData: IOrderData) {
 	`
 	// telegramId
 	return { templatesOrderInit, buttonsOrder }
+}
+export function formatOrderInfoMessageEnd(orderData: IOrderData) {
+	// console.log(1, 'orderData', orderData)
+	const templatesOrderEnd = `
+	Заказ № ${orderData.id}\n
+	<b>На: ${orderData.startTime}</b>
+	<b>Кол-во грузчиков: ${orderData.numExecutors}</b> 
+	<b>Детали заказа: ${orderData.text}</b> 
+	<b>Оплата за час работы: ${orderData.hourCost}</b> 
+	`
+	// telegramId
+	return templatesOrderEnd
 }

@@ -6,7 +6,7 @@ export interface IOrderData {
 	startTime?: string
 	numExecutors?: number
 	text?: string
-	hourCost?: string
+	hourCost?: number
 	address?: string
 }
 

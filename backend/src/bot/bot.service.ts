@@ -36,21 +36,23 @@ export class BotService implements OnModuleInit {
 		})
 		setBotCommands(bot)
 
-		// let orderData: IOrderData = {}
-		// let currentStep = ''
-
 		bot.on('callback_query', async (ctx) => {
 			const { data, telegramId, chatId } = extractInfoCallbackQueryCTX(ctx)
 
 			if (data === 'edit_order') {
-				await handleOrderCreation(bot, {
+				await handleOrderCreation(bot, this.ordersService, {
 					text: '/createorder',
 					telegramId,
 					chatId,
 				})
 			} else if (data === 'send_order') {
+				await handleOrderCreation(bot, this.ordersService, {
+					text: 'send_order',
+					telegramId,
+					chatId,
+				})
 				bot.sendMessage(chatId, 'Отправлена заявка')
-				console.log(1, 'send_order')
+				// console.log(1, 'send_order')
 			}
 		})
 
@@ -64,8 +66,12 @@ export class BotService implements OnModuleInit {
 				chatId,
 				userName,
 			})
-			console.log(0, 'chatId', chatId)
-			await handleOrderCreation(bot, { text, telegramId, chatId })
+			// console.log(0, 'chatId', chatId)
+			await handleOrderCreation(bot, this.ordersService, {
+				text,
+				telegramId,
+				chatId,
+			})
 
 			if (text == '/help') {
 				await bot.sendMessage(

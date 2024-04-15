@@ -2,13 +2,6 @@ import { Injectable } from '@nestjs/common'
 import { DbService } from 'src/db/db.service'
 import { CreateOrderDto, IOrderData } from './dto/order.dto'
 
-const newOrder = {
-	createdBy: '23456',
-	numExecutors: 2, // Убедитесь, что тип данных соответствует вашей схеме в Prisma
-	text: `const Фeйк заявка`,
-	address: 'кирова',
-}
-
 @Injectable()
 export class OrdersService {
 	constructor(private readonly db: DbService) {}
@@ -22,7 +15,7 @@ export class OrdersService {
 			return newOrder
 		} catch (error) {
 			console.log('Ошибка в creatingOrder', error.message)
-			return error
+			throw error
 		}
 	}
 
@@ -35,6 +28,13 @@ export class OrdersService {
 			throw error
 		}
 	}
+}
+
+const newOrder = {
+	createdBy: '23456',
+	numExecutors: 2, // Убедитесь, что тип данных соответствует вашей схеме в Prisma
+	text: `const Фeйк заявка`,
+	address: 'кирова',
 }
 
 // createOrder
