@@ -13,6 +13,10 @@ import { OrdersService } from 'src/orders/orders.service'
 
 import { handleOrderCreation } from './orderProcessing'
 import { handleUserCreation } from './userProcessing'
+import {
+	extractInfoCallbackQueryCTX,
+	getUserDetailsFromTelegramContext,
+} from './utils/helpers-CTX'
 
 @Injectable()
 export class BotService implements OnModuleInit {
@@ -36,9 +40,7 @@ export class BotService implements OnModuleInit {
 		// let currentStep = ''
 
 		bot.on('callback_query', async (ctx) => {
-			const data = ctx.data
-			const telegramId = String(ctx.from.id)
-			const chatId = String(ctx.message.chat.id)
+			const { data, telegramId, chatId } = extractInfoCallbackQueryCTX(ctx)
 
 			if (data === 'edit_order') {
 				await handleOrderCreation(bot, {
@@ -47,30 +49,15 @@ export class BotService implements OnModuleInit {
 					chatId,
 				})
 			} else if (data === 'send_order') {
-				console.log(1, ctx)
+				bot.sendMessage(chatId, 'Отправлена заявка')
+				console.log(1, 'send_order')
 			}
 		})
 
-		function extractInfoFromContext(ctx) {
-			const text = ctx.text
-			const telegramId = String(ctx.from.id)
-			const chatId = String(ctx.chat.id)
-			const userName = ctx.from.username
-				? `@${ctx.from.username}`
-				: `${ctx.from.first_name} ${ctx.from.last_name}`
-
-			return { text, telegramId, chatId, userName }
-		}
-
 		bot.on('message', async (ctx) => {
-			const text = ctx.text
-			const telegramId = String(ctx.from.id)
-			const chatId = String(ctx.chat.id)
-			const userName = ctx.from.username
-				? `@${ctx.from.username}`
-				: `${ctx.from.first_name} ${ctx.from.last_name}`
+			const { text, telegramId, chatId, userName } =
+				getUserDetailsFromTelegramContext(ctx)
 
-			// {text,telegramId,chatId, userName}
 			await handleUserCreation(bot, this.userService, {
 				text,
 				telegramId,

@@ -73,6 +73,7 @@ export function setBotCommands(bot: TelegramBot) {
 		{ command: '/info', description: 'Получить информацию о пользователе' },
 		{ command: '/end', description: 'Останавливает бота' },
 		{ command: '/createorder', description: 'добавить заказ' },
+		{ command: '/help', description: 'пример HTML тегов' },
 		// { command: '/help', description: 'Останавливает бота' },
 	])
 }

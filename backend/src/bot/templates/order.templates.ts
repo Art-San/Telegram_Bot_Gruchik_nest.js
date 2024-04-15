@@ -41,7 +41,7 @@ const buttonsOrder = {
 // 	return templatesOrderInit
 // }
 export function formatOrderInfoMessage(orderData: IOrderData) {
-	console.log(1, 'orderData', orderData)
+	// console.log(1, 'orderData', orderData)
 	const templatesOrderInit = `
 	Заказ № \n
 	<b>На: ${orderData.startTime}</b>

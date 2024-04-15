@@ -7,7 +7,7 @@ interface IData {
 	telegramId?: string
 	chatId: string
 }
-let orderData: IOrderData = {}
+export let orderData: IOrderData = {}
 let currentStep = ''
 export async function handleOrderCreation(bot: TelegramBot, data: IData) {
 	const { text, telegramId, chatId } = data
@@ -45,5 +45,3 @@ export async function handleOrderCreation(bot: TelegramBot, data: IData) {
 		})
 	}
 }
-
-// handleUserCreation

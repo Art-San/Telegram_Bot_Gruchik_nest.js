@@ -11,6 +11,7 @@ export function formatUserInfoMessage(user: IUser) {
 	console.log(0, user)
 	const templatesUser = `
 	Карточка пользователя\n
+	<b>rating:  ⭐⭐⭐⭐⭐</b>
 	<b>telegramId:  </b><code>${user.telegramId}</code>
 	<b>Имя: </b> ${user.userName}
 	<b>Бот: </b> ${user.isActive ? 'запущен' : 'остановлен'}
@@ -19,3 +20,19 @@ export function formatUserInfoMessage(user: IUser) {
 	// telegramId
 	return templatesUser
 }
+
+// export function formatUserInfoMessage(user: IUser) {
+// 	console.log(0, user)
+// 	// Создаем строку с звездами в зависимости от значения user.ratio
+// 	const stars = '⭐'.repeat(user.ratio);
+// 	const templatesUser = `
+// 	Карточка пользователя\n
+// 	<b>rating: ${stars}</b>
+// 	<b>telegramId: </b><code>${user.telegramId}</code>
+// 	<b>Имя: </b> ${user.userName}
+// 	<b>Бот: </b> ${user.isActive ? 'запущен' : 'остановлен'}
+// 	<b>Профиль: </b> ${user.profileFilled ? 'Заполнен' : 'не заполнен'}
+// 	`
+// 	// telegramId
+// 	return templatesUser
+// }
