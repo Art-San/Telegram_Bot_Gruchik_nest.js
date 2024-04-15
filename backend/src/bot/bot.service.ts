@@ -46,12 +46,16 @@ export class BotService implements OnModuleInit {
 					chatId,
 				})
 			} else if (data === 'send_order') {
-				await handleOrderCreation(bot, this.ordersService, {
-					text: 'send_order',
-					telegramId,
-					chatId,
-				})
-				bot.sendMessage(chatId, 'Отправлена заявка')
+				try {
+					await handleOrderCreation(bot, this.ordersService, {
+						text: 'send_order',
+						telegramId,
+						chatId,
+					})
+				} catch (error) {
+					bot.sendMessage(chatId, error.message)
+				}
+
 				// console.log(1, 'send_order')
 			}
 		})
