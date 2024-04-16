@@ -6,8 +6,6 @@ import {
 } from './templates/order.templates'
 import { OrdersService } from 'src/orders/orders.service'
 
-// const ordersService = new OrdersService()
-
 interface IData {
 	text: string
 	telegramId?: string

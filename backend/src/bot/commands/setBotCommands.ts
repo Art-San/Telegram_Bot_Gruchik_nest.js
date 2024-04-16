@@ -67,16 +67,16 @@ export async function commandEnd(telegramId: string, userService: UserService) {
 }
 // trycatch
 
-export function setBotCommands(bot: TelegramBot) {
-	bot.setMyCommands([
-		{ command: '/start', description: 'Запускает бота' },
-		{ command: '/info', description: 'Получить информацию о пользователе' },
-		{ command: '/end', description: 'Останавливает бота' },
-		{ command: '/createorder', description: 'добавить заказ' },
-		{ command: '/help', description: 'пример HTML тегов' },
-		// { command: '/help', description: 'Останавливает бота' },
-	])
-}
+// export function setBotCommands(bot: TelegramBot) {
+// 	bot.setMyCommands([
+// 		{ command: '/start', description: 'Запускает бота' },
+// 		{ command: '/info', description: 'Получить информацию о пользователе' },
+// 		{ command: '/end', description: 'Останавливает бота' },
+// 		{ command: '/createorder', description: 'добавить заказ' },
+// 		{ command: '/help', description: 'пример HTML тегов' },
+// 		// { command: '/help', description: 'Останавливает бота' },
+// 	])
+// }
 // export function setBotCommandsAdmin(bot: TelegramBot) {
 // 	bot.setMyCommands([
 // 		{ command: '/start', description: 'Начальное приветствие админа' },
