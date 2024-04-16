@@ -44,10 +44,11 @@ export function formatOrderInfoMessageInit(orderData: IOrderData) {
 	// console.log(1, 'orderData', orderData)
 	const templatesOrderInit = `
 	Заказ № \n
-	<b>На: ${orderData.startTime}</b>
-	<b>Кол-во грузчиков: ${orderData.numExecutors}</b> 
-	<b>Детали заказа: ${orderData.text}</b> 
-	<b>Оплата за час работы: ${orderData.hourCost}</b> 
+	На: <b>${orderData.startTime}</b>
+	Адрес: <b>${orderData.address}</b>
+	Кол-во <b>грузчиков: ${orderData.numExecutors}</b> 
+	Детали заказа: <b>${orderData.text}</b> 
+	Оплата за час работы: <b>${orderData.hourCost}</b> 
 	`
 	// telegramId
 	return { templatesOrderInit, buttonsOrder }
@@ -55,11 +56,12 @@ export function formatOrderInfoMessageInit(orderData: IOrderData) {
 export function formatOrderInfoMessageEnd(orderData: IOrderData) {
 	// console.log(1, 'orderData', orderData)
 	const templatesOrderEnd = `
-	Заказ № ${orderData.id}\n
-	<b>На: ${orderData.startTime}</b>
-	<b>Кол-во грузчиков: ${orderData.numExecutors}</b> 
-	<b>Детали заказа: ${orderData.text}</b> 
-	<b>Оплата за час работы: ${orderData.hourCost}</b> 
+	Заказ № <b>${orderData.id}</b>\n
+	На: <b>${orderData.startTime}</b>
+	Адрес: <b>${orderData.address}</b>
+	Кол-во грузчиков: <b>${orderData.numExecutors}</b> 
+	Детали заказа: <b>${orderData.text}</b> 
+	Оплата за час работы: <b>${orderData.hourCost}</b> 
 	`
 	// telegramId
 	return templatesOrderEnd

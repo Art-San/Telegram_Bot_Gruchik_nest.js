@@ -116,7 +116,10 @@ export async function handleOrderCreation(
 		try {
 			await bot.deleteMessage(chatId, userOrder.lastMessageId)
 		} catch (error) {
-			console.error('Ошибка при удалении сообщения:', error)
+			console.error(
+				'Ошибка при удалении сообщения ботом orderProcessing.ts',
+				error
+			)
 		}
 	}
 
