@@ -29,12 +29,3 @@ export class OrdersService {
 		}
 	}
 }
-
-const newOrder = {
-	createdBy: '23456',
-	numExecutors: 2, // Убедитесь, что тип данных соответствует вашей схеме в Prisma
-	text: `const Фeйк заявка`,
-	address: 'кирова',
-}
-
-// createOrder

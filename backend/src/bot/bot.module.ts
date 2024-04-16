@@ -6,9 +6,10 @@ import { DbService } from 'src/db/db.service'
 import { MessageHandlerModule } from 'src/message-handler/message-handler.module'
 import { UsersModule } from 'src/user/users.module'
 import { BotCommandsService } from './bot-commands.service'
+import { OrdersModule } from 'src/orders/orders.module'
 
 @Module({
-	imports: [MessageHandlerModule, UsersModule],
+	imports: [MessageHandlerModule, UsersModule, OrdersModule],
 	controllers: [],
 	providers: [
 		DbService,
@@ -17,7 +18,6 @@ import { BotCommandsService } from './bot-commands.service'
 		UserService,
 		OrdersService,
 	],
+	exports: [BotCommandsService],
 })
 export class BotModule {}
-
-// @bot.module.ts @bot.service.ts @helpers-CTX.ts @userProcessing.ts @setBotCommands.ts @orderProcessing.ts @users.module.ts @users.service.ts @orders.module.ts @orders.service.ts @message-handler.module.ts @message-handler.service.ts

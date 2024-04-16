@@ -1,26 +1,18 @@
 import { Injectable, OnModuleInit } from '@nestjs/common'
 import * as TelegramBot from 'node-telegram-bot-api'
-import { MessageHandlerService } from 'src/message-handler/message-handler.service'
-// import { setBotCommands } from './commands/setBotCommands'
-import { UserService } from 'src/user/users.service'
-import { OrdersService } from 'src/orders/orders.service'
 import {
 	extractInfoCallbackQueryCTX,
 	getUserDetailsFromTelegramContext,
 } from './utils/context-helpers'
-import { handleUserCreation } from './userProcessing'
-import { handleOrderCreation } from './orderProcessing'
-import { UserProcessingService } from 'src/user/user-processing.service'
+
 import { BotCommandsService } from './bot-commands.service'
+import { OrderProcessingService } from 'src/orders/order-processing.service'
 
 @Injectable()
 export class BotService implements OnModuleInit {
 	constructor(
-		private readonly messageHandlerService: MessageHandlerService,
-		private readonly userProcessingService: UserProcessingService,
 		private readonly botCommandsService: BotCommandsService,
-		private readonly userService: UserService,
-		private readonly ordersService: OrdersService
+		private readonly orderProcessingService: OrderProcessingService
 	) {}
 
 	async onModuleInit() {
@@ -28,20 +20,20 @@ export class BotService implements OnModuleInit {
 			polling: true,
 		})
 
-		// setBotCommands(bot)
+		this.botCommandsService.setBotCommands(bot)
 
 		bot.on('callback_query', async (ctx) => {
 			const { data, telegramId, chatId } = extractInfoCallbackQueryCTX(ctx)
 
 			if (data === 'edit_order') {
-				await handleOrderCreation(bot, this.ordersService, {
+				await this.orderProcessingService.handleOrderCreation(bot, {
 					text: '/createorder',
 					telegramId,
 					chatId,
 				})
 			} else if (data === 'send_order') {
 				try {
-					await handleOrderCreation(bot, this.ordersService, {
+					await this.orderProcessingService.handleOrderCreation(bot, {
 						text: 'send_order',
 						telegramId,
 						chatId,
@@ -58,14 +50,23 @@ export class BotService implements OnModuleInit {
 			const { text, telegramId, chatId, userName } =
 				getUserDetailsFromTelegramContext(ctx)
 
-			await this.userProcessingService.handleUserCreation(bot, {
-				text,
-				telegramId,
-				chatId,
-				userName,
-			})
+			if (text === '/start') {
+				try {
+					const response = await this.botCommandsService.commandStart(
+						telegramId,
+						userName
+					)
+					bot.sendMessage(chatId, response.msg)
+				} catch (error) {
+					console.error('Ошибка при обработке команды /start:', error.message)
+					bot.sendMessage(
+						chatId,
+						'Произошла ошибка при обработке команды /start.'
+					)
+				}
+			}
 
-			await handleOrderCreation(bot, this.ordersService, {
+			await this.orderProcessingService.handleOrderCreation(bot, {
 				text,
 				telegramId,
 				chatId,
