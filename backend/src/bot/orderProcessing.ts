@@ -1,16 +1,16 @@
-import * as TelegramBot from 'node-telegram-bot-api'
-import { IOrderData } from 'src/orders/dto/order.dto'
-import {
-	formatOrderInfoMessageEnd,
-	formatOrderInfoMessageInit,
-} from './templates/order.templates'
-import { OrdersService } from 'src/orders/orders.service'
+// import * as TelegramBot from 'node-telegram-bot-api'
+// import { IOrderData } from 'src/orders/dto/order.dto'
+// import {
+// 	formatOrderInfoMessageEnd,
+// 	formatOrderInfoMessageInit,
+// } from './templates/order.templates'
+// import { OrdersService } from 'src/orders/orders.service'
 
-interface IData {
-	text: string
-	telegramId?: string
-	chatId: string
-}
+// interface IData {
+// 	text: string
+// 	telegramId?: string
+// 	chatId: string
+// }
 
 // Используйте Map для хранения данных о заказе и текущем шаге для каждого пользователя
 // const userOrders = new Map<string, { orderData: any; currentStep: string }>()
@@ -90,6 +90,20 @@ interface IData {
 
 /*TODO:: НЕ УДАЛЯТЬ - удаляются предыдущие сообщения*/
 // Предполагаем, что у вас уже есть Map для хранения данных о заказе и текущем шаге
+
+import * as TelegramBot from 'node-telegram-bot-api'
+import { IOrderData } from 'src/orders/dto/order.dto'
+import {
+	formatOrderInfoMessageEnd,
+	formatOrderInfoMessageInit,
+} from './templates/order.templates'
+import { OrdersService } from 'src/orders/orders.service'
+
+interface IData {
+	text: string
+	telegramId?: string
+	chatId: string
+}
 const userOrders = new Map<
 	string,
 	{ orderData: any; currentStep: string; lastMessageId: number }

@@ -64,13 +64,7 @@ export class BotService implements OnModuleInit {
 				chatId,
 				userName,
 			})
-			// await handleUserCreation(bot, this.userService, {
-			// 	text,
-			// 	telegramId,
-			// 	chatId,
-			// 	userName,
-			// })
-			// console.log(0, 'chatId', chatId)
+
 			await handleOrderCreation(bot, this.ordersService, {
 				text,
 				telegramId,
