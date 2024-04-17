@@ -7,12 +7,16 @@ import {
 
 import { BotCommandsService } from './bot-commands.service'
 import { OrderProcessingService } from 'src/orders/order-processing.service'
+import { UserService } from 'src/user/users.service'
+import { OrdersService } from 'src/orders/orders.service'
 
 @Injectable()
 export class BotService implements OnModuleInit {
 	constructor(
 		private readonly botCommandsService: BotCommandsService,
-		private readonly orderProcessingService: OrderProcessingService
+		private readonly orderProcessingService: OrderProcessingService,
+		private readonly userService: UserService,
+		private readonly ordersService: OrdersService
 	) {}
 
 	async onModuleInit() {
@@ -26,7 +30,7 @@ export class BotService implements OnModuleInit {
 			const { data, telegramId, chatId, executorId } =
 				extractInfoCallbackQueryCTX(ctx)
 
-			console.log(123, executorId)
+			console.log(123, 'executorId', executorId)
 			if (data === 'edit_order') {
 				await this.orderProcessingService.handleOrderCreation(bot, {
 					text: '/createorder',
@@ -45,7 +49,27 @@ export class BotService implements OnModuleInit {
 				}
 			}
 
-			console.log(111, 'callback_query data:', data)
+			if (data.startsWith('order_response_')) {
+				const orderId = data.split('_')[2]
+				const authorId = data.split('_')[3]
+				const user = await this.userService.getUserByTelegramId(executorId)
+
+				const isExecutorIdPresent =
+					await this.ordersService.getPotentialExecutorIdOrder(
+						orderId,
+						executorId
+					)
+
+				if (user && !isExecutorIdPresent) {
+					await this.ordersService.addPotentialExecutor(bot, {
+						orderId,
+						executorId,
+					})
+				}
+
+				console.log(222, 'order_response_orderId', orderId)
+				console.log(222, 'order_response_authorId', authorId)
+			}
 		})
 
 		bot.on('message', async (ctx) => {

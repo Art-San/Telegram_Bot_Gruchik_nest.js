@@ -24,8 +24,8 @@ export async function sendsOutToUsers(
 					[
 						{
 							text: 'Принять',
-							callback_data: `order_response_${order.id}`,
-							// callback_data: `order_response_${order.id}_${order.createdBy}`,
+							// callback_data: `order_response_${order.id}`,
+							callback_data: `order_response_${order.id}_${order.createdBy}`,
 						},
 					],
 				],

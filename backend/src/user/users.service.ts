@@ -54,10 +54,10 @@ export class UserService {
 	}
 	async getUserByTelegramId(telegramId: string) {
 		try {
-			const users = await this.db.user.findUnique({ where: { telegramId } })
-			return users
+			const user = await this.db.user.findUnique({ where: { telegramId } })
+			return user
 		} catch (error) {
-			console.log('Ошибка в getAllUsers', error)
+			console.log('Ошибка в getUserByTelegramId', error)
 			throw error
 		}
 	}
