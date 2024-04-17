@@ -13,4 +13,19 @@ export class MessageHandlerService {
 	async handleMessage(text: string, telegramId: number, chatId: number) {
 		console.log(0, 'handleMessage')
 	}
+
+	async sendingMessageOrdersUsers(id: string) {
+		try {
+			const users = await this.userService.getAllUsersExceptTheAuthor(id)
+			const usersId = users.map((user) => user.telegramId)
+			console.log(11, 'users', users)
+		} catch (error) {
+			console.log(
+				0,
+				'Ошибка в MessageHandlerService sendingMessageOrdersUsers',
+				error
+			)
+			throw error.message
+		}
+	}
 }

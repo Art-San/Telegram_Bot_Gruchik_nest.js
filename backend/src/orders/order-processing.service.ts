@@ -4,6 +4,7 @@ import {
 	formatOrderInfoMessageEnd,
 	formatOrderInfoMessageInit,
 } from 'src/bot/templates/order.templates'
+import { MessageHandlerService } from 'src/message-handler/message-handler.service'
 
 import { OrdersService } from 'src/orders/orders.service'
 interface IData {
@@ -13,7 +14,10 @@ interface IData {
 }
 @Injectable()
 export class OrderProcessingService {
-	constructor(private ordersService: OrdersService) {}
+	constructor(
+		private ordersService: OrdersService,
+		private messageHandlerService: MessageHandlerService
+	) {}
 
 	private userOrders = new Map<
 		string,
@@ -24,7 +28,7 @@ export class OrderProcessingService {
 		const { text, telegramId, chatId } = data
 
 		let userOrder = this.userOrders.get(chatId)
-		console.log(0, 'userOrder', userOrder)
+		// console.log(0, 'userOrder', userOrder)
 		if (!userOrder) {
 			userOrder = { orderData: {}, currentStep: '', lastMessageId: 0 }
 			this.userOrders.set(chatId, userOrder)
@@ -112,13 +116,18 @@ export class OrderProcessingService {
 						userOrder.orderData
 					)
 					const templatesOrderEnd = formatOrderInfoMessageEnd(newOrder)
-
-					userOrder.orderData = {}
+					await this.messageHandlerService.sendingMessageOrdersUsers(
+						newOrder.createdBy
+					)
 					console.log(0, 'userOrders.size', this.userOrders.size)
-					bot.sendMessage(chatId, 'Заказ записан в бд, и отправлен юзерам')
-					bot.sendMessage(chatId, templatesOrderEnd, {
+					await bot.sendMessage(
+						chatId,
+						'Заказ записан в бд, и отправлен юзерам'
+					)
+					await bot.sendMessage(chatId, templatesOrderEnd, {
 						parse_mode: 'HTML',
 					})
+					userOrder.orderData = {}
 				} catch (error) {
 					userOrder.orderData = {}
 					bot.sendMessage(chatId, 'Ошибка при сохранение заказа в БД')

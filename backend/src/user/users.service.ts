@@ -36,6 +36,22 @@ export class UserService {
 			throw error
 		}
 	}
+
+	async getAllUsersExceptTheAuthor(authorId: string) {
+		try {
+			const users = await this.db.user.findMany({
+				where: {
+					telegramId: {
+						not: authorId, // Исключаем автора заказа
+					},
+				},
+			})
+			return users
+		} catch (error) {
+			console.log('getAllUsersExceptTheAuthor', error)
+			throw error
+		}
+	}
 	async getUserByTelegramId(telegramId: string) {
 		try {
 			const users = await this.db.user.findUnique({ where: { telegramId } })
