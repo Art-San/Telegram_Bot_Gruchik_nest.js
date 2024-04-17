@@ -23,8 +23,10 @@ export class BotService implements OnModuleInit {
 		this.botCommandsService.setBotCommands(bot)
 
 		bot.on('callback_query', async (ctx) => {
-			const { data, telegramId, chatId } = extractInfoCallbackQueryCTX(ctx)
+			const { data, telegramId, chatId, executorId } =
+				extractInfoCallbackQueryCTX(ctx)
 
+			console.log(123, executorId)
 			if (data === 'edit_order') {
 				await this.orderProcessingService.handleOrderCreation(bot, {
 					text: '/createorder',
@@ -41,9 +43,9 @@ export class BotService implements OnModuleInit {
 				} catch (error) {
 					bot.sendMessage(chatId, error.message)
 				}
-
-				// console.log(1, 'send_order')
 			}
+
+			console.log(111, 'callback_query data:', data)
 		})
 
 		bot.on('message', async (ctx) => {

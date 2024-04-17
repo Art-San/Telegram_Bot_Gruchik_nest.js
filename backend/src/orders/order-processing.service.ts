@@ -7,6 +7,8 @@ import {
 import { MessageHandlerService } from 'src/message-handler/message-handler.service'
 
 import { OrdersService } from 'src/orders/orders.service'
+import { IOrderData } from './dto/order.dto'
+import { sendsOutToUsers } from './utils/user-message-sender'
 interface IData {
 	text: string
 	telegramId?: string
@@ -116,17 +118,22 @@ export class OrderProcessingService {
 						userOrder.orderData
 					)
 					const templatesOrderEnd = formatOrderInfoMessageEnd(newOrder)
-					await this.messageHandlerService.sendingMessageOrdersUsers(
-						newOrder.createdBy
-					)
+					const usersTelegramId =
+						await this.messageHandlerService.sendingMessageOrdersUsers(
+							newOrder.createdBy
+						)
+
 					console.log(0, 'userOrders.size', this.userOrders.size)
+
+					await sendsOutToUsers(bot, usersTelegramId, newOrder)
 					await bot.sendMessage(
 						chatId,
 						'Заказ записан в бд, и отправлен юзерам'
 					)
-					await bot.sendMessage(chatId, templatesOrderEnd, {
-						parse_mode: 'HTML',
-					})
+
+					// await bot.sendMessage(chatId, templatesOrderEnd, {
+					// 	parse_mode: 'HTML',
+					// })
 					userOrder.orderData = {}
 				} catch (error) {
 					userOrder.orderData = {}
@@ -136,6 +143,39 @@ export class OrderProcessingService {
 		}
 	}
 }
+
+// // user-message-sender.ts
+// // order-notification-service.ts
+// // telegram-bot-messaging.ts
+// function sendsOutToUsers(
+// 	bot: TelegramBot,
+// 	usersId: String[],
+// 	order: IOrderData
+// ) {
+// 	const templatesOrderEnd = formatOrderInfoMessageEnd(order)
+// 	usersId.forEach((id) => {
+// 		const opts: {
+// 			parse_mode: 'HTML' | 'Markdown'
+// 			reply_markup: {
+// 				inline_keyboard: Array<Array<{ text: string; callback_data: string }>>
+// 			}
+// 		} = {
+// 			parse_mode: 'HTML',
+// 			reply_markup: {
+// 				inline_keyboard: [
+// 					[
+// 						{
+// 							text: 'Принять',
+// 							callback_data: `order_response_${order.id}_${order.createdBy}`,
+// 						},
+// 					],
+// 				],
+// 			},
+// 		}
+
+// 		bot.sendMessage(Number(id), templatesOrderEnd, opts)
+// 	})
+// }
 
 // import * as TelegramBot from 'node-telegram-bot-api'
 // import { IOrderData } from 'src/orders/dto/order.dto'

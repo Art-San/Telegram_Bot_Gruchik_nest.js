@@ -17,8 +17,9 @@ export class MessageHandlerService {
 	async sendingMessageOrdersUsers(id: string) {
 		try {
 			const users = await this.userService.getAllUsersExceptTheAuthor(id)
-			const usersId = users.map((user) => user.telegramId)
-			console.log(11, 'users', users)
+			const usersTelegramId = users.map((user) => user.telegramId)
+			return usersTelegramId
+			// console.log(11, 'users', users)
 		} catch (error) {
 			console.log(
 				0,
