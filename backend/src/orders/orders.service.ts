@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { DbService } from 'src/db/db.service'
 import { CreateOrderDto, IOrderData } from './dto/order.dto'
 
@@ -31,17 +31,21 @@ export class OrdersService {
 
 	async getPotentialExecutorIdOrder(orderId: string, executorId: string) {
 		try {
+			console.log(1, 'getPotentialExecutorIdOrder')
 			const order = await this.db.order.findUnique({
 				where: { id: Number(orderId) },
 				select: { potentialExecutors: true },
 			})
+			if (!order) {
+				throw new NotFoundException(`Нет такого заказа №: ${orderId}`)
+			}
 			const getPotentialExecutorIdOrder =
 				order.potentialExecutors.includes(executorId)
 
 			return getPotentialExecutorIdOrder
 		} catch (error) {
-			console.log('getPotentialExecutorIdOrder', error)
-			throw error
+			console.log(0, 'getPotentialExecutorIdOrder', error.message)
+			throw error.message
 		}
 	}
 
@@ -82,12 +86,20 @@ export class OrdersService {
 		)
 	}
 
-	async assignUserToOrder(userId: string, orderId: string) {
-		await this.db.orderExecutor.create({
-			data: {
-				userId: userId,
-				orderId: Number(orderId),
-			},
-		})
+	async assignUserToOrder(orderId: string, userId: string) {
+		try {
+			await this.db.orderExecutor.create({
+				data: {
+					orderId: Number(orderId),
+					userId: userId,
+				},
+			})
+			// console.log(1, orderId) // string
+			// console.log(2, userId) // string
+			return { msg: `Грузчик № ${userId} был добавлен на заказ № ${orderId} .` }
+		} catch (error) {
+			console.log('getPotentialExecutorIdOrder', error.message)
+			throw error
+		}
 	}
 }

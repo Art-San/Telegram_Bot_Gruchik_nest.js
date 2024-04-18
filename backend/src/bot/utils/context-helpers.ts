@@ -6,6 +6,7 @@ export function extractInfoCallbackQueryCTX(ctx) {
 	return { data, telegramId, chatId, executorId }
 }
 
+// responder ID
 export function getUserDetailsFromTelegramContext(ctx) {
 	const text = ctx.text
 	const telegramId = String(ctx.from.id)
