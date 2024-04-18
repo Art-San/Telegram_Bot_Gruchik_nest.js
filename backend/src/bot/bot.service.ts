@@ -103,60 +103,10 @@ export class BotService implements OnModuleInit {
 					)
 				}
 			}
-			// if (data.startsWith('order_response_')) {
-			// 	const orderId = data.split('_')[2]
-			// 	const authorId = data.split('_')[3]
-			// 	const user = await this.userService.getUserByTelegramId(executorId)
-
-			// 	const isExecutorIdPresent =
-			// 		await this.ordersService.getPotentialExecutorIdOrder(
-			// 			orderId,
-			// 			executorId
-			// 		)
-
-			// 	if (user && !isExecutorIdPresent) {
-			// 		await this.ordersService.addPotentialExecutor(bot, {
-			// 			orderId,
-			// 			executorId,
-			// 		})
-
-			// 		const opts: {
-			// 			parse_mode: 'HTML' | 'Markdown'
-			// 			reply_markup: {
-			// 				inline_keyboard: Array<
-			// 					Array<{ text: string; callback_data: string }>
-			// 				>
-			// 			}
-			// 		} = {
-			// 			parse_mode: 'HTML',
-			// 			reply_markup: {
-			// 				inline_keyboard: [
-			// 					[
-			// 						{
-			// 							text: 'Назначить',
-			// 							callback_data: `assign_user_${orderId}_${executorId}`,
-			// 						},
-			// 					],
-			// 				],
-			// 			},
-			// 		}
-
-			// 		const response =
-			// 			await this.botCommandsService.getUserInfoMessage(telegramId)
-			// 		bot.sendMessage(authorId, response, opts)
-			// 	} else {
-			// 		return bot.sendMessage(chatId, 'Хватит жмыкать.')
-			// 	}
-
-			// 	return bot.sendMessage(chatId, 'Ожидайте несколько минут.')
-			// }
 
 			if (data.startsWith('assign_user_')) {
 				const orderId = data.split('_')[2]
 				const idExecutor = data.split('_')[3]
-
-				// console.log(0, 'orderId', orderId)
-				// console.log(0, 'executorId', idExecutor)
 				try {
 					const res = await this.ordersService.assignUserToOrder(
 						orderId,
@@ -166,41 +116,15 @@ export class BotService implements OnModuleInit {
 					bot.sendMessage(chatId, res.msg)
 					bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`)
 				} catch (error) {
-					// console.log(10, 'добавление юзера к заказу', error)
-					bot.sendMessage(
-						chatId,
-						`Возникла ошибка при добавлении ${idExecutor} к заказу № ${orderId}`
+					console.log(
+						0,
+						'data.startsWith( добавление юзера к заказу',
+						error.message
 					)
+					bot.sendMessage(chatId, error.message)
 				}
 			}
 		})
-
-		// bot.on('callback_query', async (ctx) => {
-		// 	const { data, telegramId, chatId, executorId } =
-		// 		extractInfoCallbackQueryCTX(ctx)
-		// 	console.log(1, 'executorId', executorId)
-
-		// 	if (data.startsWith('assign_user_')) {
-		// 		const orderId = data.split('_')[2]
-		// 		const executorId = data.split('_')[3]
-
-		// 		console.log(0, 'orderId', orderId)
-		// 		console.log(0, 'executorId', executorId)
-
-		// 		await this.ordersService.assignUserToOrder(
-		// 			orderId,
-		// 			executorId
-		// 		) /*FIXME: разобратся с передачей айди в функциию*/
-		// 		bot.sendMessage(
-		// 			chatId,
-		// 			`Выбранный грузчик № ${executorId} был добавлен на заявку № ${orderId} .`
-		// 		)
-		// 		bot.sendMessage(
-		// 			executorId,
-		// 			`Вы были назначены на заявку под номером; ${orderId}`
-		// 		)
-		// 	}
-		// })
 
 		bot.on('message', async (ctx) => {
 			// console.log(1, ctx)

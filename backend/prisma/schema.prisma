@@ -37,19 +37,19 @@ model Profile {
 }
 
 model Order {
- id            Int      @id @default(autoincrement())
- createdBy     String   // Добавляем поле для указания создателя заказа
- startTime     String
- numExecutors  Int      @default(1)
- address       String?
- text          String
- hourCost      Int      @default(500)
- hourCount     Int      @default(1)
- createdAt     DateTime @default(now())
- updatedAt     DateTime @updatedAt
+ id                 Int      @id @default(autoincrement())
+ createdBy          String   // Добавляем поле для указания создателя заказа
+ startTime          String
+ numExecutors       Int      @default(1)
+ address            String?
+ text               String
+ hourCost           Int      @default(500)
+ hourCount          Int      @default(1)
+ createdAt          DateTime @default(now())
+ updatedAt          DateTime @updatedAt
  potentialExecutors String[]
- executors     OrderExecutor[] // Указываем, что у заказа может быть несколько исполнителей
- status        String   @default("created") // Добавляем поле для отслеживания статуса заказа
+ executors          OrderExecutor[] // Указываем, что у заказа может быть несколько исполнителей
+ status             String   @default("created") // Добавляем поле для отслеживания статуса заказа
 }
 
 model OrderExecutor {

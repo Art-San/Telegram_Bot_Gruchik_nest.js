@@ -31,7 +31,6 @@ export class OrdersService {
 
 	async getPotentialExecutorIdOrder(orderId: string, executorId: string) {
 		try {
-			console.log(1, 'getPotentialExecutorIdOrder')
 			const order = await this.db.order.findUnique({
 				where: { id: Number(orderId) },
 				select: { potentialExecutors: true },
@@ -51,54 +50,66 @@ export class OrdersService {
 
 	async addPotentialExecutor(bot, data) {
 		const { orderId, executorId } = data
-		// console.log(1, 'orderId', typeof orderId)
-		// console.log(2, 'executorId', typeof executorId)
-		// Получаем текущий список потенциальных исполнителей
-		const order = await this.db.order.findUnique({
-			where: { id: Number(orderId) },
-			select: { potentialExecutors: true },
-		})
+		try {
+			const order = await this.db.order.findUnique({
+				where: { id: Number(orderId) },
+				select: { potentialExecutors: true },
+			})
 
-		console.log(1, 'addPotentialExecutor', order)
-		if (!order) return
-		// Проверяем, существует ли уже такой исполнитель в списке
-		if (order.potentialExecutors.includes(executorId)) {
-			console.log(
-				'Исполнитель уже добавлен в список потенциальных исполнителей.'
-			)
-			bot.sendMessage(executorId, `Нет смысла жать повторно`)
-			return
-		}
+			if (!order) {
+				throw new NotFoundException(`Нет такого заказа №: ${orderId}`)
+			}
+			if (order.potentialExecutors.includes(executorId)) {
+				bot.sendMessage(executorId, `Нет смысла жать повторно`)
+			}
 
-		// Добавляем нового потенциального исполнителя
-		await this.db.order.update({
-			where: { id: Number(orderId) },
-			data: {
-				potentialExecutors: {
-					set: [...order.potentialExecutors, executorId],
+			// Добавляем нового потенциального исполнителя
+			await this.db.order.update({
+				where: { id: Number(orderId) },
+				data: {
+					potentialExecutors: {
+						set: [...order.potentialExecutors, executorId],
+					},
 				},
-			},
-		})
+			})
 
-		console.log(
-			2,
-			'Исполнитель успешно добавлен в список потенциальных исполнителей.'
-		)
+			console.log(
+				2,
+				'Исполнитель успешно добавлен в список потенциальных исполнителей.'
+			)
+		} catch (error) {
+			console.log(1, error.message)
+			throw error.message
+		}
 	}
 
 	async assignUserToOrder(orderId: string, userId: string) {
 		try {
+			const existingExecutor = await this.db.orderExecutor.findUnique({
+				where: {
+					orderId_userId: {
+						orderId: Number(orderId),
+						userId: userId,
+					},
+				},
+			})
+
+			if (existingExecutor) {
+				throw new Error(
+					`Грузчик № ${userId} уже назначен на заказ № ${orderId}`
+				)
+			}
+
 			await this.db.orderExecutor.create({
 				data: {
 					orderId: Number(orderId),
 					userId: userId,
 				},
 			})
-			// console.log(1, orderId) // string
-			// console.log(2, userId) // string
+
 			return { msg: `Грузчик № ${userId} был добавлен на заказ № ${orderId} .` }
 		} catch (error) {
-			console.log('getPotentialExecutorIdOrder', error.message)
+			console.log('assignUserToOrder error.message', error.message)
 			throw error
 		}
 	}
