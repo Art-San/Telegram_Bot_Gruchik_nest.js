@@ -23,7 +23,7 @@ export async function sendsOutToUsers(
 				inline_keyboard: [
 					[
 						{
-							text: 'Принять',
+							text: 'Запрос',
 							// callback_data: `order_response_${order.id}`,
 							callback_data: `order_response_${order.id}_${order.createdBy}`,
 						},

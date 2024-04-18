@@ -30,7 +30,6 @@ export class BotService implements OnModuleInit {
 			const { data, telegramId, chatId, executorId } =
 				extractInfoCallbackQueryCTX(ctx)
 
-			console.log(123, 'executorId', executorId)
 			if (data === 'edit_order') {
 				await this.orderProcessingService.handleOrderCreation(bot, {
 					text: '/createorder',
@@ -65,14 +64,60 @@ export class BotService implements OnModuleInit {
 						orderId,
 						executorId,
 					})
+
+					const opts: {
+						parse_mode: 'HTML' | 'Markdown'
+						reply_markup: {
+							inline_keyboard: Array<
+								Array<{ text: string; callback_data: string }>
+							>
+						}
+					} = {
+						parse_mode: 'HTML',
+						reply_markup: {
+							inline_keyboard: [
+								[
+									{
+										text: 'Назначить',
+										callback_data: `assign_user_${orderId}_${executorId}`,
+									},
+								],
+							],
+						},
+					}
+
+					const response =
+						await this.botCommandsService.getUserInfoMessage(telegramId)
+					bot.sendMessage(authorId, response, opts)
+				} else {
+					return bot.sendMessage(chatId, 'Хватит жмыкать.')
 				}
 
-				console.log(222, 'order_response_orderId', orderId)
-				console.log(222, 'order_response_authorId', authorId)
+				// console.log(222, 'order_response_orderId', orderId)
+				// console.log(222, 'order_response_authorId', authorId)
+				return bot.sendMessage(chatId, 'Ожидайте несколько минут.')
+			}
+
+			if (data.startsWith('assign_user_')) {
+				const [_, orderId, executorId] = data.split('_')
+
+				await this.ordersService.assignUserToOrder(
+					orderId,
+					executorId
+				) /*FIXME: разобратся с передачей айди в функциию*/
+				bot.sendMessage(
+					chatId,
+					`Выбранный грузчик № ${executorId} был добавлен на заявку № ${orderId} .`
+				)
+				bot.sendMessage(
+					executorId,
+					`Вы были назначены на заявку под номером; ${orderId}`
+				)
 			}
 		})
 
 		bot.on('message', async (ctx) => {
+			// console.log(1, ctx)
 			const { text, telegramId, chatId, userName } =
 				getUserDetailsFromTelegramContext(ctx)
 

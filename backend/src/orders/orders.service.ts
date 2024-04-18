@@ -81,4 +81,13 @@ export class OrdersService {
 			'Исполнитель успешно добавлен в список потенциальных исполнителей.'
 		)
 	}
+
+	async assignUserToOrder(userId: string, orderId: string) {
+		await this.db.orderExecutor.create({
+			data: {
+				userId: userId,
+				orderId: Number(orderId),
+			},
+		})
+	}
 }

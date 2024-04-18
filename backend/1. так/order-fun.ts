@@ -25,3 +25,19 @@ async function createOrder(prisma, orderData, createdBy) {
 
 	return order
 }
+
+// ограничения размера массива
+const order = {
+	// Ваши данные заказа
+	numExecutors: 2,
+	executors: ['executor1', 'executor2', 'executor3'], // Предположим, что это массив исполнителей
+}
+
+if (order.executors.length > order.numExecutors) {
+	throw new Error('Количество исполнителей не может превышать numExecutors')
+}
+
+// Сохранение заказа
+// await prisma.order.create({
+// 	data: order,
+// })
