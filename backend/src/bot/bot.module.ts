@@ -7,6 +7,7 @@ import { MessageHandlerModule } from 'src/message-handler/message-handler.module
 import { UsersModule } from 'src/user/users.module'
 import { BotCommandsService } from './bot-commands.service'
 import { OrdersModule } from 'src/orders/orders.module'
+import { MessageHandlerService } from 'src/message-handler/message-handler.service'
 
 @Module({
 	imports: [MessageHandlerModule, UsersModule, OrdersModule],

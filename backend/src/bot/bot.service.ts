@@ -9,6 +9,7 @@ import { BotCommandsService } from './bot-commands.service'
 import { OrderProcessingService } from 'src/orders/order-processing.service'
 import { UserService } from 'src/user/users.service'
 import { OrdersService } from 'src/orders/orders.service'
+import { MessageHandlerService } from 'src/message-handler/message-handler.service'
 
 @Injectable()
 export class BotService implements OnModuleInit {
@@ -16,7 +17,8 @@ export class BotService implements OnModuleInit {
 		private readonly botCommandsService: BotCommandsService,
 		private readonly orderProcessingService: OrderProcessingService,
 		private readonly userService: UserService,
-		private readonly ordersService: OrdersService
+		private readonly ordersService: OrdersService,
+		private readonly messageHandlerService: MessageHandlerService
 	) {}
 
 	async onModuleInit() {
@@ -48,60 +50,71 @@ export class BotService implements OnModuleInit {
 				}
 			}
 			if (data.startsWith('order_response_')) {
-				try {
-					const orderId = data.split('_')[2]
-					const authorId = data.split('_')[3]
-					const user = await this.userService.getUserByTelegramId(executorId)
+				const orderId = data.split('_')[2]
+				const authorId = data.split('_')[3]
 
-					const isExecutorIdPresent =
-						await this.ordersService.getPotentialExecutorIdOrder(
-							orderId,
-							executorId
-						)
+				await this.messageHandlerService.firstMessageAuthorExecutor(bot, {
+					chatId,
+					orderId,
+					authorId,
+					telegramId,
+					executorId,
+				})
 
-					if (user && !isExecutorIdPresent) {
-						await this.ordersService.addPotentialExecutor(bot, {
-							orderId,
-							executorId,
-						})
+				// try {
+				// 	const orderId = data.split('_')[2]
+				// 	const authorId = data.split('_')[3]
+				// 	const user = await this.userService.getUserByTelegramId(executorId)
 
-						const opts: {
-							parse_mode: 'HTML' | 'Markdown'
-							reply_markup: {
-								inline_keyboard: Array<
-									Array<{ text: string; callback_data: string }>
-								>
-							}
-						} = {
-							parse_mode: 'HTML',
-							reply_markup: {
-								inline_keyboard: [
-									[
-										{
-											text: 'Назначить',
-											callback_data: `assign_user_${orderId}_${executorId}`,
-										},
-									],
-								],
-							},
-						}
+				// 	const isExecutorIdPresent =
+				// 		await this.ordersService.getPotentialExecutorIdOrder(
+				// 			orderId,
+				// 			executorId
+				// 		)
 
-						const response =
-							await this.botCommandsService.getUserInfoMessage(telegramId)
-						bot.sendMessage(authorId, response, opts)
-					} else {
-						return bot.sendMessage(chatId, 'Хватит жмыкать.')
-					}
+				// 	if (user && !isExecutorIdPresent) {
+				// 		await this.ordersService.addPotentialExecutor(bot, {
+				// 			orderId,
+				// 			executorId,
+				// 		})
 
-					return bot.sendMessage(chatId, 'Ожидайте несколько минут.')
-				} catch (error) {
-					console.error('Ошибка при обработке запроса на заказ:', error)
-					// Обработка ошибки, например, отправка сообщения пользователю
-					bot.sendMessage(
-						chatId,
-						'Произошла ошибка при обработке вашего запроса.'
-					)
-				}
+				// 		const opts: {
+				// 			parse_mode: 'HTML' | 'Markdown'
+				// 			reply_markup: {
+				// 				inline_keyboard: Array<
+				// 					Array<{ text: string; callback_data: string }>
+				// 				>
+				// 			}
+				// 		} = {
+				// 			parse_mode: 'HTML',
+				// 			reply_markup: {
+				// 				inline_keyboard: [
+				// 					[
+				// 						{
+				// 							text: 'Назначить',
+				// 							callback_data: `assign_user_${orderId}_${executorId}`,
+				// 						},
+				// 					],
+				// 				],
+				// 			},
+				// 		}
+
+				// 		const response =
+				// 			await this.botCommandsService.getUserInfoMessage(telegramId)
+				// 		bot.sendMessage(authorId, response, opts)
+				// 	} else {
+				// 		return bot.sendMessage(chatId, 'Хватит жмыкать.')
+				// 	}
+
+				// 	return bot.sendMessage(chatId, 'Ожидайте несколько минут.')
+				// } catch (error) {
+				// 	console.error('Ошибка при обработке запроса на заказ:', error)
+				// 	// Обработка ошибки, например, отправка сообщения пользователю
+				// 	bot.sendMessage(
+				// 		chatId,
+				// 		'Произошла ошибка при обработке вашего запроса.'
+				// 	)
+				// }
 			}
 
 			if (data.startsWith('assign_user_')) {
