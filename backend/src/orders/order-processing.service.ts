@@ -123,7 +123,7 @@ export class OrderProcessingService {
 							newOrder.createdBy
 						)
 
-					console.log(0, 'userOrders.size', this.userOrders.size)
+					// console.log(0, 'userOrders.size', this.userOrders.size)
 
 					await sendsOutToUsers(bot, usersTelegramId, newOrder)
 					await bot.sendMessage(
@@ -131,9 +131,6 @@ export class OrderProcessingService {
 						'Заказ записан в бд, и отправлен юзерам'
 					)
 
-					// await bot.sendMessage(chatId, templatesOrderEnd, {
-					// 	parse_mode: 'HTML',
-					// })
 					userOrder.orderData = {}
 				} catch (error) {
 					userOrder.orderData = {}
@@ -143,39 +140,6 @@ export class OrderProcessingService {
 		}
 	}
 }
-
-// // user-message-sender.ts
-// // order-notification-service.ts
-// // telegram-bot-messaging.ts
-// function sendsOutToUsers(
-// 	bot: TelegramBot,
-// 	usersId: String[],
-// 	order: IOrderData
-// ) {
-// 	const templatesOrderEnd = formatOrderInfoMessageEnd(order)
-// 	usersId.forEach((id) => {
-// 		const opts: {
-// 			parse_mode: 'HTML' | 'Markdown'
-// 			reply_markup: {
-// 				inline_keyboard: Array<Array<{ text: string; callback_data: string }>>
-// 			}
-// 		} = {
-// 			parse_mode: 'HTML',
-// 			reply_markup: {
-// 				inline_keyboard: [
-// 					[
-// 						{
-// 							text: 'Принять',
-// 							callback_data: `order_response_${order.id}_${order.createdBy}`,
-// 						},
-// 					],
-// 				],
-// 			},
-// 		}
-
-// 		bot.sendMessage(Number(id), templatesOrderEnd, opts)
-// 	})
-// }
 
 // import * as TelegramBot from 'node-telegram-bot-api'
 // import { IOrderData } from 'src/orders/dto/order.dto'

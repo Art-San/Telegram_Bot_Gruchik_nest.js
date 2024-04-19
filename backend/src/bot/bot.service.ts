@@ -49,6 +49,8 @@ export class BotService implements OnModuleInit {
 					bot.sendMessage(chatId, error.message)
 				}
 			}
+
+			// ====  ====
 			if (data.startsWith('order_response_')) {
 				const orderId = data.split('_')[2]
 				const authorId = data.split('_')[3]
@@ -60,84 +62,36 @@ export class BotService implements OnModuleInit {
 					telegramId,
 					executorId,
 				})
-
-				// try {
-				// 	const orderId = data.split('_')[2]
-				// 	const authorId = data.split('_')[3]
-				// 	const user = await this.userService.getUserByTelegramId(executorId)
-
-				// 	const isExecutorIdPresent =
-				// 		await this.ordersService.getPotentialExecutorIdOrder(
-				// 			orderId,
-				// 			executorId
-				// 		)
-
-				// 	if (user && !isExecutorIdPresent) {
-				// 		await this.ordersService.addPotentialExecutor(bot, {
-				// 			orderId,
-				// 			executorId,
-				// 		})
-
-				// 		const opts: {
-				// 			parse_mode: 'HTML' | 'Markdown'
-				// 			reply_markup: {
-				// 				inline_keyboard: Array<
-				// 					Array<{ text: string; callback_data: string }>
-				// 				>
-				// 			}
-				// 		} = {
-				// 			parse_mode: 'HTML',
-				// 			reply_markup: {
-				// 				inline_keyboard: [
-				// 					[
-				// 						{
-				// 							text: 'Назначить',
-				// 							callback_data: `assign_user_${orderId}_${executorId}`,
-				// 						},
-				// 					],
-				// 				],
-				// 			},
-				// 		}
-
-				// 		const response =
-				// 			await this.botCommandsService.getUserInfoMessage(telegramId)
-				// 		bot.sendMessage(authorId, response, opts)
-				// 	} else {
-				// 		return bot.sendMessage(chatId, 'Хватит жмыкать.')
-				// 	}
-
-				// 	return bot.sendMessage(chatId, 'Ожидайте несколько минут.')
-				// } catch (error) {
-				// 	console.error('Ошибка при обработке запроса на заказ:', error)
-				// 	// Обработка ошибки, например, отправка сообщения пользователю
-				// 	bot.sendMessage(
-				// 		chatId,
-				// 		'Произошла ошибка при обработке вашего запроса.'
-				// 	)
-				// }
 			}
 
+			// Грузчику отправка заказа.
 			if (data.startsWith('assign_user_')) {
 				const orderId = data.split('_')[2]
 				const idExecutor = data.split('_')[3]
-				try {
-					const res = await this.ordersService.assignUserToOrder(
-						orderId,
-						idExecutor
-					)
+				/*TODO: */
+				await this.messageHandlerService.secondMessageAuthorExecutor(
+					bot,
+					chatId,
+					orderId,
+					idExecutor
+				)
 
-					/*TODO: */ // const {msgAuthor, msgExecutor}= finalMessageAuthorExecutor()
+				// try {
+				// 	const res = await this.ordersService.assignUserToOrder(
+				// 		orderId,
+				// 		idExecutor
+				// 	)
 
-					bot.sendMessage(chatId, res.msg)
-					bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`)
-				} catch (error) {
-					console.log(
-						0,
-						'data.startsWith( добавление юзера к заказу',
-						error.message
-					)
-					bot.sendMessage(chatId, error.message)
-				}
+				// 	bot.sendMessage(chatId, res.msg)
+				// 	bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`)
+				// } catch (error) {
+				// 	console.log(
+				// 		0,
+				// 		'data.startsWith( добавление юзера к заказу',
+				// 		error.message
+				// 	)
+				// 	bot.sendMessage(chatId, error.message)
+				// }
 			}
 		})
 

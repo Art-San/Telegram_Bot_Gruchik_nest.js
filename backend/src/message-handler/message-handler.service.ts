@@ -74,7 +74,48 @@ export class MessageHandlerService {
 			bot.sendMessage(chatId, 'Произошла ошибка при обработке вашего запроса.')
 		}
 	}
+
+	async secondMessageAuthorExecutor(
+		bot: TelegramBot,
+		chatId: string,
+		orderId: string,
+		idExecutor: string
+	) {
+		try {
+			const res = await this.ordersService.assignUserToOrder(
+				orderId,
+				idExecutor
+			)
+
+			bot.sendMessage(chatId, res.msg)
+			bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`)
+		} catch (error) {
+			console.log(
+				0,
+				'data.startsWith( добавление юзера к заказу',
+				error.message
+			)
+			bot.sendMessage(chatId, error.message)
+		}
+	}
 }
+
+// try {
+// 	const res = await this.ordersService.assignUserToOrder(
+// 		orderId,
+// 		idExecutor
+// 	)
+
+// 	bot.sendMessage(chatId, res.msg)
+// 	bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`)
+// } catch (error) {
+// 	console.log(
+// 		0,
+// 		'data.startsWith( добавление юзера к заказу',
+// 		error.message
+// 	)
+// 	bot.sendMessage(chatId, error.message)
+// }
 
 // if (data.startsWith('order_response_')) {
 // 	try {
