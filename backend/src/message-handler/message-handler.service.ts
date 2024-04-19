@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { UserService } from 'src/user/users.service'
 import { OrdersService } from 'src/orders/orders.service'
-import { getButtonAssignOrder } from './utils/buttons'
+import {
+	getButtonAssignOrder,
+	getButtonRequestAppointment,
+} from './utils/buttons'
 import * as TelegramBot from 'node-telegram-bot-api'
 import { BotCommandsService } from 'src/bot/bot-commands.service'
 // import { getUserInfoMessage, commandEnd } from './commands';
@@ -87,8 +90,10 @@ export class MessageHandlerService {
 				idExecutor
 			)
 
+			const opts = getButtonRequestAppointment(orderId)
+
 			bot.sendMessage(chatId, res.msg)
-			bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`)
+			bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`, opts)
 		} catch (error) {
 			console.log(
 				0,

@@ -29,6 +29,7 @@ export class BotService implements OnModuleInit {
 		this.botCommandsService.setBotCommands(bot)
 
 		bot.on('callback_query', async (ctx) => {
+			console.log(111, ctx)
 			const { data, telegramId, chatId, executorId } =
 				extractInfoCallbackQueryCTX(ctx)
 
@@ -75,23 +76,6 @@ export class BotService implements OnModuleInit {
 					orderId,
 					idExecutor
 				)
-
-				// try {
-				// 	const res = await this.ordersService.assignUserToOrder(
-				// 		orderId,
-				// 		idExecutor
-				// 	)
-
-				// 	bot.sendMessage(chatId, res.msg)
-				// 	bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`)
-				// } catch (error) {
-				// 	console.log(
-				// 		0,
-				// 		'data.startsWith( добавление юзера к заказу',
-				// 		error.message
-				// 	)
-				// 	bot.sendMessage(chatId, error.message)
-				// }
 			}
 		})
 
