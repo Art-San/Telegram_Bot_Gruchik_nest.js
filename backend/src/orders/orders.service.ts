@@ -15,7 +15,7 @@ export class OrdersService {
 			return newOrder
 		} catch (error) {
 			console.log(0, 'Ошибка в creatingOrder', error.message)
-			throw error
+			throw error.message
 		}
 	}
 
@@ -24,8 +24,8 @@ export class OrdersService {
 			const orders = await this.db.order.findMany()
 			return orders
 		} catch (error) {
-			console.log(0, 'Ошибка в gettingAllOrders', error)
-			throw error
+			console.log(0, 'Ошибка в gettingAllOrders', error.message)
+			throw error.message
 		}
 	}
 	async gettingOrderById(orderId: string) {
@@ -39,7 +39,7 @@ export class OrdersService {
 			return order
 		} catch (error) {
 			console.log(0, 'Ошибка в gettingOrderById', error.message)
-			throw error
+			error.message
 		}
 	}
 
@@ -92,7 +92,7 @@ export class OrdersService {
 				'Исполнитель успешно добавлен в список потенциальных исполнителей.'
 			)
 		} catch (error) {
-			console.log(1, error.message)
+			console.log(0, 'ошибка в addPotentialExecutor', error.message)
 			throw error.message
 		}
 	}
@@ -100,7 +100,6 @@ export class OrdersService {
 	async assignUserToOrder(orderId: string, userId: string) {
 		try {
 			const order = await this.gettingOrderById(orderId)
-			console.log(1, order.numExecutors)
 
 			// Проверяем, есть ли еще места в заказе
 			const existingExecutors = await this.db.orderExecutor.count({
@@ -108,7 +107,6 @@ export class OrdersService {
 					orderId: Number(orderId),
 				},
 			})
-			console.log(2, existingExecutors)
 
 			if (existingExecutors >= order.numExecutors) {
 				throw new Error(`В заказе № ${orderId} нет свободных мест.`)
@@ -119,6 +117,7 @@ export class OrdersService {
 				where: {
 					orderId_userId: {
 						orderId: Number(orderId),
+						// orderId: Number(orderId),
 						userId: userId,
 					},
 				},
@@ -141,51 +140,8 @@ export class OrdersService {
 
 			return { msg: `Грузчик № ${userId} был добавлен на заказ № ${orderId} .` }
 		} catch (error) {
-			console.log('assignUserToOrder error.message', error.message)
-			throw error
+			console.log(0, 'ошибка в assignUserToOrder', error.message)
+			throw error.message
 		}
 	}
-	// async assignUserToOrder(orderId: string, userId: string) {
-	// 	const order = await this.gettingOrderById(orderId)
-	// 	console.log(1, order.numExecutors)
-	// 	try {
-	// 		const existingExecutor = await this.db.orderExecutor.findUnique({
-	// 			where: {
-	// 				orderId_userId: {
-	// 					orderId: Number(orderId),
-	// 					userId: userId,
-	// 				},
-	// 			},
-	// 		})
-	// 		console.log(2, existingExecutor)
-
-	// 		if (existingExecutor) {
-	// 			throw new Error(
-	// 				`Грузчик № ${userId} уже назначен на заказ № ${orderId}`
-	// 			)
-	// 		}
-
-	// 		await this.db.orderExecutor.create({
-	// 			data: {
-	// 				orderId: Number(orderId),
-	// 				userId: userId,
-	// 			},
-	// 		})
-
-	// 		return { msg: `Грузчик № ${userId} был добавлен на заказ № ${orderId} .` }
-	// 	} catch (error) {
-	// 		console.log('assignUserToOrder error.message', error.message)
-	// 		throw error
-	// 	}
-	// }
 }
-
-// const order = {
-// 	// Ваши данные заказа
-// 	numExecutors: 2,
-// 	executors: ['executor1', 'executor2', 'executor3'], // Предположим, что это массив исполнителей
-// }
-
-// if (order.executors.length > order.numExecutors) {
-// 	throw new Error('Количество исполнителей не может превышать numExecutors')
-// }

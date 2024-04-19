@@ -113,6 +113,8 @@ export class BotService implements OnModuleInit {
 						idExecutor
 					)
 
+					/*TODO: */ // const {msgAuthor, msgExecutor}= finalMessageAuthorExecutor()
+
 					bot.sendMessage(chatId, res.msg)
 					bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`)
 				} catch (error) {

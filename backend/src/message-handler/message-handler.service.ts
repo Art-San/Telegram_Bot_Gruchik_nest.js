@@ -29,4 +29,7 @@ export class MessageHandlerService {
 			throw error.message
 		}
 	}
+
+	// messageAuthorExecutor
+	async finalMessageAuthorExecutor(orderId: string, idExecutor: string) {}
 }
