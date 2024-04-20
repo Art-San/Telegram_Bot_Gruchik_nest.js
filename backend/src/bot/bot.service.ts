@@ -53,11 +53,12 @@ export class BotService implements OnModuleInit {
 				}
 			}
 
-			// ====== Кнопка  'Назначить'
+			// ====== Кнопка  'Запрос'
 			if (data.startsWith('order_response_')) {
-				console.log(1, 'Назначить')
+				console.log(1, 'Запрос')
 				const orderId = data.split('_')[2]
 				const authorId = data.split('_')[3]
+				await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
 
 				await this.messageHandlerService.firstMessageAuthorExecutor(bot, {
 					chatId,
@@ -68,10 +69,12 @@ export class BotService implements OnModuleInit {
 				})
 			}
 
-			// Грузчику отправка заказа.
+			// ====== Кнопка  'Назначить'
 			if (data.startsWith('assign_user_')) {
+				console.log(2, 'Назначить')
 				const orderId = data.split('_')[2]
 				const idExecutor = data.split('_')[3]
+				await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
 				/*TODO: */
 				await this.messageHandlerService.secondMessageAuthorExecutor(
 					bot,
@@ -81,16 +84,17 @@ export class BotService implements OnModuleInit {
 				)
 			}
 
-			// if (data.startsWith('accepted_response_')) {
-			// 	const orderId = data.split('_')[1] // Извлечение orderId из callback_data
-			// 	try {
-			// 		// Удаление сообщения с кнопкой
-			// 		await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
-			// 		// Здесь можно добавить дополнительную логику, например, обновление статуса заказа в базе данных
-			// 	} catch (error) {
-			// 		console.error('Ошибка при удалении сообщения:', error)
-			// 	}
-			// }
+			if (data.startsWith('accepted_response_')) {
+				console.log(3, 'Принято')
+				const orderId = data.split('_')[1] // Извлечение orderId из callback_data
+				try {
+					// Удаление сообщения с кнопкой
+					await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
+					// Здесь можно добавить дополнительную логику, например, обновление статуса заказа в базе данных
+				} catch (error) {
+					console.error('Ошибка при удалении сообщения:', error)
+				}
+			}
 		})
 
 		bot.on('message', async (ctx) => {
@@ -137,7 +141,7 @@ export class BotService implements OnModuleInit {
 			}
 		})
 
-		bot.on('polling_error', (err) => console.log(err.message))
+		bot.on('polling_error', (err) => console.log('polling_error', err.message))
 	}
 }
 

@@ -115,11 +115,11 @@ export class MessageHandlerService {
 			bot.sendMessage(chatId, res.msg)
 			bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`, opts)
 		} catch (error) {
-			console.log(
-				0,
-				'data.startsWith( добавление юзера к заказу',
-				error.message
-			)
+			// console.log(
+			// 	0,
+			// 	'secondMessageAuthorExecutor добавление юзера к заказу',
+			// 	error.message
+			// )
 			bot.sendMessage(chatId, error.message)
 		}
 	}

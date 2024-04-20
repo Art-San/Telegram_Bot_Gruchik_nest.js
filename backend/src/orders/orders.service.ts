@@ -14,7 +14,6 @@ export class OrdersService {
 
 			return newOrder
 		} catch (error) {
-			console.log(0, 'Ошибка в creatingOrder', error.message)
 			throw error.message
 		}
 	}
@@ -140,7 +139,7 @@ export class OrdersService {
 
 			return { msg: `Грузчик № ${userId} был добавлен на заказ № ${orderId} .` }
 		} catch (error) {
-			console.log(0, 'ошибка в assignUserToOrder', error)
+			console.log(0, 'ошибка в assignUserToOrder', error.message)
 			throw error
 		}
 	}

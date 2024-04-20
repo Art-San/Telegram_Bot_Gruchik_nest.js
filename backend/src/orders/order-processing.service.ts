@@ -134,6 +134,7 @@ export class OrderProcessingService {
 					userOrder.orderData = {}
 				} catch (error) {
 					userOrder.orderData = {}
+
 					bot.sendMessage(chatId, 'Ошибка при сохранение заказа в БД')
 				}
 			}
