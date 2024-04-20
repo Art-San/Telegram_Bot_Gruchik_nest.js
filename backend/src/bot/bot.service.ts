@@ -29,16 +29,18 @@ export class BotService implements OnModuleInit {
 		this.botCommandsService.setBotCommands(bot)
 
 		bot.on('callback_query', async (ctx) => {
-			console.log(111, ctx)
+			// console.log(111, ctx)
 			const { data, telegramId, chatId, executorId } =
 				extractInfoCallbackQueryCTX(ctx)
 
+			// Кнопка 'Редактировать'
 			if (data === 'edit_order') {
 				await this.orderProcessingService.handleOrderCreation(bot, {
 					text: '/createorder',
 					telegramId,
 					chatId,
 				})
+				// Кнопка 'Отправить'
 			} else if (data === 'send_order') {
 				try {
 					await this.orderProcessingService.handleOrderCreation(bot, {
@@ -51,8 +53,9 @@ export class BotService implements OnModuleInit {
 				}
 			}
 
-			// ====  ====
+			// ====== Кнопка  'Назначить'
 			if (data.startsWith('order_response_')) {
+				console.log(1, 'Назначить')
 				const orderId = data.split('_')[2]
 				const authorId = data.split('_')[3]
 
@@ -77,6 +80,17 @@ export class BotService implements OnModuleInit {
 					idExecutor
 				)
 			}
+
+			// if (data.startsWith('accepted_response_')) {
+			// 	const orderId = data.split('_')[1] // Извлечение orderId из callback_data
+			// 	try {
+			// 		// Удаление сообщения с кнопкой
+			// 		await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
+			// 		// Здесь можно добавить дополнительную логику, например, обновление статуса заказа в базе данных
+			// 	} catch (error) {
+			// 		console.error('Ошибка при удалении сообщения:', error)
+			// 	}
+			// }
 		})
 
 		bot.on('message', async (ctx) => {
@@ -126,6 +140,23 @@ export class BotService implements OnModuleInit {
 		bot.on('polling_error', (err) => console.log(err.message))
 	}
 }
+
+// bot.on('callback_query', async (callbackQuery) => {
+// 	const data = callbackQuery.data
+// 	if (data.startsWith('accepted_response_')) {
+// 		const orderId = data.split('_')[1] // Извлечение orderId из callback_data
+// 		try {
+// 			// Удаление сообщения с кнопкой
+// 			await bot.deleteMessage(
+// 				callbackQuery.message.chat.id,
+// 				callbackQuery.message.message_id
+// 			)
+// 			// Здесь можно добавить дополнительную логику, например, обновление статуса заказа в базе данных
+// 		} catch (error) {
+// 			console.error('Ошибка при удалении сообщения:', error)
+// 		}
+// 	}
+// })
 
 // import { Injectable, OnModuleInit } from '@nestjs/common'
 // import * as TelegramBot from 'node-telegram-bot-api'

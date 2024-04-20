@@ -140,8 +140,8 @@ export class OrdersService {
 
 			return { msg: `Грузчик № ${userId} был добавлен на заказ № ${orderId} .` }
 		} catch (error) {
-			console.log(0, 'ошибка в assignUserToOrder', error.message)
-			throw error.message
+			console.log(0, 'ошибка в assignUserToOrder', error)
+			throw error
 		}
 	}
 }

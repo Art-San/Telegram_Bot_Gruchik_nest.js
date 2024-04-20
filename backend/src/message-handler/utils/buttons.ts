@@ -14,6 +14,7 @@ export function getButtonRequestOrder(orderId: string, authorId: string) {
 					{
 						text: 'Запрос',
 						callback_data: `order_response_${orderId}_${authorId}`,
+						// callback_data: `order_response_${order.id}` // первоначально ии предлагал order.id
 					},
 				],
 			],

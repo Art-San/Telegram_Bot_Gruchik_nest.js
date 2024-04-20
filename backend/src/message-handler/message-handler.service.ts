@@ -90,7 +90,27 @@ export class MessageHandlerService {
 				idExecutor
 			)
 
-			const opts = getButtonRequestAppointment(orderId)
+			const opts: {
+				parse_mode: 'HTML' | 'Markdown'
+				reply_markup: {
+					inline_keyboard: Array<Array<{ text: string; callback_data: string }>>
+				}
+			} = {
+				parse_mode: 'HTML',
+				reply_markup: {
+					inline_keyboard: [
+						[
+							{
+								text: 'Принял',
+								callback_data: `accepted_response_${orderId}`,
+								// callback_data: `accepted_response_${orderId}_${authorId}`,
+							},
+						],
+					],
+				},
+			}
+
+			// const opts = getButtonRequestAppointment(orderId)
 
 			bot.sendMessage(chatId, res.msg)
 			bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`, opts)
