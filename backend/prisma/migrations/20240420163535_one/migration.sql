@@ -9,6 +9,7 @@ CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "telegramId" TEXT NOT NULL,
     "userName" TEXT NOT NULL,
+    "phone" TEXT,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "root" BOOLEAN NOT NULL DEFAULT false,
     "profileFilled" BOOLEAN NOT NULL DEFAULT false,
@@ -24,7 +25,6 @@ CREATE TABLE "Profile" (
     "userId" INTEGER NOT NULL,
     "telegramId" TEXT NOT NULL,
     "fullName" TEXT,
-    "phone" TEXT,
     "userAvatar" TEXT,
     "role" "Role" NOT NULL DEFAULT 'user',
     "rating" INTEGER NOT NULL DEFAULT 5,
@@ -56,6 +56,11 @@ CREATE TABLE "Order" (
 CREATE TABLE "OrderExecutor" (
     "orderId" INTEGER NOT NULL,
     "userId" TEXT NOT NULL,
+    "startTime" TIMESTAMP(3),
+    "endTime" TIMESTAMP(3),
+    "numHours" TEXT,
+    "title" TEXT,
+    "comment" TEXT,
 
     CONSTRAINT "OrderExecutor_pkey" PRIMARY KEY ("orderId","userId")
 );
@@ -64,13 +69,13 @@ CREATE TABLE "OrderExecutor" (
 CREATE UNIQUE INDEX "User_telegramId_key" ON "User"("telegramId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_phone_key" ON "User"("phone");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_telegramId_key" ON "Profile"("telegramId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Profile_phone_key" ON "Profile"("phone");
 
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

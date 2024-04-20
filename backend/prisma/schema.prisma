@@ -12,6 +12,7 @@ model User {
  id             Int        @id @default(autoincrement())
  telegramId     String     @unique
  userName       String
+ phone          String?    @unique
  isActive       Boolean    @default(true)
  root           Boolean    @default(false)
  profile        Profile?
@@ -27,7 +28,6 @@ model Profile {
   userId       Int        @unique
   telegramId   String     @unique
   fullName     String?
-  phone        String?    @unique
   userAvatar   String?
   role         Role       @default(user)
   rating       Int        @default(5)
@@ -57,6 +57,11 @@ model OrderExecutor {
  userId     String
  order      Order @relation(fields: [orderId], references: [id])
  user       User @relation(fields: [userId], references: [telegramId])
+ startTime  DateTime?
+ endTime    DateTime?
+ numHours   String?
+ title      String?
+ comment    String?
 
  @@id([orderId, userId])
 }
