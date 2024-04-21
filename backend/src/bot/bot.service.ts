@@ -110,7 +110,7 @@ export class BotService implements OnModuleInit {
 					)
 					bot.sendMessage(chatId, response.msg)
 				} catch (error) {
-					console.error('Ошибка при обработке команды /start:', error.message)
+					console.error('Ошибка при обработке команды /start:', error)
 					bot.sendMessage(
 						chatId,
 						'Произошла ошибка при обработке команды /start.'
@@ -148,6 +148,19 @@ export class BotService implements OnModuleInit {
 						parse_mode: 'HTML',
 					}
 				)
+			}
+
+			if (text === '/end') {
+				try {
+					const response = await this.botCommandsService.commandEnd(telegramId)
+					bot.sendMessage(chatId, response.msg)
+				} catch (error) {
+					console.error('Ошибка при обработке команды /end:', error)
+					bot.sendMessage(
+						chatId,
+						'Произошла ошибка при обработке команды /end.'
+					)
+				}
 			}
 		})
 

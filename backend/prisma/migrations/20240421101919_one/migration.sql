@@ -11,6 +11,7 @@ CREATE TABLE "User" (
     "userName" TEXT NOT NULL,
     "phone" TEXT,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "isBlocked" BOOLEAN NOT NULL DEFAULT false,
     "root" BOOLEAN NOT NULL DEFAULT false,
     "profileFilled" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

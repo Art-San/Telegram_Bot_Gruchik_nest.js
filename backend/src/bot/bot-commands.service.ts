@@ -14,10 +14,15 @@ export class BotCommandsService {
 				const newUser = await this.userService.createUser(userName, telegramId)
 				return { msg: `${newUser.userName} добро пожаловать` }
 			}
-			await this.userService.updateUserIsActive(user.telegramId, user.isActive)
-			return { msg: `${user.userName} хорошо что вернулся` }
+
+			if (!user.isActive) {
+				await this.userService.updateUserIsActive(user.telegramId, true)
+				return { msg: `${user.userName} хорошо что вернулся` }
+			}
+
+			return { msg: `Бот уже запущен` }
 		} catch (error) {
-			console.log('Ошибка в commandStart', error)
+			console.error('Ошибка в commandStart', error)
 			throw error
 		}
 	}
@@ -43,16 +48,13 @@ export class BotCommandsService {
 			}
 
 			if (user.isActive) {
-				await this.userService.updateUserIsActive(
-					user.telegramId,
-					user.isActive
-				)
+				await this.userService.updateUserIsActive(user.telegramId, false)
 				return { msg: `Всего хорошего ${user.userName}` }
 			}
 
-			return { msg: `Пока ${user.userName}` }
+			return { msg: `Бот остановлен` }
 		} catch (error) {
-			console.log('Ошибка в commandStart', error)
+			console.error('Ошибка в commandEnd', error)
 			throw error
 		}
 	}
@@ -62,8 +64,8 @@ export class BotCommandsService {
 			{ command: '/start', description: 'Запускает бота' },
 			{ command: '/info', description: 'Получить информацию о пользователе' },
 			{ command: '/createorder', description: 'добавить заказ' },
-			// { command: '/end', description: 'Останавливает бота' },
 			{ command: '/help', description: 'пример HTML тегов' },
+			{ command: '/end', description: 'Останавливает бота' },
 		])
 	}
 }

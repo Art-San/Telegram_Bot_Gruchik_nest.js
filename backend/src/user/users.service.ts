@@ -62,11 +62,11 @@ export class UserService {
 		}
 	}
 
-	async updateUserIsActive(telegramId: string, isActive: Boolean) {
+	async updateUserIsActive(telegramId: string, isActive) {
 		try {
 			await this.db.user.update({
 				where: { telegramId }, // Предполагаем, что у вас есть поле id в модели User
-				data: { isActive: !isActive },
+				data: { isActive: isActive },
 			})
 			return { msg: 'Обновление поля isActive  на противоположное значение' }
 		} catch (error) {

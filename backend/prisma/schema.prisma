@@ -14,6 +14,7 @@ model User {
  userName       String
  phone          String?    @unique
  isActive       Boolean    @default(true)
+ isBlocked      Boolean    @default(false)
  root           Boolean    @default(false)
  profile        Profile?
  profileFilled  Boolean    @default(false)
