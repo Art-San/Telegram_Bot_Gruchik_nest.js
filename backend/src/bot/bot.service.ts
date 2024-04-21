@@ -139,28 +139,21 @@ export class BotService implements OnModuleInit {
 					)
 				}
 			}
+
+			if (text == '/help') {
+				await bot.sendMessage(
+					chatId,
+					`Раздел помощи HTML\n\n<b>Жирный Текст</b>\n<i>Текст Курсивом</i>\n<code>Текст с Копированием</code>\n<s>Перечеркнутый текст</s>\n<u>Подчеркнутый текст</u>\n<pre language='c++'>код на c++</pre>\n<a href='t.me'>Гиперссылка</a>`,
+					{
+						parse_mode: 'HTML',
+					}
+				)
+			}
 		})
 
 		bot.on('polling_error', (err) => console.log('polling_error', err.message))
 	}
 }
-
-// bot.on('callback_query', async (callbackQuery) => {
-// 	const data = callbackQuery.data
-// 	if (data.startsWith('accepted_response_')) {
-// 		const orderId = data.split('_')[1] // Извлечение orderId из callback_data
-// 		try {
-// 			// Удаление сообщения с кнопкой
-// 			await bot.deleteMessage(
-// 				callbackQuery.message.chat.id,
-// 				callbackQuery.message.message_id
-// 			)
-// 			// Здесь можно добавить дополнительную логику, например, обновление статуса заказа в базе данных
-// 		} catch (error) {
-// 			console.error('Ошибка при удалении сообщения:', error)
-// 		}
-// 	}
-// })
 
 // import { Injectable, OnModuleInit } from '@nestjs/common'
 // import * as TelegramBot from 'node-telegram-bot-api'

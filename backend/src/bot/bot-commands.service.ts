@@ -63,7 +63,7 @@ export class BotCommandsService {
 			{ command: '/info', description: 'Получить информацию о пользователе' },
 			{ command: '/createorder', description: 'добавить заказ' },
 			// { command: '/end', description: 'Останавливает бота' },
-			// { command: '/help', description: 'пример HTML тегов' },
+			{ command: '/help', description: 'пример HTML тегов' },
 		])
 	}
 }

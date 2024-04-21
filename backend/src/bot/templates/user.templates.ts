@@ -36,3 +36,28 @@ export function formatUserInfoMessage(user: IUser) {
 // 	// telegramId
 // 	return templatesUser
 // }
+
+export function formatTemplateMessage(user: IUser) {
+	console.log(0, user)
+	const template = `
+				Раздел помощи HTML\n\n
+				<b>Жирный Текст</b>\n
+				<i>Текст Курсивом</i>\n
+				<code>Текст с Копированием</code>\n
+				<s>Перечеркнутый текст</s>\n
+				<u>Подчеркнутый текст</u>\n
+				<pre language='c++'>код на c++</pre>\n
+				<a href='t.me'>Гиперссылка</a>`
+	// telegramId
+	return template
+}
+
+// if (text == '/help') {
+// 	await bot.sendMessage(
+// 		chatId,
+// 		`Раздел помощи HTML\n\n<b>Жирный Текст</b>\n<i>Текст Курсивом</i>\n<code>Текст с Копированием</code>\n<s>Перечеркнутый текст</s>\n<u>Подчеркнутый текст</u>\n<pre language='c++'>код на c++</pre>\n<a href='t.me'>Гиперссылка</a>`,
+// 		{
+// 			parse_mode: 'HTML',
+// 		}
+// 	)
+// }

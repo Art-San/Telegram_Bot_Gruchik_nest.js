@@ -9,6 +9,7 @@ import { MessageHandlerService } from 'src/message-handler/message-handler.servi
 import { OrdersService } from 'src/orders/orders.service'
 import { IOrderData } from './dto/order.dto'
 import { sendsOutToUsers } from './utils/user-message-sender'
+import { UserService } from 'src/user/users.service'
 interface IData {
 	text: string
 	telegramId?: string
@@ -18,7 +19,8 @@ interface IData {
 export class OrderProcessingService {
 	constructor(
 		private ordersService: OrdersService,
-		private messageHandlerService: MessageHandlerService
+		private messageHandlerService: MessageHandlerService,
+		private userService: UserService
 	) {}
 
 	private userOrders = new Map<
@@ -28,7 +30,16 @@ export class OrderProcessingService {
 
 	async handleOrderCreation(bot: TelegramBot, data: IData) {
 		const { text, telegramId, chatId } = data
-
+		const user = await this.userService.getUserByTelegramId(telegramId)
+		console.log(12, 'user', user)
+		if (!user) {
+			bot.sendMessage(
+				chatId,
+				`У вас нет прав, а возможно вас нет в БД: нажмите <a>/start</a>`,
+				{ parse_mode: 'HTML' }
+			)
+			return
+		}
 		let userOrder = this.userOrders.get(chatId)
 		// console.log(0, 'userOrder', userOrder)
 		if (!userOrder) {
