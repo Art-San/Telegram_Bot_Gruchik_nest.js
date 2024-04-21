@@ -52,6 +52,17 @@ export class UserService {
 			throw error
 		}
 	}
+
+	async getActiveUsersExceptTheAuthor(authorId: string) {
+		return this.db.user.findMany({
+			where: {
+				telegramId: {
+					not: authorId,
+				},
+				isActive: true,
+			},
+		})
+	}
 	async getUserByTelegramId(telegramId: string) {
 		try {
 			const user = await this.db.user.findUnique({ where: { telegramId } })

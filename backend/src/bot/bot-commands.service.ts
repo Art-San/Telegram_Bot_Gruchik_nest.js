@@ -15,6 +15,10 @@ export class BotCommandsService {
 				return { msg: `${newUser.userName} добро пожаловать` }
 			}
 
+			if (user.isBlocked) {
+				return { msg: 'Бот заблокирован' }
+			}
+
 			if (!user.isActive) {
 				await this.userService.updateUserIsActive(user.telegramId, true)
 				return { msg: `${user.userName} хорошо что вернулся` }
