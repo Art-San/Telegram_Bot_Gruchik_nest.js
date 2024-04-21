@@ -37,3 +37,14 @@ export async function sendsOutToUsers(
 		bot.sendMessage(Number(id), templatesOrderEnd, opts)
 	})
 }
+// export async function sendsOutToAuthor(
+// 	bot: TelegramBot,
+// 	authorId: String,
+// 	order: IOrderData
+// ) {
+// 	const templatesOrderEnd = formatOrderInfoMessageEnd(order)
+
+// 	// const opts = getButtonRequestOrder(String(order.id), order.createdBy)
+
+// 	bot.sendMessage(Number(authorId), templatesOrderEnd)
+// }

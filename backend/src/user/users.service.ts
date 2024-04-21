@@ -48,20 +48,28 @@ export class UserService {
 			})
 			return users
 		} catch (error) {
-			console.log('getAllUsersExceptTheAuthor', error)
+			console.log('Ошибка в getAllUsersExceptTheAuthor', error)
 			throw error
 		}
 	}
 
 	async getActiveUsersExceptTheAuthor(authorId: string) {
-		return this.db.user.findMany({
-			where: {
-				telegramId: {
-					not: authorId,
+		try {
+			const users = this.db.user.findMany({
+				where: {
+					telegramId: {
+						not: authorId,
+					},
+					isActive: true,
 				},
-				isActive: true,
-			},
-		})
+			})
+
+			return users
+			// return users
+		} catch (error) {
+			console.log('Ошибка в getActiveUsersExceptTheAuthor', error)
+			throw error
+		}
 	}
 	async getUserByTelegramId(telegramId: string) {
 		try {

@@ -139,7 +139,10 @@ export class OrderProcessingService {
 					await sendsOutToUsers(bot, usersTelegramId, newOrder)
 					await bot.sendMessage(
 						chatId,
-						'Заказ записан в бд, и отправлен юзерам'
+						// `Заказ записан в бд, и отправлен юзерам`
+						`Заказ записан в бд, и отправлен юзерам\n 
+						${templatesOrderEnd}`,
+						{ parse_mode: 'HTML' }
 					)
 
 					userOrder.orderData = {}
