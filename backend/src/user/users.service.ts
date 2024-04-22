@@ -97,11 +97,11 @@ export class UserService {
 		}
 	}
 
-	async getRootUsers() {
+	async getAdminUsers() {
 		try {
 			const adminUsers = await this.db.user.findMany({
 				where: {
-					root: true,
+					isAdmin: true,
 				},
 			})
 			return adminUsers
