@@ -5,11 +5,23 @@ import { DbService } from 'src/db/db.service'
 export class UserService {
 	constructor(private readonly db: DbService) {}
 
+	async getUserByTelegramId(telegramId: string) {
+		try {
+			const user = await this.db.user.findUnique({ where: { telegramId } })
+			// return null
+			return user
+		} catch (error) {
+			console.log('Ошибка в getUserByTelegramId', error)
+			throw error
+		}
+	}
+
 	async createUser(userName: string, telegramId: string) {
 		try {
-			const existingUser = await this.db.user.findUnique({
-				where: { telegramId: telegramId },
-			})
+			const existingUser = await this.getUserByTelegramId(telegramId)
+			// const existingUser = await this.db.user.findUnique({
+			// 	where: { telegramId: telegramId },
+			// })
 
 			if (existingUser) {
 				console.log('Пользователь с таким telegramId уже существует')
@@ -68,15 +80,6 @@ export class UserService {
 			// return users
 		} catch (error) {
 			console.log('Ошибка в getActiveUsersExceptTheAuthor', error)
-			throw error
-		}
-	}
-	async getUserByTelegramId(telegramId: string) {
-		try {
-			const user = await this.db.user.findUnique({ where: { telegramId } })
-			return user
-		} catch (error) {
-			console.log('Ошибка в getUserByTelegramId', error)
 			throw error
 		}
 	}

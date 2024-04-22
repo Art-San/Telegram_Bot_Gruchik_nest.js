@@ -31,7 +31,7 @@ export class OrderProcessingService {
 	async handleOrderCreation(bot: TelegramBot, data: IData) {
 		const { text, telegramId, chatId } = data
 		const user = await this.userService.getUserByTelegramId(telegramId)
-		console.log(12, 'user', user)
+
 		if (!user) {
 			bot.sendMessage(
 				chatId,
@@ -140,11 +140,12 @@ export class OrderProcessingService {
 					await bot.sendMessage(
 						chatId,
 						// `Заказ записан в бд, и отправлен юзерам`
-						`Заказ записан в бд, и отправлен юзерам\n 
+						`<b>Новый заказ</b> записан в бд,
+						и отправлен юзерам 
 						${templatesOrderEnd}`,
 						{ parse_mode: 'HTML' }
 					)
-
+					// <b>Жирный Текст</b>
 					userOrder.orderData = {}
 				} catch (error) {
 					userOrder.orderData = {}

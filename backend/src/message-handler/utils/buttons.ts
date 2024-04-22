@@ -12,6 +12,10 @@ export function getButtonRequestOrder(orderId: string, authorId: string) {
 			inline_keyboard: [
 				[
 					{
+						text: 'Пропустить',
+						callback_data: `order_response_${orderId}_${authorId}_skip`,
+					},
+					{
 						text: 'Запрос',
 						callback_data: `order_response_${orderId}_${authorId}`,
 						// callback_data: `order_response_${order.id}` // первоначально ии предлагал order.id

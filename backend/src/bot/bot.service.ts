@@ -55,9 +55,16 @@ export class BotService implements OnModuleInit {
 
 			// ====== Кнопка  'Запрос'
 			if (data.startsWith('order_response_')) {
-				console.log(1, 'Запрос')
+				console.log(1, 'Запрос', data)
+
 				const orderId = data.split('_')[2]
 				const authorId = data.split('_')[3]
+				const skip = data.split('_')[4]
+				if (skip) {
+					await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
+					return
+				}
+
 				await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
 
 				await this.messageHandlerService.firstMessageAuthorExecutor(bot, {
@@ -110,7 +117,7 @@ export class BotService implements OnModuleInit {
 					)
 					bot.sendMessage(chatId, response.msg)
 				} catch (error) {
-					console.error('Ошибка при обработке команды /start:', error)
+					console.error('Ошибка при обработке команды /start:', error.message)
 					bot.sendMessage(
 						chatId,
 						'Произошла ошибка при обработке команды /start.'
@@ -118,11 +125,11 @@ export class BotService implements OnModuleInit {
 				}
 			}
 
-			await this.orderProcessingService.handleOrderCreation(bot, {
-				text,
-				telegramId,
-				chatId,
-			})
+			// await this.orderProcessingService.handleOrderCreation(bot, {
+			// 	text,
+			// 	telegramId,
+			// 	chatId,
+			// })
 
 			if (text === '/info') {
 				try {

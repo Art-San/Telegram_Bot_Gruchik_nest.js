@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('user', 'loader', 'foreman', 'admin');
+CREATE TYPE "Role" AS ENUM ('user', 'loader', 'foreman', 'dispatcher');
 
 -- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('created', 'inProgress', 'completed');
@@ -9,10 +9,9 @@ CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "telegramId" TEXT NOT NULL,
     "userName" TEXT NOT NULL,
-    "phone" TEXT,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "isBlocked" BOOLEAN NOT NULL DEFAULT false,
-    "root" BOOLEAN NOT NULL DEFAULT false,
+    "isAdmin" BOOLEAN NOT NULL DEFAULT false,
     "profileFilled" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -24,7 +23,8 @@ CREATE TABLE "User" (
 CREATE TABLE "Profile" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "telegramId" TEXT NOT NULL,
+    "telegramId" TEXT,
+    "phone" TEXT,
     "fullName" TEXT,
     "userAvatar" TEXT,
     "role" "Role" NOT NULL DEFAULT 'user',
@@ -70,13 +70,13 @@ CREATE TABLE "OrderExecutor" (
 CREATE UNIQUE INDEX "User_telegramId_key" ON "User"("telegramId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_phone_key" ON "User"("phone");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_telegramId_key" ON "Profile"("telegramId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Profile_phone_key" ON "Profile"("phone");
 
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

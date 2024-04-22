@@ -12,10 +12,9 @@ model User {
  id             Int        @id @default(autoincrement())
  telegramId     String     @unique
  userName       String
- phone          String?    @unique
  isActive       Boolean    @default(true)
  isBlocked      Boolean    @default(false)
- root           Boolean    @default(false)
+ isAdmin        Boolean    @default(false)
  profile        Profile?
  profileFilled  Boolean    @default(false)
  createdAt      DateTime   @default(now())
@@ -27,7 +26,8 @@ model Profile {
   id           Int        @id @default(autoincrement())
   user         User       @relation(fields: [userId], references: [id])
   userId       Int        @unique
-  telegramId   String     @unique
+  telegramId   String?    @unique
+  phone        String?    @unique
   fullName     String?
   userAvatar   String?
   role         Role       @default(user)
@@ -71,7 +71,7 @@ enum Role {
   user
   loader
   foreman
-  admin
+  dispatcher
 }
 
 enum OrderStatus {
