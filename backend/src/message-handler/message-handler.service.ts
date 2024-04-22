@@ -7,6 +7,7 @@ import {
 } from './utils/buttons'
 import * as TelegramBot from 'node-telegram-bot-api'
 import { BotCommandsService } from 'src/bot/bot-commands.service'
+import { formatUserOrderInfoMessage } from 'src/bot/templates/user.templates'
 // import { getUserInfoMessage, commandEnd } from './commands';
 
 interface IData {
@@ -53,7 +54,7 @@ export class MessageHandlerService {
 		try {
 			const user = await this.userService.getUserByTelegramId(executorId)
 
-			const isExecutorIdPresent =
+			const { isExecutorIdPresent, order } =
 				await this.ordersService.getPotentialExecutorIdOrder(
 					orderId,
 					executorId
@@ -66,8 +67,9 @@ export class MessageHandlerService {
 				})
 
 				const opts = getButtonAssignOrder(orderId, executorId)
-				const response =
-					await this.botCommandsService.getUserInfoMessage(telegramId)
+				const response = formatUserOrderInfoMessage(user, order)
+				// const response =
+				// 	await this.botCommandsService.getUserInfoMessage(telegramId)
 				await bot.sendMessage(authorId, response, opts)
 			}
 

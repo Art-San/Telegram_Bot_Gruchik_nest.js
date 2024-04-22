@@ -25,7 +25,7 @@ export function formatOrderInfoMessageInit(orderData: IOrderData) {
 	Заказ № \n
 	На: <b>${orderData.startTime}</b>
 	Адрес: <b>${orderData.address}</b>
-	Кол-во <b>грузчиков: ${orderData.numExecutors}</b> 
+	Кол-во грузчиков: <b>${orderData.numExecutors}</b> 
 	Детали заказа: <b>${orderData.text}</b> 
 	Оплата за час работы: <b>${orderData.hourCost}</b> 
 	`

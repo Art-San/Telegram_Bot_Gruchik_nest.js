@@ -20,6 +20,21 @@ export function formatUserInfoMessage(user: IUser) {
 	// telegramId
 	return templatesUser
 }
+export function formatUserOrderInfoMessage(user: IUser, order?: any) {
+	console.log(0, user)
+	const templatesUser = `
+	Запрос от ${user.userName}
+	на заявку № ${order?.id ? order.id : '-----'}
+	по адресу: ${order?.address ? order?.address : '-----'}\n
+	<u>Карточка пользователя</u>
+	<b>rating:  ⭐⭐⭐⭐⭐</b>
+	<b>telegramId:  </b><code>${user.telegramId}</code>
+	<b>Бот: </b> ${user.isActive ? 'запущен' : 'остановлен'}
+	<b>Профиль: </b> ${user.profileFilled ? 'Заполнен' : 'не заполнен'}
+	`
+	// telegramId
+	return templatesUser
+}
 
 // export function formatUserInfoMessage(user: IUser) {
 // 	console.log(0, user)
@@ -38,7 +53,7 @@ export function formatUserInfoMessage(user: IUser) {
 // }
 
 export function formatTemplateMessage(user: IUser) {
-	console.log(0, user)
+	// console.log(0, user)
 	const template = `
 				Раздел помощи HTML\n\n
 				<b>Жирный Текст</b>\n

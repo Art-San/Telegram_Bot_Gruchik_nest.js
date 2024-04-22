@@ -39,7 +39,7 @@ export class BotCommandsService {
 			}
 			return formatUserInfoMessage(user)
 		} catch (error) {
-			console.log('Ошибка в commandStart', error)
+			console.log('Ошибка в getUserInfoMessage', error)
 			throw error
 		}
 	}

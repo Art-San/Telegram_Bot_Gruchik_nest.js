@@ -45,15 +45,15 @@ export class OrdersService {
 		try {
 			const order = await this.db.order.findUnique({
 				where: { id: Number(orderId) },
-				select: { potentialExecutors: true },
+				select: { id: true, address: true, potentialExecutors: true },
 			})
+			console.log(1111, 'getPotentialExecutorIdOrder', order)
 			if (!order) {
 				throw new NotFoundException(`Нет такого заказа №: ${orderId}`)
 			}
-			const getPotentialExecutorIdOrder =
-				order.potentialExecutors.includes(executorId)
+			const isExecutorIdPresent = order.potentialExecutors.includes(executorId)
 
-			return getPotentialExecutorIdOrder
+			return { isExecutorIdPresent, order }
 		} catch (error) {
 			console.log(0, 'getPotentialExecutorIdOrder', error.message)
 			throw error.message

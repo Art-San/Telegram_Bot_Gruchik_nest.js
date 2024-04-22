@@ -30,6 +30,8 @@ export class BotService implements OnModuleInit {
 
 		bot.on('callback_query', async (ctx) => {
 			console.log(13, 'callback_query ctx', ctx)
+			console.log(13, 'callback_query ctx', ctx.message.entities)
+			// entities
 			const { data, telegramId, chatId, executorId } =
 				extractInfoCallbackQueryCTX(ctx)
 
@@ -90,9 +92,9 @@ export class BotService implements OnModuleInit {
 					idExecutor
 				)
 			}
-
+			// ====== Кнопка  'Принято'
 			if (data.startsWith('accepted_response_')) {
-				console.log(3, 'accepted_response_ Принято')
+				console.log(3, 'Принято')
 				const orderId = data.split('_')[1] // Извлечение orderId из callback_data
 				try {
 					// Удаление сообщения с кнопкой
