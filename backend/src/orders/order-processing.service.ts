@@ -7,7 +7,7 @@ import {
 import { MessageHandlerService } from 'src/message-handler/message-handler.service'
 
 import { OrdersService } from 'src/orders/orders.service'
-import { IOrderData } from './dto/order.dto'
+
 import { sendsOutToUsers } from './utils/user-message-sender'
 import { UserService } from 'src/user/users.service'
 interface IData {
@@ -28,7 +28,11 @@ export class OrderProcessingService {
 		{ orderData: any; currentStep: string; lastMessageId: number }
 	>()
 
-	async handleOrderCreation(bot: TelegramBot, data: IData) {
+	async handleOrderCreation(
+		bot: TelegramBot,
+		data: IData,
+		ctx?: TelegramBot.Message
+	) {
 		const { text, telegramId, chatId } = data
 		const user = await this.userService.getUserByTelegramId(telegramId)
 
@@ -41,13 +45,11 @@ export class OrderProcessingService {
 			return
 		}
 		let userOrder = this.userOrders.get(chatId)
-		// console.log(0, 'userOrder', userOrder)
+
 		if (!userOrder) {
 			userOrder = { orderData: {}, currentStep: '', lastMessageId: 0 }
 			this.userOrders.set(chatId, userOrder)
 		}
-
-		// Ваш код здесь
 
 		// Удаляем предыдущее сообщение бота, если оно было отправлено
 		if (userOrder.lastMessageId && userOrder.lastMessageId !== 0) {
@@ -64,7 +66,8 @@ export class OrderProcessingService {
 		let messageId: number
 		if (text === '/createorder') {
 			userOrder.currentStep = 'startTime'
-			userOrder.orderData.createdBy = telegramId
+			userOrder.orderData.authorId = user.telegramId
+			userOrder.orderData.authorName = user.userName
 			const message = await bot.sendMessage(
 				chatId,
 				'Введите время начала заказа:'
@@ -131,10 +134,8 @@ export class OrderProcessingService {
 					const templatesOrderEnd = formatOrderInfoMessageEnd(newOrder)
 					const usersTelegramId =
 						await this.messageHandlerService.sendingMessageOrdersUsers(
-							newOrder.createdBy
+							newOrder.authorId
 						)
-
-					// console.log(0, 'userOrders.size', this.userOrders.size)
 
 					await sendsOutToUsers(bot, usersTelegramId, newOrder)
 					await bot.sendMessage(
@@ -145,7 +146,7 @@ export class OrderProcessingService {
 						${templatesOrderEnd}`,
 						{ parse_mode: 'HTML' }
 					)
-					// <b>Жирный Текст</b>
+
 					userOrder.orderData = {}
 				} catch (error) {
 					userOrder.orderData = {}

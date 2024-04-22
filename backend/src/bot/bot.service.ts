@@ -29,7 +29,7 @@ export class BotService implements OnModuleInit {
 		this.botCommandsService.setBotCommands(bot)
 
 		bot.on('callback_query', async (ctx) => {
-			// console.log(111, ctx)
+			console.log(13, 'callback_query ctx', ctx)
 			const { data, telegramId, chatId, executorId } =
 				extractInfoCallbackQueryCTX(ctx)
 
@@ -55,7 +55,7 @@ export class BotService implements OnModuleInit {
 
 			// ====== Кнопка  'Запрос'
 			if (data.startsWith('order_response_')) {
-				console.log(1, 'Запрос', data)
+				console.log(1, 'order_response_ Запрос', data)
 
 				const orderId = data.split('_')[2]
 				const authorId = data.split('_')[3]
@@ -92,7 +92,7 @@ export class BotService implements OnModuleInit {
 			}
 
 			if (data.startsWith('accepted_response_')) {
-				console.log(3, 'Принято')
+				console.log(3, 'accepted_response_ Принято')
 				const orderId = data.split('_')[1] // Извлечение orderId из callback_data
 				try {
 					// Удаление сообщения с кнопкой
@@ -105,6 +105,7 @@ export class BotService implements OnModuleInit {
 		})
 
 		bot.on('message', async (ctx) => {
+			console.log(11, 'message ctx', ctx)
 			// console.log(1, ctx)
 			const { text, telegramId, chatId, userName } =
 				getUserDetailsFromTelegramContext(ctx)
@@ -125,11 +126,15 @@ export class BotService implements OnModuleInit {
 				}
 			}
 
-			// await this.orderProcessingService.handleOrderCreation(bot, {
-			// 	text,
-			// 	telegramId,
-			// 	chatId,
-			// })
+			await this.orderProcessingService.handleOrderCreation(
+				bot,
+				{
+					text,
+					telegramId,
+					chatId,
+				},
+				ctx
+			)
 
 			if (text === '/info') {
 				try {

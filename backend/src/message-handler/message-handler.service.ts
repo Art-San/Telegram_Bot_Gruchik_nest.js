@@ -24,9 +24,9 @@ export class MessageHandlerService {
 		private readonly botCommandsService: BotCommandsService
 	) {}
 
-	async handleMessage(text: string, telegramId: number, chatId: number) {
-		console.log(0, 'handleMessage')
-	}
+	// async handleMessage(text: string, telegramId: number, chatId: number) {
+	// 	console.log(0, 'handleMessage')
+	// }
 
 	async sendingMessageOrdersUsers(id: string) {
 		try {
@@ -102,8 +102,8 @@ export class MessageHandlerService {
 						[
 							{
 								text: 'Принял',
-								callback_data: `accepted_response_${orderId}`,
-								// callback_data: `accepted_response_${orderId}_${authorId}`,
+								// callback_data: `accepted_response_${orderId}`,
+								callback_data: `accepted_response_${orderId}_${idExecutor}`,
 							},
 						],
 					],

@@ -35,7 +35,8 @@ export function formatOrderInfoMessageInit(orderData: IOrderData) {
 export function formatOrderInfoMessageEnd(orderData: IOrderData) {
 	// console.log(1, 'orderData', orderData)
 	const templatesOrderEnd = `
-	Заказ № <b>${orderData.id}</b>\n
+	Заказ № <b>${orderData.id}</b>
+	от: ${orderData.authorName}\n
 	На: <b>${orderData.startTime}</b>
 	Адрес: <b>${orderData.address}</b>
 	Кол-во грузчиков: <b>${orderData.numExecutors}</b> 

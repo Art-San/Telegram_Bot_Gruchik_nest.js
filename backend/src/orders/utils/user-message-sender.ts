@@ -13,7 +13,7 @@ export async function sendsOutToUsers(
 ) {
 	const templatesOrderEnd = formatOrderInfoMessageEnd(order)
 	usersId.forEach((id) => {
-		const opts = getButtonRequestOrder(String(order.id), order.createdBy)
+		const opts = getButtonRequestOrder(String(order.id), order.authorId)
 		// const opts: {
 		// 	parse_mode: 'HTML' | 'Markdown'
 		// 	reply_markup: {
@@ -27,7 +27,7 @@ export async function sendsOutToUsers(
 		// 				{
 		// 					text: 'Запрос',
 		// 					// callback_data: `order_response_${order.id}`,
-		// 					callback_data: `order_response_${order.id}_${order.createdBy}`,
+		// 					callback_data: `order_response_${order.id}_${order.authorId}`,
 		// 				},
 		// 			],
 		// 		],
@@ -37,14 +37,3 @@ export async function sendsOutToUsers(
 		bot.sendMessage(Number(id), templatesOrderEnd, opts)
 	})
 }
-// export async function sendsOutToAuthor(
-// 	bot: TelegramBot,
-// 	authorId: String,
-// 	order: IOrderData
-// ) {
-// 	const templatesOrderEnd = formatOrderInfoMessageEnd(order)
-
-// 	// const opts = getButtonRequestOrder(String(order.id), order.createdBy)
-
-// 	bot.sendMessage(Number(authorId), templatesOrderEnd)
-// }

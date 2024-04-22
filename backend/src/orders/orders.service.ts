@@ -11,7 +11,6 @@ export class OrdersService {
 			const newOrder = await this.db.order.create({
 				data: orderData,
 			})
-
 			return newOrder
 		} catch (error) {
 			throw error.message

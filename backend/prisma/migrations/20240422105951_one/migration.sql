@@ -38,7 +38,8 @@ CREATE TABLE "Profile" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
-    "createdBy" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "authorName" TEXT NOT NULL,
     "startTime" TEXT NOT NULL,
     "numExecutors" INTEGER NOT NULL DEFAULT 1,
     "address" TEXT,
