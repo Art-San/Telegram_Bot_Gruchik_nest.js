@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import * as TelegramBot from 'node-telegram-bot-api'
 import {
-	formatOrderInfoMessageEnd,
+	// formatOrderInfoMessageEnd,
 	formatOrderInfoMessageInit,
 } from 'src/bot/templates/order.templates'
 import { MessageHandlerService } from 'src/message-handler/message-handler.service'
@@ -10,7 +10,10 @@ import { OrdersService } from 'src/orders/orders.service'
 
 import { sendsOutToUsers } from './utils/user-message-sender'
 import { UserService } from 'src/user/users.service'
-import { getButtonEditSendOrder } from 'src/message-handler/utils/buttons'
+import {
+	getButtonEditSendOrder,
+	getButtonOrderStatusPending,
+} from 'src/message-handler/utils/buttons'
 interface IData {
 	text: string
 	telegramId?: string
@@ -59,7 +62,7 @@ export class OrderProcessingService {
 			} catch (error) {
 				console.error(
 					'Ошибка при удалении сообщения ботом orderProcessing.ts',
-					error
+					error.message
 				)
 			}
 		}
@@ -129,20 +132,29 @@ export class OrderProcessingService {
 					const newOrder = await this.ordersService.creatingOrder(
 						userOrder.orderData
 					)
-					const templatesOrderEnd = formatOrderInfoMessageEnd(newOrder)
+					const templatesOrderEnd = formatOrderInfoMessageInit(newOrder)
+
 					const usersTelegramId =
 						await this.messageHandlerService.sendingMessageOrdersUsers(
 							newOrder.authorId
 						)
 
 					await sendsOutToUsers(bot, usersTelegramId, newOrder)
+
+					const buttonEditStatus = getButtonOrderStatusPending(
+						String(newOrder.id)
+					)
 					await bot.sendMessage(
 						chatId,
 						// `Заказ записан в бд, и отправлен юзерам`
 						`<b>Новый заказ</b> записан в бд,
 						и отправлен юзерам 
-						${templatesOrderEnd}`,
-						{ parse_mode: 'HTML' }
+						${templatesOrderEnd}\n
+						После того как назначите
+						грузчиков на заявку ее нужно закрыть
+
+						`,
+						buttonEditStatus
 					)
 
 					userOrder.orderData = {}

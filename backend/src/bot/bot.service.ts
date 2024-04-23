@@ -29,7 +29,7 @@ export class BotService implements OnModuleInit {
 		this.botCommandsService.setBotCommands(bot)
 
 		bot.on('callback_query', async (ctx) => {
-			// console.log(13, 'callback_query ctx', ctx)
+			console.log(13, 'callback_query ctx', ctx)
 
 			// entities
 			const { data, telegramId, chatId, executorId } =
@@ -55,6 +55,9 @@ export class BotService implements OnModuleInit {
 				}
 			}
 
+			if (data.startsWith('order_status_')) {
+				console.log(2, 'Грузчики набраны')
+			}
 			// ====== Кнопка  'Запрос'
 			if (data.startsWith('order_response_')) {
 				// console.log(1, 'Запрос', data)
@@ -127,7 +130,7 @@ export class BotService implements OnModuleInit {
 		})
 
 		bot.on('message', async (ctx) => {
-			// console.log(11, 'message ctx', ctx)
+			console.log(11, 'message ctx', ctx)
 
 			const { text, telegramId, chatId, userName } =
 				getUserDetailsFromTelegramContext(ctx)

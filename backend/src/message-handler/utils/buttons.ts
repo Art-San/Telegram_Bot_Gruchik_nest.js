@@ -27,6 +27,29 @@ export function getButtonEditSendOrder() {
 	}
 	return buttonsEditSend
 }
+
+export function getButtonOrderStatusPending(orderId: string, status?: string) {
+	const buttonEditStatus: {
+		parse_mode: 'HTML' | 'Markdown'
+		reply_markup: {
+			inline_keyboard: Array<Array<{ text: string; callback_data: string }>>
+		}
+	} = {
+		parse_mode: 'HTML',
+		reply_markup: {
+			inline_keyboard: [
+				[
+					{
+						text: 'Грузчики набраны',
+						callback_data: `order_status_${orderId}_pending`,
+					},
+				],
+			],
+		},
+	}
+	return buttonEditStatus
+}
+
 export function getButtonRequestOrder(orderId: string, authorId: string) {
 	const opts: {
 		parse_mode: 'HTML' | 'Markdown'

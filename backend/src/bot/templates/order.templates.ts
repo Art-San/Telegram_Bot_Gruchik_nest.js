@@ -22,10 +22,11 @@ import { IOrderData } from 'src/orders/dto/order.dto'
 export function formatOrderInfoMessageInit(orderData: IOrderData) {
 	// console.log(1, 'orderData', orderData)
 	const templatesOrderInit = `
-	Заказ № \n
+	от: ${orderData.authorName}
+	Заказ № <b>${orderData.id || '----'}</b>\n
 	На: <b>${orderData.startTime}</b>
-	Адрес: <b>${orderData.address}</b>
 	Кол-во грузчиков: <b>${orderData.numExecutors}</b> 
+	Адрес: <b>${orderData.address}</b>
 	Детали заказа: <b>${orderData.text}</b> 
 	Оплата за час работы: <b>${orderData.hourCost}</b> 
 	`
@@ -33,7 +34,6 @@ export function formatOrderInfoMessageInit(orderData: IOrderData) {
 	return templatesOrderInit
 }
 export function formatOrderInfoMessageEnd(orderData: IOrderData) {
-	// console.log(1, 'orderData', orderData)
 	const templatesOrderEnd = `
 	Заказ № <b>${orderData.id}</b>
 	от: ${orderData.authorName}\n

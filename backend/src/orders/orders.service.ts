@@ -47,7 +47,7 @@ export class OrdersService {
 				where: { id: Number(orderId) },
 				select: { id: true, address: true, potentialExecutors: true },
 			})
-			console.log(1111, 'getPotentialExecutorIdOrder', order)
+			// console.log(1111, 'getPotentialExecutorIdOrder', order)
 			if (!order) {
 				throw new NotFoundException(`Нет такого заказа №: ${orderId}`)
 			}
@@ -107,7 +107,10 @@ export class OrdersService {
 			})
 
 			if (existingExecutors >= order.numExecutors) {
-				throw new Error(`В заказе № ${orderId} нет свободных мест.`)
+				await this.changeOrderStatus(orderId, 'pending')
+				throw new Error(
+					`В заказе № ${orderId} нет свободных мест, статус заявки перевели в pending`
+				)
 			}
 
 			// Проверяем, существует ли уже запись с такими orderId и userId
@@ -115,7 +118,6 @@ export class OrdersService {
 				where: {
 					orderId_userId: {
 						orderId: Number(orderId),
-						// orderId: Number(orderId),
 						userId: userId,
 					},
 				},
@@ -143,4 +145,26 @@ export class OrdersService {
 			throw error
 		}
 	}
+
+	async changeOrderStatus(orderId: string, status: string) {
+		try {
+			const order = await this.gettingOrderById(orderId)
+			if (!order) {
+				throw new NotFoundException(`Заказ с ID ${orderId} не найден.`)
+			}
+			await this.db.order.update({
+				where: { id: Number(orderId) },
+				data: {
+					status: {
+						set: status,
+					},
+				},
+			})
+			console.log(`Статус заказа с ID ${orderId} успешно изменен на ${status}.`)
+		} catch (error) {
+			console.error('Ошибка в changeOrderStatus:', error.message)
+			throw new Error(error.message)
+		}
+	}
 }
+// проверь changeOrderStatus все ли с ней в порядке?
