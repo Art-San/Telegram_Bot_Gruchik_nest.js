@@ -52,7 +52,7 @@ export function getButtonAssignOrder(orderId: string, executorId: string) {
 
 export function getButtonRequestAppointment(
 	orderId: string,
-	authorId?: string
+	idExecutor?: string
 ) {
 	const opts: {
 		parse_mode: 'HTML' | 'Markdown'
@@ -66,8 +66,7 @@ export function getButtonRequestAppointment(
 				[
 					{
 						text: 'Принял',
-						callback_data: `accepted_response_${orderId}`,
-						// callback_data: `accepted_response_${orderId}_${authorId}`,
+						callback_data: `accepted_response_${orderId}_${idExecutor}`,
 					},
 				],
 			],

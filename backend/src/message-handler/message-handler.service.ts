@@ -8,6 +8,7 @@ import {
 import * as TelegramBot from 'node-telegram-bot-api'
 import { BotCommandsService } from 'src/bot/bot-commands.service'
 import { formatUserOrderInfoMessage } from 'src/bot/templates/user.templates'
+import { formatOrderInfoMessageFinish } from 'src/bot/templates/order.templates'
 // import { getUserInfoMessage, commandEnd } from './commands';
 
 interface IData {
@@ -87,35 +88,20 @@ export class MessageHandlerService {
 		idExecutor: string
 	) {
 		try {
-			const res = await this.ordersService.assignUserToOrder(
+			const { order, userId } = await this.ordersService.assignUserToOrder(
 				orderId,
 				idExecutor
 			)
 
-			const opts: {
-				parse_mode: 'HTML' | 'Markdown'
-				reply_markup: {
-					inline_keyboard: Array<Array<{ text: string; callback_data: string }>>
-				}
-			} = {
-				parse_mode: 'HTML',
-				reply_markup: {
-					inline_keyboard: [
-						[
-							{
-								text: 'Принял',
-								// callback_data: `accepted_response_${orderId}`,
-								callback_data: `accepted_response_${orderId}_${idExecutor}`,
-							},
-						],
-					],
-				},
-			}
+			const user = await this.userService.getUserByTelegramId(userId)
 
-			// const opts = getButtonRequestAppointment(orderId)
+			const templatesOrderEnd = formatOrderInfoMessageFinish(order, user)
 
-			bot.sendMessage(chatId, res.msg)
+			await bot.sendMessage(chatId, templatesOrderEnd, { parse_mode: 'HTML' })
+
+			const opts = getButtonRequestAppointment(orderId, user.telegramId)
 			bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`, opts)
+			// bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`, opts)
 		} catch (error) {
 			// console.log(
 			// 	0,
@@ -125,78 +111,19 @@ export class MessageHandlerService {
 			bot.sendMessage(chatId, error.message)
 		}
 	}
+
+	async finishMessageExecutor(
+		bot: TelegramBot,
+		chatId: string,
+		orderId: string,
+		idExecutor: string
+		// chatId: string, orderId: string, authorId: string, executorId: string
+	) {
+		try {
+			// bot.sendMessage(chatId, 'Ожидайте несколько минут.')
+		} catch (error) {
+			console.error('Ошибка при обработке запроса на заказ:', error.message)
+			bot.sendMessage(chatId, 'Произошла ошибка при обработке вашего запроса.')
+		}
+	}
 }
-
-// try {
-// 	const res = await this.ordersService.assignUserToOrder(
-// 		orderId,
-// 		idExecutor
-// 	)
-
-// 	bot.sendMessage(chatId, res.msg)
-// 	bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`)
-// } catch (error) {
-// 	console.log(
-// 		0,
-// 		'data.startsWith( добавление юзера к заказу',
-// 		error.message
-// 	)
-// 	bot.sendMessage(chatId, error.message)
-// }
-
-// if (data.startsWith('order_response_')) {
-// 	try {
-// 		const orderId = data.split('_')[2]
-// 		const authorId = data.split('_')[3]
-// 		const user = await this.userService.getUserByTelegramId(executorId)
-
-// 		const isExecutorIdPresent =
-// 			await this.ordersService.getPotentialExecutorIdOrder(
-// 				orderId,
-// 				executorId
-// 			)
-
-// 		if (user && !isExecutorIdPresent) {
-// 			await this.ordersService.addPotentialExecutor(bot, {
-// 				orderId,
-// 				executorId,
-// 			})
-
-// 			const opts: {
-// 				parse_mode: 'HTML' | 'Markdown'
-// 				reply_markup: {
-// 					inline_keyboard: Array<
-// 						Array<{ text: string; callback_data: string }>
-// 					>
-// 				}
-// 			} = {
-// 				parse_mode: 'HTML',
-// 				reply_markup: {
-// 					inline_keyboard: [
-// 						[
-// 							{
-// 								text: 'Назначить',
-// 								callback_data: `assign_user_${orderId}_${executorId}`,
-// 							},
-// 						],
-// 					],
-// 				},
-// 			}
-
-// 			const response =
-// 				await this.botCommandsService.getUserInfoMessage(telegramId)
-// 			bot.sendMessage(authorId, response, opts)
-// 		} else {
-// 			return bot.sendMessage(chatId, 'Хватит жмыкать.')
-// 		}
-
-// 		return bot.sendMessage(chatId, 'Ожидайте несколько минут.')
-// 	} catch (error) {
-// 		console.error('Ошибка при обработке запроса на заказ:', error)
-// 		// Обработка ошибки, например, отправка сообщения пользователю
-// 		bot.sendMessage(
-// 			chatId,
-// 			'Произошла ошибка при обработке вашего запроса.'
-// 		)
-// 	}
-// }

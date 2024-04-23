@@ -46,25 +46,39 @@ export function formatOrderInfoMessageEnd(orderData: IOrderData) {
 	// telegramId
 	return templatesOrderEnd
 }
-
-// interface IOrder {
-// 	id: Number
-// 	createdBy: String
-// 	startTime: String
-// 	numExecutors: Number
-// 	address: String
-// 	text: String
-// 	hourCost: Number
-// }
-// export function formatOrderInfoMessage(orderData: IOrder) {
-
-// 	const templatesOrderInit = `
-// 	Заказ: ${}\n
-// 	<b>telegramId:  </b><code>${user.telegramId}</code>
-// 	<b>Имя: </b> ${user.userName}
-// 	<b>Бот: </b> ${user.isActive ? 'запущен' : 'остановлен'}
-// 	<b>Профиль: </b> ${user.profileFilled ? 'Заполнен' : 'не заполнен'}
-// 	`
-// 	// telegramId
-// 	return templatesOrderInit
-// }
+export function formatOrderInfoMessageFinish(orderData: IOrderData, user: any) {
+	// console.log(1, 'orderData', orderData)
+	const templatesOrderEnd = `
+	Грузчик ${user.userName},
+	telegramId: ${user.telegramId}.\n
+	Назначены исполнителем на:\n
+	Заказ № <b>${orderData.id}</b>
+	На: <b>${orderData.startTime}</b>
+	Адрес: <b>${orderData.address}</b>
+	Кол-во грузчиков: <b>${orderData.numExecutors}</b>
+	Детали заказа: <b>${orderData.text}</b>
+	Оплата за час работы: <b>${orderData.hourCost}</b>
+	`
+	// telegramId
+	return templatesOrderEnd
+}
+export function formatOrderInfoMessageFinish2(
+	orderData: IOrderData,
+	user: any
+) {
+	// console.log(1, 'orderData', orderData)
+	const templatesOrderEnd = `
+	Вы ${user.userName},
+	ваш telegramId: ${user.telegramId}.\n
+	Назначены исполнителем на:
+	Заказ № <b>${orderData.id}</b>
+	от: ${orderData.authorName}
+	На: <b>${orderData.startTime}</b>
+	Адрес: <b>${orderData.address}</b>
+	Кол-во грузчиков: <b>${orderData.numExecutors}</b>
+	Детали заказа: <b>${orderData.text}</b>
+	Оплата за час работы: <b>${orderData.hourCost}</b>
+	`
+	// telegramId
+	return templatesOrderEnd
+}
