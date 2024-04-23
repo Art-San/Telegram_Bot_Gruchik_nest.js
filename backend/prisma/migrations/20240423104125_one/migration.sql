@@ -2,7 +2,7 @@
 CREATE TYPE "Role" AS ENUM ('user', 'loader', 'foreman', 'dispatcher');
 
 -- CreateEnum
-CREATE TYPE "OrderStatus" AS ENUM ('created', 'inProgress', 'completed');
+CREATE TYPE "OrderStatus" AS ENUM ('created', 'pending', 'inProgress', 'completed');
 
 -- CreateTable
 CREATE TABLE "User" (

@@ -10,6 +10,7 @@ import { OrdersService } from 'src/orders/orders.service'
 
 import { sendsOutToUsers } from './utils/user-message-sender'
 import { UserService } from 'src/user/users.service'
+import { getButtonEditSendOrder } from 'src/message-handler/utils/buttons'
 interface IData {
 	text: string
 	telegramId?: string
@@ -100,18 +101,15 @@ export class OrderProcessingService {
 			userOrder.orderData.hourCost = Number(text)
 			userOrder.currentStep = null // Сброс состояния
 
-			const { templatesOrderInit, buttonsOrder } = formatOrderInfoMessageInit(
-				userOrder.orderData
-			)
+			const templatesOrderInit = formatOrderInfoMessageInit(userOrder.orderData)
 
+			const buttonEditSend = getButtonEditSendOrder()
 			const message = await bot.sendMessage(
 				chatId,
 				`Новый заказ: ${templatesOrderInit}`,
-				{
-					...buttonsOrder,
-					parse_mode: 'HTML',
-				}
+				buttonEditSend
 			)
+
 			messageId = message.message_id
 		}
 

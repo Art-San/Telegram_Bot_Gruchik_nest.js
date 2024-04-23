@@ -29,7 +29,7 @@ export class BotService implements OnModuleInit {
 		this.botCommandsService.setBotCommands(bot)
 
 		bot.on('callback_query', async (ctx) => {
-			console.log(13, 'callback_query ctx', ctx)
+			// console.log(13, 'callback_query ctx', ctx)
 
 			// entities
 			const { data, telegramId, chatId, executorId } =
@@ -57,7 +57,7 @@ export class BotService implements OnModuleInit {
 
 			// ====== Кнопка  'Запрос'
 			if (data.startsWith('order_response_')) {
-				console.log(1, 'Запрос', data)
+				// console.log(1, 'Запрос', data)
 
 				const orderId = data.split('_')[2]
 				const authorId = data.split('_')[3]
@@ -94,13 +94,13 @@ export class BotService implements OnModuleInit {
 			}
 			// ====== Кнопка  'Принято'
 			if (data.startsWith('accepted_response_')) {
-				console.log(3, 'Принято')
+				console.log(3, 'Принял')
 				const orderId = data.split('_')[2] // Извлечение orderId из callback_data
 				const idExecutor = data.split('_')[3]
 
 				try {
-					console.log(4, orderId)
-					console.log(5, idExecutor)
+					// console.log(4, orderId)
+					// console.log(5, idExecutor)
 					await this.messageHandlerService.finishMessageExecutor(
 						bot,
 						chatId,
@@ -108,8 +108,18 @@ export class BotService implements OnModuleInit {
 						idExecutor
 					)
 					// Удаление сообщения с кнопкой
-					// await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
+					await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
 					// Здесь можно добавить дополнительную логику, например, обновление статуса заказа в базе данных
+				} catch (error) {
+					console.error(0, 'Ошибка при удалении сообщения:', error)
+				}
+			}
+
+			if (data.startsWith('delete_message_')) {
+				console.log(3, 'Кнопка удалить сообщение')
+
+				try {
+					await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
 				} catch (error) {
 					console.error(0, 'Ошибка при удалении сообщения:', error)
 				}

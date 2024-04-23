@@ -3,12 +3,16 @@ import { UserService } from 'src/user/users.service'
 import { OrdersService } from 'src/orders/orders.service'
 import {
 	getButtonAssignOrder,
+	getButtonDelMsg,
 	getButtonRequestAppointment,
 } from './utils/buttons'
 import * as TelegramBot from 'node-telegram-bot-api'
 import { BotCommandsService } from 'src/bot/bot-commands.service'
 import { formatUserOrderInfoMessage } from 'src/bot/templates/user.templates'
-import { formatOrderInfoMessageFinish } from 'src/bot/templates/order.templates'
+import {
+	formatOrderMsgAuthorFin,
+	formatOrderMsgExecutorFin,
+} from 'src/bot/templates/order.templates'
 // import { getUserInfoMessage, commandEnd } from './commands';
 
 interface IData {
@@ -73,8 +77,9 @@ export class MessageHandlerService {
 				// 	await this.botCommandsService.getUserInfoMessage(telegramId)
 				await bot.sendMessage(authorId, response, opts)
 			}
+			const butDelMsg = getButtonDelMsg()
 
-			bot.sendMessage(chatId, 'Ожидайте несколько минут.')
+			bot.sendMessage(chatId, 'Ожидайте несколько минут...', butDelMsg)
 		} catch (error) {
 			console.error('Ошибка при обработке запроса на заказ:', error.message)
 			bot.sendMessage(chatId, 'Произошла ошибка при обработке вашего запроса.')
@@ -95,12 +100,16 @@ export class MessageHandlerService {
 
 			const user = await this.userService.getUserByTelegramId(userId)
 
-			const templatesOrderEnd = formatOrderInfoMessageFinish(order, user)
+			const templatesOrderEnd = formatOrderMsgAuthorFin(order, user)
 
 			await bot.sendMessage(chatId, templatesOrderEnd, { parse_mode: 'HTML' })
 
 			const opts = getButtonRequestAppointment(orderId, user.telegramId)
-			bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`, opts)
+			bot.sendMessage(
+				idExecutor,
+				`Вы назначены на заказ № ${orderId}. Чтобы получить детали заявки, нажмите кнопку "Принял".`,
+				opts
+			)
 			// bot.sendMessage(idExecutor, `Вы назначены на заказ № ${orderId}`, opts)
 		} catch (error) {
 			// console.log(
@@ -120,7 +129,14 @@ export class MessageHandlerService {
 		// chatId: string, orderId: string, authorId: string, executorId: string
 	) {
 		try {
-			// bot.sendMessage(chatId, 'Ожидайте несколько минут.')
+			const order = await this.ordersService.gettingOrderById(orderId)
+
+			const msgOrderExecutorFin = formatOrderMsgExecutorFin(order)
+
+			const message = await bot.sendMessage(chatId, msgOrderExecutorFin, {
+				parse_mode: 'HTML',
+			})
+			console.log(55, 'finishMessageExecutor', message.message_id)
 		} catch (error) {
 			console.error('Ошибка при обработке запроса на заказ:', error.message)
 			bot.sendMessage(chatId, 'Произошла ошибка при обработке вашего запроса.')

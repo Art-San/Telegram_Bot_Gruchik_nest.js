@@ -1,5 +1,32 @@
 // Assign
 
+export function getButtonEditSendOrder() {
+	const buttonsEditSend: {
+		parse_mode: 'HTML' | 'Markdown'
+		reply_markup: {
+			inline_keyboard: Array<Array<{ text: string; callback_data: string }>>
+		}
+	} = {
+		parse_mode: 'HTML',
+		reply_markup: {
+			inline_keyboard: [
+				[
+					{
+						text: 'Редактировать',
+						callback_data: 'edit_order',
+					},
+				],
+				[
+					{
+						text: 'Отправить',
+						callback_data: 'send_order',
+					},
+				],
+			],
+		},
+	}
+	return buttonsEditSend
+}
 export function getButtonRequestOrder(orderId: string, authorId: string) {
 	const opts: {
 		parse_mode: 'HTML' | 'Markdown'
@@ -73,4 +100,25 @@ export function getButtonRequestAppointment(
 		},
 	}
 	return opts
+}
+export function getButtonDelMsg() {
+	const butDelMsg: {
+		parse_mode: 'HTML' | 'Markdown'
+		reply_markup: {
+			inline_keyboard: Array<Array<{ text: string; callback_data: string }>>
+		}
+	} = {
+		parse_mode: 'HTML',
+		reply_markup: {
+			inline_keyboard: [
+				[
+					{
+						text: 'Удалить сообщение',
+						callback_data: `delete_message_`,
+					},
+				],
+			],
+		},
+	}
+	return butDelMsg
 }
