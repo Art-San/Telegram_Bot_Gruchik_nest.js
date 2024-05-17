@@ -22,6 +22,7 @@ export class BotService implements OnModuleInit {
 	) {}
 
 	async onModuleInit() {
+		const webAppUrl = process.env.NGROK_URL
 		const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {
 			polling: true,
 		})
@@ -202,6 +203,20 @@ export class BotService implements OnModuleInit {
 						'Произошла ошибка при обработке команды /end.'
 					)
 				}
+			}
+			if (text === '/form') {
+				await bot.sendMessage(chatId, 'Ниже появится кнопка, заполни форму', {
+					reply_markup: {
+						keyboard: [
+							[
+								{
+									text: 'Заполнить форму',
+									web_app: { url: webAppUrl + '/form' },
+								},
+							],
+						],
+					},
+				})
 			}
 		})
 
