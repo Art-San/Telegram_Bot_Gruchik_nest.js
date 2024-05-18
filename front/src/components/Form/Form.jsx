@@ -63,7 +63,6 @@ const Form = () => {
   }
   return (
     <div className=" flex flex-col  p-5 w-96">
-      <h3>Введите ваши данные</h3>
       <input
         className=" text-gray-700 p-2.5 mt-3.5"
         name="time"

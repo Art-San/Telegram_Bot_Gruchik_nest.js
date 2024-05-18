@@ -1,14 +1,15 @@
 import { useEffect } from 'react'
-// import './App.css'
 import { useTelegram } from './hooks/useTelegram'
 import Header from './components/Header/Header'
 import { Route, Routes } from 'react-router-dom'
-import Form from './components/Form/Form'
+
 import ProductList from './components/ProductList/ProductList'
-import { TestPage } from './components/TestPage/TestPage'
+import { TestPage } from './components/page/TestPage/TestPage'
+import OrdersPage from './components/page/OrdersPage/OrdersPage'
+import AddOrderPage from './components/page/AddOrderPage/AddOrderPage'
+import Footer from './components/Footer/Footer'
 
 function App() {
-  // 26:00
   const { tg } = useTelegram()
 
   useEffect(() => {
@@ -16,13 +17,19 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
-      <Header />
+    <div className=" flex flex-col h-screen">
+      <header>
+        <Header />
+      </header>
       <Routes>
         <Route index element={<ProductList />} />.
-        <Route path={'form'} element={<Form />} />
+        <Route path={'add-order'} element={<AddOrderPage />} />
+        <Route path={'orders'} element={<OrdersPage />} />
         <Route path={'test'} element={<TestPage />} />
       </Routes>
+      <footer className="fixed bottom-0 left-0 w-full">
+        <Footer />
+      </footer>
     </div>
   )
 }
