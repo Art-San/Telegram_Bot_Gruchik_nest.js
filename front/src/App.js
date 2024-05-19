@@ -6,7 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import ProductList from './components/ProductList/ProductList'
 
 import OrdersPage from './page/OrdersPage/OrdersPage'
-import AddOrderPage from './components/page/AddOrderPage/AddOrderPage'
+import AddOrderPage from './page/AddOrderPage/AddOrderPage'
 import TestPage from './page/TestPage/TestPage'
 
 import Footer from './components/Footer/Footer'

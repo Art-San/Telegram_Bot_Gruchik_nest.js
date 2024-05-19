@@ -5,9 +5,14 @@
 backend/dist
 backend/node_modules
 backend/build
+
 front/dist
 front/node_modules
 front/build
+
+vite/dist
+vite/node_modules
+vite/build
 
 
 # Logs
