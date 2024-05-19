@@ -4,9 +4,11 @@ import Header from './components/Header/Header'
 import { Route, Routes } from 'react-router-dom'
 
 import ProductList from './components/ProductList/ProductList'
-import { TestPage } from './components/page/TestPage/TestPage'
-import OrdersPage from './components/page/OrdersPage/OrdersPage'
+
+import OrdersPage from './page/OrdersPage/OrdersPage'
 import AddOrderPage from './components/page/AddOrderPage/AddOrderPage'
+import TestPage from './page/TestPage/TestPage'
+
 import Footer from './components/Footer/Footer'
 
 function App() {
@@ -16,6 +18,7 @@ function App() {
     tg.ready()
   }, [])
 
+  // console.log('process.env.APP_URL', API_URL)
   return (
     <div className=" flex flex-col h-screen">
       <header>
