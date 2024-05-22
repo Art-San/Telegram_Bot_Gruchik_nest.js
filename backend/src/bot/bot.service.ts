@@ -204,14 +204,15 @@ export class BotService implements OnModuleInit {
 					)
 				}
 			}
-			if (text === '/form') {
+			if (text === '/add_order') {
 				await bot.sendMessage(chatId, 'Ниже появится кнопка, заполни форму', {
 					reply_markup: {
 						keyboard: [
 							[
 								{
 									text: 'Заполнить форму',
-									web_app: { url: webAppUrl + '/form' },
+									// web_app: { url: webAppUrl },
+									web_app: { url: webAppUrl + '/add_order' },
 								},
 							],
 						],
