@@ -42,6 +42,7 @@ model Order {
  authorId           String   // Добавляем поле для указания создателя заказа
  authorName         String
  startTime          String
+ typeWork           String?
  numExecutors       Int      @default(1)
  address            String?
  text               String

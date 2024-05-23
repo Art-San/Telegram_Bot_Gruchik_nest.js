@@ -25,7 +25,8 @@ export function formatOrderInfoMessageInit(orderData: IOrderData) {
 	от: ${orderData.authorName}
 	Заказ № <b>${orderData.id || '----'}</b>\n
 	На: <b>${orderData.startTime}</b>
-	Кол-во грузчиков: <b>${orderData.numExecutors}</b> 
+	Кол-во грузчиков: <b>${orderData.numExecutors}</b>
+	Вид работ: <b>${orderData?.typeWork}</b>
 	Адрес: <b>${orderData.address}</b>
 	Детали заказа: <b>${orderData.text}</b> 
 	Оплата за час работы: <b>${orderData.hourCost}</b> 
@@ -39,7 +40,8 @@ export function formatOrderInfoMessageEnd(orderData: IOrderData) {
 	от: ${orderData.authorName}\n
 	На: <b>${orderData.startTime}</b>
 	Адрес: <b>${orderData.address}</b>
-	Кол-во грузчиков: <b>${orderData.numExecutors}</b> 
+	Кол-во грузчиков: <b>${orderData.numExecutors}</b>
+	Вид работ: <b>${orderData?.typeWork}</b> 
 	Детали заказа: <b>${orderData.text}</b> 
 	Оплата за час работы: <b>${orderData.hourCost}</b> 
 	`
@@ -56,6 +58,7 @@ export function formatOrderMsgAuthorFin(orderData: IOrderData, user: any) {
 	На: <b>${orderData.startTime}</b>
 	Адрес: <b>${orderData.address}</b>
 	Кол-во грузчиков: <b>${orderData.numExecutors}</b>
+	Вид работ: <b>${orderData?.typeWork}</b>
 	Детали заказа: <b>${orderData.text}</b>
 	Оплата за час работы: <b>${orderData.hourCost}</b>
 	`
@@ -68,6 +71,7 @@ export function formatOrderMsgExecutorFin(orderData: IOrderData) {
 	На: <b>${orderData.startTime}</b>
 	Адрес: <b>${orderData.address}</b>
 	Кол-во грузчиков: <b>${orderData.numExecutors}</b>
+	Вид работ: <b>${orderData?.typeWork}</b>
 	Детали заказа: <b>${orderData.text}</b>
 	Оплата за час работы: <b>${orderData.hourCost}</b>\n
 	По всем возникшем вопросам связанными с заказом

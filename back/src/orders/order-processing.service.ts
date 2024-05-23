@@ -34,7 +34,7 @@ export class OrderProcessingService {
 
 	async handleOrderCreationForm(bot: TelegramBot, chatId, data: any) {
 		try {
-			console.log(12, data)
+			// console.log(12, data)
 			const newOrder = await this.ordersService.creatingOrder(data)
 			const templatesOrderEnd = formatOrderInfoMessageInit(newOrder)
 
@@ -60,8 +60,8 @@ export class OrderProcessingService {
 			)
 		} catch (error) {
 			bot.sendMessage(chatId, 'Ошибка при сохранение заказа в БД')
+			console.log(12, 'handleOrderCreationForm', error)
 		}
-		console.log(12, 'handleOrderCreationForm')
 	}
 
 	async handleOrderCreation(

@@ -5,6 +5,7 @@ export interface IOrderData {
 	authorId?: string
 	authorName?: string
 	startTime?: string
+	typeWork?: string
 	numExecutors?: number
 	text?: string
 	hourCost?: number

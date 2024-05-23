@@ -6,6 +6,7 @@ const Form: FC = () => {
   const [data, setData] = useState({
     startTime: '',
     numExecutors: 1,
+    typeWork: 'Мебель или вещи',
     address: '',
     text: '',
     hourCost: 450
@@ -83,6 +84,17 @@ const Form: FC = () => {
         onChange={handleChange}
         maxLength={5}
       />
+      <select
+        className="text-gray-700 p-2.5 mt-3.5 border border-gray-300 rounded-md"
+        name="typeWork"
+        value={data.typeWork}
+        onChange={handleChange}
+        // className={'p-2.5 mt-3.5 text-gray-700'}
+      >
+        <option value={'moving'}>Мебель или вещи</option>
+        <option value={'construction'}>Строй мат, мусор</option>
+        <option value={'rigging'}>Пианино, сейф</option>
+      </select>
       <input
         className="text-gray-700 p-2.5 mt-3.5 border border-gray-300 rounded-md"
         name="address"
@@ -102,23 +114,15 @@ const Form: FC = () => {
         maxLength={500}
         rows={3}
       />
+
       <input
-        className=" text-gray-800 p-2.5 mt-3.5"
+        className=" text-gray-800 p-2.5 mt-3.5 border border-gray-300 rounded-md"
         name="hourCost"
         type="number"
         placeholder={'Стоимость час'}
         value={data.hourCost}
         onChange={handleChange}
       />
-      {/* <select
-        value={subject}
-        onChange={onChangeSubject}
-        className={'p-2.5 mt-3.5 text-gray-700'}
-      >
-        <option value={'moving'}>Мебель или вещи</option>
-        <option value={'construction'}>Строй мат, мусор</option>
-        <option value={'rigging'}>Пианино, сейф</option>
-      </select> */}
     </div>
   )
 }

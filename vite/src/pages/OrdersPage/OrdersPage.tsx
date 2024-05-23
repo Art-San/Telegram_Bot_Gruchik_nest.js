@@ -48,6 +48,7 @@ const OrdersPage: FC = () => {
           <TableRow>
             <TableHead className="w-[100px]">Name</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead>Method</TableHead>
             <TableHead className="text-right">Amount</TableHead>
           </TableRow>

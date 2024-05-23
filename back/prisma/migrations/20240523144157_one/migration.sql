@@ -41,6 +41,7 @@ CREATE TABLE "Order" (
     "authorId" TEXT NOT NULL,
     "authorName" TEXT NOT NULL,
     "startTime" TEXT NOT NULL,
+    "typeWork" TEXT,
     "numExecutors" INTEGER NOT NULL DEFAULT 1,
     "address" TEXT,
     "text" TEXT NOT NULL,
