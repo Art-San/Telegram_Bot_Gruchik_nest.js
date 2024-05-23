@@ -131,29 +131,33 @@ export class BotService implements OnModuleInit {
 		})
 
 		bot.on('message', async (ctx) => {
-			console.log(11, 'message ctx', ctx)
+			// console.log(11, 'message ctx', ctx)
 
 			const { text, telegramId, chatId, userName, nameButton, dataButton } =
 				getUserDetailsFromTelegramContext(ctx)
 
-			console.log(11, text)
-			console.log(11, telegramId)
-			console.log(11, chatId)
-			console.log(11, userName)
-			console.log(11, nameButton)
-			console.log(11, dataButton)
-
-			const dataBut = {
-				startTime: 'hh',
-				address: 'hh',
-				numExecutors: 1,
-				text: 'h',
-				hourCost: 450,
-			}
+			// console.log(11, text)
+			// console.log(11, telegramId)
+			// console.log(11, chatId)
+			// console.log(11, userName)
+			// console.log(11, nameButton)
+			// console.log(11, dataButton)
 
 			if (nameButton === 'Создать заявку') {
 				const authorData = { authorId: telegramId, authorName: userName }
-				console.log(11, { ...authorData, ...dataButton })
+				const formData = JSON.parse(dataButton)
+				const data = { ...authorData, ...formData }
+
+				try {
+					await this.orderProcessingService.handleOrderCreationForm(
+						bot,
+						chatId,
+						data
+					)
+				} catch (error) {
+					console.log(0, 'Ошибка при обработке <Создать заявку>', error.message)
+					bot.sendMessage(chatId, error.message)
+				}
 			}
 
 			if (text === '/start') {

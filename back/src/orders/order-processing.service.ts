@@ -32,6 +32,38 @@ export class OrderProcessingService {
 		{ orderData: any; currentStep: string; lastMessageId: number }
 	>()
 
+	async handleOrderCreationForm(bot: TelegramBot, chatId, data: any) {
+		try {
+			console.log(12, data)
+			const newOrder = await this.ordersService.creatingOrder(data)
+			const templatesOrderEnd = formatOrderInfoMessageInit(newOrder)
+
+			const usersTelegramId =
+				await this.messageHandlerService.sendingMessageOrdersUsers(
+					newOrder.authorId
+				)
+
+			await sendsOutToUsers(bot, usersTelegramId, newOrder)
+
+			const buttonEditStatus = getButtonOrderStatusPending(String(newOrder.id))
+			await bot.sendMessage(
+				chatId,
+				// `Заказ записан в бд, и отправлен юзерам`
+				`<b>Новый заказ</b> записан в бд,
+				и отправлен юзерам 
+				${templatesOrderEnd}\n
+				После того как назначите
+				грузчиков на заявку ее нужно закрыть
+
+				`,
+				buttonEditStatus
+			)
+		} catch (error) {
+			bot.sendMessage(chatId, 'Ошибка при сохранение заказа в БД')
+		}
+		console.log(12, 'handleOrderCreationForm')
+	}
+
 	async handleOrderCreation(
 		bot: TelegramBot,
 		data: IData,

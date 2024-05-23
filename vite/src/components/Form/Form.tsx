@@ -5,8 +5,8 @@ import { FC } from 'react'
 const Form: FC = () => {
   const [data, setData] = useState({
     startTime: '',
-    address: '',
     numExecutors: 1,
+    address: '',
     text: '',
     hourCost: 450
   })
@@ -52,14 +52,6 @@ const Form: FC = () => {
     tg
   ])
 
-  // const onChangeStreet = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setStreet(e.target.value)
-  // }
-
-  // const onChangeSubject = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setSubject(e.target.value)
-  // }
-
   const handleChange = ({
     target
   }: {
@@ -84,15 +76,6 @@ const Form: FC = () => {
       />
       <input
         className="text-gray-700 p-2.5 mt-3.5 border border-gray-300 rounded-md"
-        name="address"
-        type="text"
-        placeholder={'Адрес:'}
-        value={data.address}
-        onChange={handleChange}
-        maxLength={50}
-      />
-      <input
-        className="text-gray-700 p-2.5 mt-3.5 border border-gray-300 rounded-md"
         name="numExecutors"
         type="number"
         placeholder={'Количество грузчиков: цифрой - 2'}
@@ -100,6 +83,16 @@ const Form: FC = () => {
         onChange={handleChange}
         maxLength={5}
       />
+      <input
+        className="text-gray-700 p-2.5 mt-3.5 border border-gray-300 rounded-md"
+        name="address"
+        type="text"
+        placeholder={'Адрес:'}
+        value={data.address}
+        onChange={handleChange}
+        maxLength={50}
+      />
+
       <textarea
         className=" text-gray-700 p-2.5 mt-3.5 border border-gray-300 rounded-md"
         name="text"
