@@ -2,9 +2,9 @@
 /dist
 /node_modules
 /build
-backend/dist
-backend/node_modules
-backend/build
+back/dist
+back/node_modules
+back/build
 
 front/dist
 front/node_modules
