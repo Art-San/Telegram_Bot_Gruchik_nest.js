@@ -4,25 +4,19 @@ import { FC } from 'react'
 
 const Form: FC = () => {
   const [data, setData] = useState({
-    time: '',
+    startTime: '',
     address: '',
-    numMovers: '',
-    details: ''
+    numExecutors: 1,
+    text: '',
+    hourCost: 450
   })
 
-  const [country] = useState('')
-  const [street, setStreet] = useState('')
-  const [subject, setSubject] = useState('physical')
   const { tg } = useTelegram()
+  console.log(11, tg)
 
   const onSendData = useCallback(() => {
-    const data = {
-      country,
-      street,
-      subject
-    }
     tg.sendData(JSON.stringify(data))
-  }, [country, street, subject])
+  }, [tg, data])
 
   useEffect(() => {
     tg.onEvent('mainButtonClicked', onSendData)
@@ -33,25 +27,38 @@ const Form: FC = () => {
 
   useEffect(() => {
     tg.MainButton.setParams({
-      text: 'Отправить данные'
+      text: 'Отправить заявку'
     })
   }, [])
 
   useEffect(() => {
-    if (!street || !country) {
+    if (
+      !data.startTime ||
+      !data.address ||
+      !data.numExecutors ||
+      !data.text ||
+      !data.hourCost
+    ) {
       tg.MainButton.hide()
     } else {
       tg.MainButton.show()
     }
-  }, [country, street])
+  }, [
+    data.startTime,
+    data.address,
+    data.numExecutors,
+    data.text,
+    data.hourCost,
+    tg
+  ])
 
-  const onChangeStreet = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStreet(e.target.value)
-  }
+  // const onChangeStreet = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setStreet(e.target.value)
+  // }
 
-  const onChangeSubject = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSubject(e.target.value)
-  }
+  // const onChangeSubject = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSubject(e.target.value)
+  // }
 
   const handleChange = ({
     target
@@ -68,10 +75,10 @@ const Form: FC = () => {
     <div className=" flex flex-col p-5 w-96 ">
       <input
         className="text-gray-700 p-2.5 mt-3.5 border border-gray-300 rounded-md"
-        name="time"
+        name="startTime"
         type="text"
         placeholder={'Время начала заказа:'}
-        value={data.time}
+        value={data.startTime}
         onChange={handleChange}
         maxLength={50}
       />
@@ -86,31 +93,31 @@ const Form: FC = () => {
       />
       <input
         className="text-gray-700 p-2.5 mt-3.5 border border-gray-300 rounded-md"
-        name="numMovers"
+        name="numExecutors"
         type="number"
         placeholder={'Количество грузчиков: цифрой - 2'}
-        value={data.numMovers}
+        value={data.numExecutors}
         onChange={handleChange}
         maxLength={5}
       />
       <textarea
         className=" text-gray-700 p-2.5 mt-3.5 border border-gray-300 rounded-md"
-        name="details"
+        name="text"
         placeholder={'Дополнительная инфа'}
-        value={data.details}
+        value={data.text}
         onChange={handleChange}
         maxLength={500}
         rows={3}
       />
       <input
         className=" text-gray-800 p-2.5 mt-3.5"
-        name="priceHour"
+        name="hourCost"
         type="number"
         placeholder={'Стоимость час'}
-        value={street}
-        onChange={onChangeStreet}
+        value={data.hourCost}
+        onChange={handleChange}
       />
-      <select
+      {/* <select
         value={subject}
         onChange={onChangeSubject}
         className={'p-2.5 mt-3.5 text-gray-700'}
@@ -118,7 +125,7 @@ const Form: FC = () => {
         <option value={'moving'}>Мебель или вещи</option>
         <option value={'construction'}>Строй мат, мусор</option>
         <option value={'rigging'}>Пианино, сейф</option>
-      </select>
+      </select> */}
     </div>
   )
 }
@@ -129,4 +136,4 @@ export default Form
 // Введите адрес: +
 // Введите количество грузчиков: +
 // Введите детали заказа: +
-// Введите стоимость час: +
+// Введите стоимость час:

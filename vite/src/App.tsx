@@ -3,7 +3,7 @@
 import { Routes, Route } from 'react-router-dom'
 import ProductList from './components/ProductList/ProductList'
 import Header from './components/Header/Header'
-import Footer from './components/Footer/Footer'
+// import Footer from './components/Footer/Footer'
 import AddOrderPage from './pages/AddOrderPage/AddOrderPage'
 import OrdersPage from './pages/OrdersPage/OrdersPage'
 import TestPage from './pages/TestPage/TestPage'
@@ -22,8 +22,7 @@ function App() {
           <Route path={'test'} element={<TestPage />} />
         </Routes>
         <footer className="fixed bottom-0 left-0 w-full">
-          <div className=" text-black">Footer</div>
-          <Footer />
+          {/* <Footer /> */}
         </footer>
       </div>
     </>

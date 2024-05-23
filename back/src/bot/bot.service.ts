@@ -133,8 +133,28 @@ export class BotService implements OnModuleInit {
 		bot.on('message', async (ctx) => {
 			console.log(11, 'message ctx', ctx)
 
-			const { text, telegramId, chatId, userName } =
+			const { text, telegramId, chatId, userName, nameButton, dataButton } =
 				getUserDetailsFromTelegramContext(ctx)
+
+			console.log(11, text)
+			console.log(11, telegramId)
+			console.log(11, chatId)
+			console.log(11, userName)
+			console.log(11, nameButton)
+			console.log(11, dataButton)
+
+			const dataBut = {
+				startTime: 'hh',
+				address: 'hh',
+				numExecutors: 1,
+				text: 'h',
+				hourCost: 450,
+			}
+
+			if (nameButton === 'Создать заявку') {
+				const authorData = { authorId: telegramId, authorName: userName }
+				console.log(11, { ...authorData, ...dataButton })
+			}
 
 			if (text === '/start') {
 				try {
@@ -210,8 +230,7 @@ export class BotService implements OnModuleInit {
 						keyboard: [
 							[
 								{
-									text: 'Заполнить форму',
-									// web_app: { url: webAppUrl },
+									text: 'Создать заявку',
 									web_app: { url: webAppUrl + '/add_order' },
 								},
 							],
