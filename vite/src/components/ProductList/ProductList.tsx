@@ -18,9 +18,22 @@ const getTotalPrice = (items: IProduct[] = []) => {
   }, 0)
 }
 
+interface IData {
+  userId: number
+  id: number
+  title: string
+  completed: boolean
+}
 const ProductList = () => {
   const [addedItems, setAddedItems] = useState<IProduct[]>([])
   const { tg, queryId } = useTelegram()
+  const [data, setData] = useState<IData>()
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then((response) => response.json())
+      .then((json) => setData(json))
+  }, [])
 
   const onSendData = useCallback(() => {
     const data = {
@@ -68,6 +81,7 @@ const ProductList = () => {
 
   return (
     <div className={'list'}>
+      <h1>{data?.title}</h1>
       {products.map((item) => (
         <ProductItem product={item} onAdd={onAdd} className={'item'} />
       ))}
