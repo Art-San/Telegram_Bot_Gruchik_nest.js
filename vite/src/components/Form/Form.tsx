@@ -6,7 +6,7 @@ const Form: FC = () => {
   const [data, setData] = useState({
     startTime: '',
     numExecutors: 1,
-    typeWork: 'Мебель или вещи',
+    typeWork: 'moving',
     address: '',
     text: '',
     hourCost: 450
@@ -16,7 +16,12 @@ const Form: FC = () => {
   console.log(11, tg)
 
   const onSendData = useCallback(() => {
-    tg.sendData(JSON.stringify(data))
+    const formattedData = {
+      ...data,
+      numExecutors: +data.numExecutors,
+      hourCost: Number(data.hourCost) // Преобразование в число
+    }
+    tg.sendData(JSON.stringify(formattedData))
   }, [tg, data])
 
   useEffect(() => {
@@ -58,7 +63,6 @@ const Form: FC = () => {
   }: {
     target: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
   }) => {
-    console.log(target.name)
     setData((prevState) => ({
       ...prevState,
       [target.name]: target.value

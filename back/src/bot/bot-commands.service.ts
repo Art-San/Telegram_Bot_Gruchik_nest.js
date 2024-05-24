@@ -67,9 +67,10 @@ export class BotCommandsService {
 		bot.setMyCommands([
 			{ command: '/start', description: 'Запускает бота' },
 			{ command: '/info', description: 'Получить информацию о пользователе' },
-			{ command: '/createorder', description: 'добавить заказ' },
+			{ command: '/createorder', description: 'добавить заказ, вопросы' },
 			{ command: '/help', description: 'пример HTML тегов' },
 			{ command: '/end', description: 'Останавливает бота' },
+			{ command: '/add_order', description: 'Создание заказа через форму' },
 		])
 	}
 }

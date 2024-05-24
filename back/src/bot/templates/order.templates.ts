@@ -19,6 +19,19 @@ import { IOrderData } from 'src/orders/dto/order.dto'
 // 	},
 // }
 
+const getEmojiWork = (type): string => {
+	switch (type) {
+		case 'moving':
+			return '🚚🛍️🪑🥶🛋️📦'
+		case 'construction':
+			return '🧱 🏗️ 🏖️ 🛠️'
+		case 'rigging':
+			return '🎹 🏗️ 🔒'
+		default:
+			return '❓'
+	}
+}
+
 export function formatOrderInfoMessageInit(orderData: IOrderData) {
 	// console.log(1, 'orderData', orderData)
 	const templatesOrderInit = `
@@ -26,7 +39,7 @@ export function formatOrderInfoMessageInit(orderData: IOrderData) {
 	Заказ № <b>${orderData.id || '----'}</b>\n
 	На: <b>${orderData.startTime}</b>
 	Кол-во грузчиков: <b>${orderData.numExecutors}</b>
-	Вид работ: <b>${orderData?.typeWork}</b>
+	Вид работ: <b>${getEmojiWork(orderData?.typeWork)}</b>
 	Адрес: <b>${orderData.address}</b>
 	Детали заказа: <b>${orderData.text}</b> 
 	Оплата за час работы: <b>${orderData.hourCost}</b> 
@@ -41,7 +54,7 @@ export function formatOrderInfoMessageEnd(orderData: IOrderData) {
 	На: <b>${orderData.startTime}</b>
 	Адрес: <b>${orderData.address}</b>
 	Кол-во грузчиков: <b>${orderData.numExecutors}</b>
-	Вид работ: <b>${orderData?.typeWork}</b> 
+	Вид работ: <b>${getEmojiWork(orderData?.typeWork)}</b>
 	Детали заказа: <b>${orderData.text}</b> 
 	Оплата за час работы: <b>${orderData.hourCost}</b> 
 	`
@@ -58,7 +71,7 @@ export function formatOrderMsgAuthorFin(orderData: IOrderData, user: any) {
 	На: <b>${orderData.startTime}</b>
 	Адрес: <b>${orderData.address}</b>
 	Кол-во грузчиков: <b>${orderData.numExecutors}</b>
-	Вид работ: <b>${orderData?.typeWork}</b>
+	Вид работ: <b>${getEmojiWork(orderData?.typeWork)}</b>
 	Детали заказа: <b>${orderData.text}</b>
 	Оплата за час работы: <b>${orderData.hourCost}</b>
 	`
@@ -71,7 +84,7 @@ export function formatOrderMsgExecutorFin(orderData: IOrderData) {
 	На: <b>${orderData.startTime}</b>
 	Адрес: <b>${orderData.address}</b>
 	Кол-во грузчиков: <b>${orderData.numExecutors}</b>
-	Вид работ: <b>${orderData?.typeWork}</b>
+	Вид работ: <b>${getEmojiWork(orderData?.typeWork)}</b>
 	Детали заказа: <b>${orderData.text}</b>
 	Оплата за час работы: <b>${orderData.hourCost}</b>\n
 	По всем возникшем вопросам связанными с заказом

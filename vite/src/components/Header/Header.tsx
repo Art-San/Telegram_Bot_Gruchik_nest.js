@@ -24,6 +24,12 @@ const Header: FC = () => {
         >
           Test
         </a>
+        <a
+          href="https://www.google.com/"
+          className="text-gray-400 hover:text-white focus:text-white"
+        >
+          Test_2
+        </a>
         {/* <Button
           onClick={onClose}
           className="bg-transparent border-none text-white hover:text-gray-400 focus:text-gray-400"
