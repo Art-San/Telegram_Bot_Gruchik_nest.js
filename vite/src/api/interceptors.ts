@@ -8,8 +8,8 @@ import axios from 'axios'
 import { getContentType } from './api.helpers'
 
 export const axiosClassic = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  // baseURL: 'http://localhost:3001/api',
+  // baseURL: import.meta.env.VITE_API_URL,
+  baseURL: 'http://localhost:3001/api',
   timeout: 15_000, //  Это означает, что если сервер не ответит в течение 15 секунд, запрос будет прерван, и axios сгенерирует ошибку таймаута
   headers: getContentType()
 })

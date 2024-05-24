@@ -25,7 +25,7 @@ const Header: FC = () => {
           Test
         </a>
         <a
-          href="https://www.google.com/"
+          href="/test_2"
           className="text-gray-400 hover:text-white focus:text-white"
         >
           Test_2

@@ -8,7 +8,7 @@ import AddOrderPage from './pages/AddOrderPage/AddOrderPage'
 import OrdersPage from './pages/OrdersPage/OrdersPage'
 import TestPage from './pages/TestPage/TestPage'
 import AddOrderSitePage from './pages/AddOrderPage/AddOrderSitePage'
-// import TestPage_2 from './pages/TestPage_2/TestPage_2'
+import TestPage_2 from './pages/TestPage_2/TestPage_2'
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
             <Route path={'add_order_page'} element={<AddOrderSitePage />} />
             <Route path={'orders'} element={<OrdersPage />} />
             <Route path={'test'} element={<TestPage />} />
-            {/* <Route path={'test_2'} element={<TestPage_2 />} /> */}
+            <Route path={'test_2'} element={<TestPage_2 />} />
           </Routes>
         </div>
         <footer className="fixed bottom-0 left-0 w-full">
