@@ -6,5 +6,6 @@
 //     : error.message
 
 export const getContentType = () => ({
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
+  'ngrok-skip-browser-warning': '69420'
 })

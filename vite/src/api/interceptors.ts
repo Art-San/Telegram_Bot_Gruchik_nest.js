@@ -5,13 +5,16 @@ import axios from 'axios'
 
 // import { API_SERVER_URL, API_URL } from '@/configs/api.config'
 // import { IS_PRODUCTION } from '@/configs/constants'
-import { getContentType } from './api.helpers'
+// import { getContentType } from './api.helpers'
 
 export const axiosClassic = axios.create({
   // baseURL: import.meta.env.VITE_API_URL,
-  baseURL: 'http://localhost:3001/api',
-  timeout: 15_000, //  Это означает, что если сервер не ответит в течение 15 секунд, запрос будет прерван, и axios сгенерирует ошибку таймаута
-  headers: getContentType()
+  baseURL: 'https://b8bf-176-213-208-91.ngrok-free.app/api',
+  // timeout: 15_000, //  Это означает, что если сервер не ответит в течение 15 секунд, запрос будет прерван, и axios сгенерирует ошибку таймаута
+  // headers: getContentType()
+  headers: {
+    'ngrok-skip-browser-warning': '69420'
+  }
 })
 
 // Interceptor позволит скрытно от пользователя обновить токен, когда у того истечет срок

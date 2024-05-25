@@ -1,10 +1,12 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { ValidationPipe } from '@nestjs/common'
+import { corsConfig } from './cors-config'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
-	app.enableCors()
+	app.enableCors(corsConfig)
+	// app.use(SkipBrowserWarningMiddleware) // Применяем middleware
 	app.setGlobalPrefix('api')
 
 	app.useGlobalPipes(new ValidationPipe()) // глобальный ValidationPipe не надо в контроллерах так писать @UsePipes(new ValidationPipe())
