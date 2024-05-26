@@ -77,10 +77,7 @@ const OrdersCards = () => {
     }
     fetchData()
   }, [])
-  // ypeError: Oops, we haven't got JSON!
-  // console.log(11, 'orders', orders2)
-  // console.log(12, 'review', review)
-  // console.log(13, 'place', place)
+
   return (
     <div className="flex flex-col gap-3">
       {/* {orders2.map((order, index) => (
