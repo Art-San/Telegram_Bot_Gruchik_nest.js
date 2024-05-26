@@ -38,28 +38,28 @@ model Profile {
 }
 
 model Order {
- id                 Int      @id @default(autoincrement())
- authorId           String   // Добавляем поле для указания создателя заказа
+ id                 Int             @id @default(autoincrement())
+ authorId           String          // Добавляем поле для указания создателя заказа
  authorName         String
  startTime          String
- typeWork           String?
- numExecutors       Int      @default(1)
+ typeWork           TypeWork        @default(moving)
+ numExecutors       Int             @default(1)
  address            String?
  text               String
- hourCost           Int      @default(500)
- hourCount          Int      @default(1)
- createdAt          DateTime @default(now())
- updatedAt          DateTime @updatedAt
+ hourCost           Int             @default(500)
+ hourCount          Int             @default(1)
+ createdAt          DateTime        @default(now())
+ updatedAt          DateTime        @updatedAt
  potentialExecutors String[]
  executors          OrderExecutor[] // Указываем, что у заказа может быть несколько исполнителей
- status             String   @default("created") // Добавляем поле для отслеживания статуса заказа
+ status             OrderStatus     @default(created) // Добавляем поле для отслеживания статуса заказа
 }
 
 model OrderExecutor {
  orderId    Int
  userId     String
- order      Order @relation(fields: [orderId], references: [id])
- user       User @relation(fields: [userId], references: [telegramId])
+ order      Order      @relation(fields: [orderId], references: [id])
+ user       User       @relation(fields: [userId], references: [telegramId])
  startTime  DateTime?
  endTime    DateTime?
  numHours   String?
@@ -81,4 +81,10 @@ enum OrderStatus {
  pending
  inProgress
  completed
+}
+
+enum TypeWork {
+  moving
+  construction
+  rigging
 }

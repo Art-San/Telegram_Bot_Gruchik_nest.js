@@ -4,6 +4,9 @@ CREATE TYPE "Role" AS ENUM ('user', 'loader', 'foreman', 'dispatcher');
 -- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('created', 'pending', 'inProgress', 'completed');
 
+-- CreateEnum
+CREATE TYPE "TypeWork" AS ENUM ('moving', 'construction', 'rigging');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
@@ -41,7 +44,7 @@ CREATE TABLE "Order" (
     "authorId" TEXT NOT NULL,
     "authorName" TEXT NOT NULL,
     "startTime" TEXT NOT NULL,
-    "typeWork" TEXT,
+    "typeWork" "TypeWork" NOT NULL DEFAULT 'moving',
     "numExecutors" INTEGER NOT NULL DEFAULT 1,
     "address" TEXT,
     "text" TEXT NOT NULL,
@@ -50,7 +53,7 @@ CREATE TABLE "Order" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "potentialExecutors" TEXT[],
-    "status" TEXT NOT NULL DEFAULT 'created',
+    "status" "OrderStatus" NOT NULL DEFAULT 'created',
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );

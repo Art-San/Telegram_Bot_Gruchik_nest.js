@@ -57,6 +57,7 @@ export class BotService implements OnModuleInit {
 			}
 
 			if (data.startsWith('order_status_')) {
+				// await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
 				console.log(2, 'Грузчики набраны')
 			}
 			// ====== Кнопка  'Запрос'

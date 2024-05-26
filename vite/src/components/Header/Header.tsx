@@ -6,7 +6,10 @@ const Header: FC = () => {
     <div className="flex items-center justify-center  px-6 py-4 bg-gray-900 text-white">
       <span className="text-3xl font-semibold">{user?.username}</span>
       <nav className="flex gap-5 space-x-4">
-        <a href="/" className="text-gray-400 hover:text-white focus:text-white">
+        <a
+          href="/orders"
+          className="text-gray-400 hover:text-white focus:text-white"
+        >
           Заказы
         </a>
         <a

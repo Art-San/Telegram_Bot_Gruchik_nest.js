@@ -1,6 +1,26 @@
 import { useEffect, useState } from 'react'
 import { OrderService } from '../../services/order.service'
-// import axios from 'axios'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
+
+import {
+  Package,
+  Sofa,
+  Refrigerator,
+  Cuboid,
+  HardHat,
+  Trash2,
+  Piano,
+  Anvil,
+  CircleHelp
+} from 'lucide-react'
 
 interface IOrder {
   id: number
@@ -19,55 +39,6 @@ interface IOrder {
 
 const OrdersCards = () => {
   const [orders, setOrders] = useState<IOrder[]>([])
-  // const [orders2, setOrders2] = useState<IOrder[]>([])
-  // const [review, setReview] = useState<any>([])
-  // const [place, setPlace] = useState<any>([])
-  // const [data, setData] = useState<IOrder[]>([])
-  // useEffect(() => {
-  //   fetch('http://localhost:3000/api/review')
-  //     .then((response) => response.json())
-  //     .then((json) => setReview(json))
-  // }, [])
-
-  // useEffect(() => {
-  //   fetch('https://b8bf-176-213-208-91.ngrok-free.app/api/orders', {
-  //     method: 'get',
-  //     headers: new Headers({
-  //       'ngrok-skip-browser-warning': '69420'
-  //     })
-  //   })
-  //     .then((response) => {
-  //       // Проверяем, что ответ успешен (статус 200-299)
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error status: ${response.status}`)
-  //       }
-
-  //       // Пытаемся разобрать ответ как JSON
-  //       return response.json()
-  //     })
-  //     .then((json) => {
-  //       setOrders2(json)
-  //     })
-  //     .catch((error) => {
-  //       console.error('There was a problem with the fetch operation:', error)
-  //     })
-  // }, [])
-
-  // useEffect(() => {
-  //   axios
-  //     .get('https://b8bf-176-213-208-91.ngrok-free.app/api/orders', {
-  //       headers: {
-  //         'ngrok-skip-browser-warning': '69420'
-  //       }
-  //     })
-  //     .then((response) => {
-  //       // Обрабатываем ответ
-  //       setOrders2(response.data)
-  //     })
-  //     .catch((error) => {
-  //       console.error('Ошибка при получении заказов:', error)
-  //     })
-  // }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,33 +49,55 @@ const OrdersCards = () => {
     fetchData()
   }, [])
 
-  return (
-    <div className="flex flex-col gap-3">
-      {/* {orders2.map((order, index) => (
-        <div className="" key={index}>
-          <h2 className=" text-xl font-semibold">{order.typeWork}</h2>
-          <div className=" text-red-700">{order.authorName}</div>
-          <div className=" text-red-700">{order.status}</div>
-        </div>
-      ))} */}
+  const validIcon = (type: string) => {
+    switch (type) {
+      case 'moving':
+        return (
+          <div className="flex gap-1">
+            <Package /> <Sofa /> <Refrigerator />
+          </div>
+        )
+      case 'construction':
+        return (
+          <div className="flex gap-1">
+            <HardHat /> <Cuboid /> <Trash2 />
+          </div>
+        )
+      case 'rigging':
+        return (
+          <div className="flex gap-1">
+            <Piano /> <Anvil />
+          </div>
+        )
+      default:
+        return <CircleHelp />
+    }
+  }
 
-      <div className="">
-        <h2 className=" text-xl font-semibold">
-          http://localhost:3001/api/orders
-        </h2>
-        <div className=" text-green-700">{orders[0]?.authorName}</div>
-        <div className=" text-green-700">{orders[0]?.status}</div>
-      </div>
-      <div className="">
-        {/* <h2 className=" text-xl font-semibold">localhost:3000</h2>
-        <div className=" text-blue-600">{review[1]?.name}</div>
-        <div className=" text-blue-600">{review[1]?.description}</div> */}
-      </div>
-      <div className="">
-        {/* <h2 className=" text-xl font-semibold">jsonplaceholder</h2>
-        <div className=" text-green-700">{place.title}</div> */}
-      </div>
-    </div>
+  return (
+    <Table>
+      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[]">№</TableHead>
+          <TableHead>Тип</TableHead>
+          <TableHead>Статус</TableHead>
+          <TableHead className="text-right">Цена/ч</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {orders &&
+          orders.map((order) => (
+            <TableRow key={order.id}>
+              <TableCell className="font-medium">{order?.id}</TableCell>
+              <TableCell>{validIcon(order?.typeWork)}</TableCell>
+              {/* <TableCell>{order?.typeWork}</TableCell> */}
+              <TableCell>{order?.status}</TableCell>
+              <TableCell className="text-right">{order?.hourCost}</TableCell>
+            </TableRow>
+          ))}
+      </TableBody>
+    </Table>
   )
 }
 

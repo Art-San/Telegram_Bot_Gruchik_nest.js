@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DbService } from 'src/db/db.service'
 import { CreateOrderDto, IOrderData } from './dto/order.dto'
+import { OrderStatus, statusMap } from './enum/order-status.enum'
 
 @Injectable()
 export class OrdersService {
@@ -153,11 +154,17 @@ export class OrdersService {
 			if (!order) {
 				throw new NotFoundException(`Заказ с ID ${orderId} не найден.`)
 			}
+
+			const orderStatusValue: OrderStatus | undefined = statusMap[status]
+			if (!orderStatusValue) {
+				throw new Error(`Неизвестный статус заказа: ${status}`)
+			}
+
 			await this.db.order.update({
 				where: { id: Number(orderId) },
 				data: {
 					status: {
-						set: status,
+						set: orderStatusValue,
 					},
 				},
 			})
@@ -168,4 +175,3 @@ export class OrdersService {
 		}
 	}
 }
-// проверь changeOrderStatus все ли с ней в порядке?
