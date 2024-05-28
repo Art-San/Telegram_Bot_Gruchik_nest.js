@@ -9,7 +9,6 @@ export class OrdersService {
 
 	async creatingOrder(orderData: CreateOrderDto) {
 		try {
-			console.log(12, 'orderData', orderData)
 			const newOrder = await this.db.order.create({
 				data: orderData,
 			})
@@ -28,7 +27,7 @@ export class OrdersService {
 			throw error.message
 		}
 	}
-	async gettingOrderById(orderId: string) {
+	async findByOrderId(orderId: string) {
 		try {
 			const order = await this.db.order.findUnique({
 				where: { id: Number(orderId) },
@@ -38,7 +37,7 @@ export class OrdersService {
 			}
 			return order
 		} catch (error) {
-			console.log(0, 'Ошибка в gettingOrderById', error.message)
+			console.log(0, 'Ошибка в findByOrderId', error.message)
 			error.message
 		}
 	}
@@ -99,7 +98,7 @@ export class OrdersService {
 
 	async assignUserToOrder(orderId: string, userId: string) {
 		try {
-			const order = await this.gettingOrderById(orderId)
+			const order = await this.findByOrderId(orderId)
 
 			// Проверяем, есть ли еще места в заказе
 			const existingExecutors = await this.db.orderExecutor.count({
@@ -150,7 +149,7 @@ export class OrdersService {
 
 	async changeOrderStatus(orderId: string, status: string) {
 		try {
-			const order = await this.gettingOrderById(orderId)
+			const order = await this.findByOrderId(orderId)
 			if (!order) {
 				throw new NotFoundException(`Заказ с ID ${orderId} не найден.`)
 			}

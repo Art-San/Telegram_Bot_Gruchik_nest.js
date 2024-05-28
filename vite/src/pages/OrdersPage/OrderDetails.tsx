@@ -7,7 +7,11 @@ const OrderDetails: FC = () => {
   // const { userId, edit } = params
 
   console.log(12, 'orderId', orderId)
-  return <div>OrderDetails</div>
+  return (
+    <div>
+      <div className=""></div>
+    </div>
+  )
 }
 
 export default OrderDetails

@@ -80,7 +80,10 @@ const TableOrders: React.FC<ITableOrdersProps> = ({ orders }) => {
         <TableBody className="">
           {orders &&
             orders.map((order) => (
-              <TableRow key={order.id} className=" hover:bg-slate-200">
+              <TableRow
+                key={order.id}
+                className=" hover:bg-slate-200 hover:text-gray-600"
+              >
                 <TableCell className="font-medium">{order?.id}</TableCell>
                 <TableCell>{validIcon(order?.typeWork)}</TableCell>
                 <TableCell>{order?.status}</TableCell>

@@ -129,7 +129,7 @@ export class MessageHandlerService {
 		// chatId: string, orderId: string, authorId: string, executorId: string
 	) {
 		try {
-			const order = await this.ordersService.gettingOrderById(orderId)
+			const order = await this.ordersService.findByOrderId(orderId)
 
 			const msgOrderExecutorFin = formatOrderMsgExecutorFin(order)
 

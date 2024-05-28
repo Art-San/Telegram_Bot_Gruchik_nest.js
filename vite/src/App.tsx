@@ -26,7 +26,7 @@ function App() {
             <Route path={'/add_order'} element={<AddOrderPage />} />
             <Route path={'/add_order_page'} element={<AddOrderSitePage />} />
             <Route path={'/test'} element={<TestPage />} />
-            <Route path={'/test_2'} element={<OrdersPage />} />
+            <Route path={'/test_2'} element={<ProductList />} />
           </Routes>
         </div>
         <footer className="fixed bottom-0 left-0 w-full">
