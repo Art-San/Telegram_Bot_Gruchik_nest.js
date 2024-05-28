@@ -20,21 +20,8 @@ import {
   Anvil,
   CircleHelp
 } from 'lucide-react'
-
-export interface IOrder {
-  id: number
-  authorId: string
-  authorName: string
-  startTime: string
-  typeWork: string
-  numExecutors: number
-  address: string
-  text: string
-  hourCost: number
-  potentialExecutors: string[]
-  hourCount: number
-  status: string
-}
+import { IOrder } from '@/shared/types/order.types'
+import { getOrderUrl } from '@/configs/api.config'
 
 interface ITableOrdersProps {
   orders: IOrder[]
@@ -88,7 +75,8 @@ const TableOrders: React.FC<ITableOrdersProps> = ({ orders }) => {
                 <TableCell>{validIcon(order?.typeWork)}</TableCell>
                 <TableCell>{order?.status}</TableCell>
                 <TableCell className="text-right">{order?.hourCost}</TableCell>
-                <Link to={`/order/${order.id}`}>
+                <Link to={getOrderUrl(`/${order.id}`)}>
+                  {/* <Link to={`/orders/${order.id}`}> */}
                   <TableCell className="font-medium">T</TableCell>
                 </Link>
               </TableRow>

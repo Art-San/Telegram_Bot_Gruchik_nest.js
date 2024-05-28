@@ -70,8 +70,15 @@ const FormSitePage: FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log('data', data)
-    navigate('/orders')
+    try {
+      // Здесь должна быть логика отправки данных на сервер
+      console.log('data', data)
+      navigate('/orders')
+      // alert('Заказ успешно отправлен!')
+    } catch (error) {
+      console.error('Ошибка при отправке заказа:', error)
+      alert('Произошла ошибка при отправке заказа.')
+    }
   }
   return (
     <form onSubmit={handleSubmit}>

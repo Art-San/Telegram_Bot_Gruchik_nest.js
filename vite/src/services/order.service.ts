@@ -1,5 +1,6 @@
 // import axios from 'api/interceptors'
 
+import { IOrder } from '@/shared/types/order.types'
 import { axiosClassic } from '../api/interceptors'
 import { getOrderUrl } from '../configs/api.config'
 
@@ -11,9 +12,13 @@ export const OrderService = {
   //   return axiosClassic.post(getMoviesUrl(''))
   // }
   async getAll() {
-    return axiosClassic.get(getOrderUrl(``), {
+    return axiosClassic.get<IOrder[]>(getOrderUrl(``), {
       params: {}
     })
+  },
+
+  async getByOrder(orderId: string) {
+    return axiosClassic.get<IOrder>(getOrderUrl(`/${orderId}`))
   }
 
   // async getMostPopularMovies() {

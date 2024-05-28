@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { OrderService } from '../../services/order.service'
-import TableOrders, { IOrder } from '@/components/Table/TableOrders'
+import TableOrders from '@/components/Table/TableOrders'
+import { IOrder } from '@/shared/types/order.types'
 
 const OrdersPage: FC = () => {
   const [orders, setOrders] = useState<IOrder[]>([])

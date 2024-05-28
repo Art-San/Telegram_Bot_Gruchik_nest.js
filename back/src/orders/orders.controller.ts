@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, Param } from '@nestjs/common'
 import { OrdersService } from './orders.service'
 
-@Controller('order')
+@Controller('orders')
 export class OrdersController {
 	constructor(private readonly ordersService: OrdersService) {}
 
@@ -14,8 +14,7 @@ export class OrdersController {
 
 	@Get(':orderId')
 	async getOrder(@Param('orderId') orderId: string) {
-		return { msg: 'yi', orderId }
-		// return this.ordersService.findByOrderId(orderId)
+		return this.ordersService.findByOrderId(orderId)
 	}
 
 	@Delete(':orderId')
