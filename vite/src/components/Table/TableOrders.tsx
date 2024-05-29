@@ -18,7 +18,8 @@ import {
   Trash2,
   Piano,
   Anvil,
-  CircleHelp
+  CircleHelp,
+  View
 } from 'lucide-react'
 import { IOrder } from '@/shared/types/order.types'
 import { getOrderUrl } from '@/configs/api.config'
@@ -75,10 +76,12 @@ const TableOrders: React.FC<ITableOrdersProps> = ({ orders }) => {
                 <TableCell>{validIcon(order?.typeWork)}</TableCell>
                 <TableCell>{order?.status}</TableCell>
                 <TableCell className="text-right">{order?.hourCost}</TableCell>
-                <Link to={getOrderUrl(`/${order.id}`)}>
-                  {/* <Link to={`/orders/${order.id}`}> */}
-                  <TableCell className="font-medium">T</TableCell>
-                </Link>
+                {/* <Link to={`/orders/${order.id}`}> */}
+                <TableCell className="font-medium">
+                  <Link to={getOrderUrl(`/${order.id}`)}>
+                    <View className=" text-blue-400" />
+                  </Link>
+                </TableCell>
               </TableRow>
             ))}
         </TableBody>

@@ -7,7 +7,7 @@ export class OrdersController {
 
 	@Get()
 	async getAll() {
-		const res = await this.ordersService.gettingAllOrders()
+		const res = await this.ordersService.findAllOrders()
 		// console.log(11, res)
 		return res
 	}

@@ -17,16 +17,47 @@ export class OrdersService {
 			throw error.message
 		}
 	}
+	// async findTodayOrders() {
+	// 	try {
+	// 		const today = new Date()
+	// 		today.setHours(0, 0, 0, 0) // Устанавливаем время на начало дня
 
-	async gettingAllOrders() {
+	// 		const yesterday = new Date(today)
+	// 		yesterday.setDate(yesterday.getDate() - 1) // Устанавливаем время на начало вчерашнего дня
+
+	// 		const orders = await this.db.order.findMany({
+	// 			where: {
+	// 				createdAt: {
+	// 					gte: yesterday,
+	// 					lt: today,
+	// 				},
+	// 			},
+	// 			orderBy: {
+	// 				createdAt: 'desc',
+	// 			},
+	// 		})
+
+	// 		return orders
+	// 	} catch (error) {
+	// 		console.log('Ошибка в findTodayOrders', error.message)
+	// 		throw error.message
+	// 	}
+	// }
+	async findAllOrders() {
 		try {
-			const orders = await this.db.order.findMany()
+			const orders = await this.db.order.findMany({
+				orderBy: {
+					createdAt: 'desc',
+				},
+			})
 			return orders
 		} catch (error) {
-			console.log(0, 'Ошибка в gettingAllOrders', error.message)
+			console.log(0, 'Ошибка в findAllOrders', error.message)
 			throw error.message
 		}
 	}
+
+	// findAllOrders
 	async findByOrderId(orderId: string) {
 		try {
 			const order = await this.db.order.findUnique({
