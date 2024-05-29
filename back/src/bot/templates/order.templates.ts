@@ -22,11 +22,11 @@ import { IOrderData } from 'src/orders/dto/order.dto'
 const getEmojiWork = (type): string => {
 	switch (type) {
 		case 'moving':
-			return '🚚🛍️🪑🥶🛋️📦'
+			return '🚚🛍️🪑🛋️📦 Мебель, вещи'
 		case 'construction':
-			return '🧱 🏗️ 🏖️ 🛠️'
+			return '🧱 🏗️ 🏖️ Строй мат-мусор'
 		case 'rigging':
-			return '🎹 🏗️ 🔒'
+			return '🎹 🏗️ 🔒 Тяжёлое, что то'
 		default:
 			return '❓'
 	}

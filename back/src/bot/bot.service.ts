@@ -234,12 +234,27 @@ export class BotService implements OnModuleInit {
 					reply_markup: {
 						keyboard: [
 							[
+								// {
+								// 	text: 'Заказы',
+								// 	web_app: { url: webAppUrl + '/orders' },
+								// },
 								{
 									text: 'Создать заявку',
 									web_app: { url: webAppUrl + '/add_order' },
 								},
 							],
+							[
+								{
+									text: 'Заказы',
+									web_app: { url: webAppUrl + '/orders' },
+								},
+								{
+									text: 'Товары',
+									web_app: { url: webAppUrl + '/test_2' },
+								},
+							],
 						],
+						resize_keyboard: true,
 					},
 				})
 			}

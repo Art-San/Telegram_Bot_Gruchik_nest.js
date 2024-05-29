@@ -101,6 +101,12 @@ export class OrderProcessingService {
 
 		let messageId: number
 		if (text === '/createorder') {
+			if (!user.isAdmin) {
+				bot.sendMessage(chatId, `У вас нет прав для добавления заказа`, {
+					parse_mode: 'HTML',
+				})
+				return
+			}
 			userOrder.currentStep = 'startTime'
 			userOrder.orderData.authorId = user.telegramId
 			userOrder.orderData.authorName = user.userName
