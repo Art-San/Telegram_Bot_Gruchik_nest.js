@@ -17,32 +17,7 @@ export class OrdersService {
 			throw error.message
 		}
 	}
-	// async findTodayOrders() {
-	// 	try {
-	// 		const today = new Date()
-	// 		today.setHours(0, 0, 0, 0) // Устанавливаем время на начало дня
 
-	// 		const yesterday = new Date(today)
-	// 		yesterday.setDate(yesterday.getDate() - 1) // Устанавливаем время на начало вчерашнего дня
-
-	// 		const orders = await this.db.order.findMany({
-	// 			where: {
-	// 				createdAt: {
-	// 					gte: yesterday,
-	// 					lt: today,
-	// 				},
-	// 			},
-	// 			orderBy: {
-	// 				createdAt: 'desc',
-	// 			},
-	// 		})
-
-	// 		return orders
-	// 	} catch (error) {
-	// 		console.log('Ошибка в findTodayOrders', error.message)
-	// 		throw error.message
-	// 	}
-	// }
 	async findAllOrders() {
 		try {
 			const orders = await this.db.order.findMany({
@@ -57,19 +32,31 @@ export class OrdersService {
 		}
 	}
 
-	// findAllOrders
 	async findByOrderId(orderId: string) {
 		try {
 			const order = await this.db.order.findUnique({
 				where: { id: Number(orderId) },
+				include: {
+					executors: {
+						select: {
+							user: {
+								select: {
+									id: true,
+									telegramId: true,
+									userName: true, // Если вам нужно имя пользователя
+								},
+							},
+						},
+					},
+				},
 			})
 			if (!order) {
 				throw new NotFoundException(`Нет такого заказа №: ${orderId}`)
 			}
 			return order
 		} catch (error) {
-			console.log(0, 'Ошибка в findByOrderId', error.message)
-			error.message
+			console.log('Ошибка в findByOrderId', error.message)
+			throw error.message
 		}
 	}
 

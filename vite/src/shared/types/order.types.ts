@@ -13,6 +13,17 @@ export interface IOrder {
   updatedAt: string
   potentialExecutors: string[]
   status: string
+  executors: Executor[]
+}
+
+export interface Executor {
+  user: User
+}
+
+export interface User {
+  id: number
+  telegramId: string
+  userName: string
 }
 
 // export interface IOrder {
@@ -25,7 +36,10 @@ export interface IOrder {
 //   address: string
 //   text: string
 //   hourCost: number
-//   potentialExecutors: string[]
 //   hourCount: number
+//   createdAt: string
+//   updatedAt: string
+//   potentialExecutors: string[]
 //   status: string
+//   executors:
 // }
