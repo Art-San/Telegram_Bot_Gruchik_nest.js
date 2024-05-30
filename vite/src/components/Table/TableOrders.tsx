@@ -8,52 +8,17 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-
-import {
-  Package,
-  Sofa,
-  Refrigerator,
-  Cuboid,
-  HardHat,
-  Trash2,
-  Piano,
-  Anvil,
-  CircleHelp,
-  View
-} from 'lucide-react'
+import { PersonStanding, View } from 'lucide-react'
 import { IOrder } from '@/shared/types/order.types'
 import { getOrderUrl } from '@/configs/api.config'
+import { validIconStatus, validIconTypeWork } from '@/utils/icons/iconUtils'
 
 interface ITableOrdersProps {
   orders: IOrder[]
 }
 
 const TableOrders: React.FC<ITableOrdersProps> = ({ orders }) => {
-  const validIcon = (type: string) => {
-    switch (type) {
-      case 'moving':
-        return (
-          <div className="flex gap-1">
-            <Package /> <Sofa /> <Refrigerator />
-          </div>
-        )
-      case 'construction':
-        return (
-          <div className="flex gap-1">
-            <HardHat /> <Cuboid /> <Trash2 />
-          </div>
-        )
-      case 'rigging':
-        return (
-          <div className="flex gap-1">
-            <Piano /> <Anvil />
-          </div>
-        )
-      default:
-        return <CircleHelp />
-    }
-  }
-
+  console.log(11, orders[5])
   return (
     <>
       <Table className="">
@@ -62,7 +27,10 @@ const TableOrders: React.FC<ITableOrdersProps> = ({ orders }) => {
             <TableHead className="w-[]">№</TableHead>
             <TableHead>Тип</TableHead>
             <TableHead>Статус</TableHead>
-            <TableHead className="text-right">Цена/ч</TableHead>
+            {/* <TableHead className="text-right">Цена/ч</TableHead> */}
+            <TableHead className="text-right">
+              <PersonStanding />
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="">
@@ -73,9 +41,10 @@ const TableOrders: React.FC<ITableOrdersProps> = ({ orders }) => {
                 className=" hover:bg-slate-200 hover:text-gray-600"
               >
                 <TableCell className="font-medium">{order?.id}</TableCell>
-                <TableCell>{validIcon(order?.typeWork)}</TableCell>
-                <TableCell>{order?.status}</TableCell>
-                <TableCell className="text-right">{order?.hourCost}</TableCell>
+                <TableCell>{validIconTypeWork(order?.typeWork)}</TableCell>
+                <TableCell>{validIconStatus(order?.status)}</TableCell>
+                {/* <TableCell>{order?.status}</TableCell> */}
+                <TableCell className="text-right">{`${order?.numExecutors} / ${order?.executors} `}</TableCell>
                 {/* <Link to={`/orders/${order.id}`}> */}
                 <TableCell className="font-medium">
                   <Link to={getOrderUrl(`/${order.id}`)}>

@@ -27,8 +27,26 @@ const OrderDetails: FC = () => {
   // console.log(12, 'orderId', orderId)
   // console.log(12, 'order', order?.executors)
 
-  const deleteExecutor = (id: number) => {
-    console.log(12, 'deleteExecutor', id)
+  const handleDeleteExecutor = async (executorId: string, orderId: number) => {
+    console.log(12, 'executorId', executorId)
+    console.log(12, 'orderId', orderId)
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/orders/${orderId}/remove-executor/${executorId}`,
+        {
+          method: 'POST'
+        }
+      )
+      if (response.ok) {
+        // Обновление состояния, например, перезагрузка списка исполнителей
+        // или удаление конкретного исполнителя из UI
+        console.log('Executor removed successfully')
+      } else {
+        console.error('Failed to remove executor')
+      }
+    } catch (error) {
+      console.error('Error removing executor:', error)
+    }
   }
 
   if (!order) return <div className="">Загрузка</div>
@@ -65,7 +83,9 @@ const OrderDetails: FC = () => {
                 <Button
                   variant="custom"
                   size={'icon'}
-                  onClick={() => deleteExecutor(executor.user.id)}
+                  onClick={() =>
+                    handleDeleteExecutor(executor.user.telegramId, order.id)
+                  }
                 >
                   <UserX size={'17'} />
                 </Button>

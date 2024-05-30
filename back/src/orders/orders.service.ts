@@ -60,13 +60,28 @@ export class OrdersService {
 		}
 	}
 
+	async removeExecutorFromOrder(
+		orderId: string,
+		executorId: string
+	): Promise<any> {
+		const result = await this.db.orderExecutor.delete({
+			where: {
+				orderId_userId: {
+					orderId: Number(orderId),
+					userId: executorId,
+				},
+			},
+		})
+		return result
+	}
+
 	async getPotentialExecutorIdOrder(orderId: string, executorId: string) {
 		try {
 			const order = await this.db.order.findUnique({
 				where: { id: Number(orderId) },
 				select: { id: true, address: true, potentialExecutors: true },
 			})
-			// console.log(1111, 'getPotentialExecutorIdOrder', order)
+			console.log(1111, 'getPotentialExecutorIdOrder', order)
 			if (!order) {
 				throw new NotFoundException(`Нет такого заказа №: ${orderId}`)
 			}

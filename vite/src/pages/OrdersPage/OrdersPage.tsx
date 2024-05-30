@@ -14,12 +14,18 @@ const OrdersPage: FC = () => {
     fetchData()
   }, [])
 
-  console.log('orders', orders)
-
   return (
-    <div className=" flex flex-col justify-center items-center gap-6">
-      <TableOrders orders={orders} />
-    </div>
+    <>
+      <div className=" flex flex-col justify-center items-center gap-6">
+        <TableOrders orders={orders} />
+      </div>
+
+      <div className="flex flex-col space-y-4">
+        <div className="flex justify-between gap-1">
+          <div className="self-start text-lg">3 / 2</div>
+        </div>
+      </div>
+    </>
   )
 }
 

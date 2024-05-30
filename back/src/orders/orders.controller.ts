@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param } from '@nestjs/common'
+import { Controller, Delete, Get, Param, Post } from '@nestjs/common'
 import { OrdersService } from './orders.service'
 
 @Controller('orders')
@@ -21,4 +21,16 @@ export class OrdersController {
 	async delete(@Param('orderId') orderId: string) {
 		return { msg: '1234', orderId }
 	}
+
+	@Post(':orderId/remove-executor/:executorId')
+	async removeExecutor(
+		@Param('orderId') orderId: string,
+		@Param('executorId') executorId: string
+	) {
+		console.log(12, '@Controller(orders) ', orderId)
+		console.log(12, '@Controller(orders) ', executorId)
+		return this.ordersService.removeExecutorFromOrder(orderId, executorId)
+	}
 }
+
+// `api/orders/${orderId}/remove-executor/${executorId}`
