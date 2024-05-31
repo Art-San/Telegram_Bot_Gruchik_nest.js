@@ -14,46 +14,46 @@ const FormSitePage: FC = () => {
     hourCost: 450
   })
 
-  const { tg } = useTelegram()
-  console.log(11, tg)
+  // const { tg } = useTelegram()
+  // console.log(11, tg)
 
-  const onSendData = useCallback(() => {
-    tg.sendData(JSON.stringify(data))
-  }, [tg, data])
+  // const onSendData = useCallback(() => {
+  //   tg.sendData(JSON.stringify(data))
+  // }, [tg, data])
 
-  useEffect(() => {
-    tg.onEvent('mainButtonClicked', onSendData)
-    return () => {
-      tg.offEvent('mainButtonClicked', onSendData)
-    }
-  }, [onSendData])
+  // useEffect(() => {
+  //   tg.onEvent('mainButtonClicked', onSendData)
+  //   return () => {
+  //     tg.offEvent('mainButtonClicked', onSendData)
+  //   }
+  // }, [onSendData])
 
-  useEffect(() => {
-    tg.MainButton.setParams({
-      text: 'Отправить заявку'
-    })
-  }, [])
+  // useEffect(() => {
+  //   tg.MainButton.setParams({
+  //     text: 'Отправить заявку'
+  //   })
+  // }, [])
 
-  useEffect(() => {
-    if (
-      !data.startTime ||
-      !data.address ||
-      !data.numExecutors ||
-      !data.text ||
-      !data.hourCost
-    ) {
-      tg.MainButton.hide()
-    } else {
-      tg.MainButton.show()
-    }
-  }, [
-    data.startTime,
-    data.address,
-    data.numExecutors,
-    data.text,
-    data.hourCost,
-    tg
-  ])
+  // useEffect(() => {
+  //   if (
+  //     !data.startTime ||
+  //     !data.address ||
+  //     !data.numExecutors ||
+  //     !data.text ||
+  //     !data.hourCost
+  //   ) {
+  //     tg.MainButton.hide()
+  //   } else {
+  //     tg.MainButton.show()
+  //   }
+  // }, [
+  //   data.startTime,
+  //   data.address,
+  //   data.numExecutors,
+  //   data.text,
+  //   data.hourCost,
+  //   tg
+  // ])
 
   const handleChange = ({
     target

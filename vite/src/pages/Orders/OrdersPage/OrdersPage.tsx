@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { OrderService } from '../../services/order.service'
+import { OrderService } from '../../../services/order.service'
 import TableOrders from '@/components/Table/TableOrders'
 import { IOrder } from '@/shared/types/order.types'
 

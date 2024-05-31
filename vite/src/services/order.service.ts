@@ -1,3 +1,4 @@
+import { TypeOrderFormState } from './../types/order.types'
 // import axios from 'api/interceptors'
 
 import { IOrder } from '@/shared/types/order.types'
@@ -11,6 +12,12 @@ export const OrderService = {
   // async create() {
   //   return axiosClassic.post(getMoviesUrl(''))
   // }
+
+  // async createTask(data: TypeOrderFormState) {
+  // 	const response = await axiosClassic.post(this.BASE_URL, data)
+  // 	return response
+  // },
+
   async getAll() {
     return axiosClassic.get<IOrder[]>(getOrderUrl(``), {
       params: {}
@@ -19,6 +26,10 @@ export const OrderService = {
 
   async getByOrder(orderId: string) {
     return axiosClassic.get<IOrder>(getOrderUrl(`/${orderId}`))
+  },
+  async createOrder(data: TypeOrderFormState) {
+    const response = axiosClassic.post(getOrderUrl(''), data)
+    return response
   }
 
   // async getMostPopularMovies() {
