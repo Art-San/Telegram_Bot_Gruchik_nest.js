@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator'
+import { TypeWork } from '@prisma/client'
+import {
+	IsNotEmpty,
+	IsString,
+	IsNumber,
+	IsOptional,
+	IsIn,
+} from 'class-validator'
 
 export interface IOrderData {
 	id?: number
@@ -19,17 +26,23 @@ export class CreateOrderDto {
 	@IsNotEmpty()
 	authorName: string
 
+	@IsString()
+	startTime: string
+
 	@IsNumber()
 	numExecutors: number
 
+	@IsIn(['moving', 'construction', 'rigging'])
+	typeWork: TypeWork
+
 	@IsString()
-	startTime: string
+	address: string
 
 	@IsString()
 	text: string
 
-	@IsString()
-	address: string
+	@IsNumber()
+	hourCost: number
 }
 // export class OrderDto {
 // 	id?: number

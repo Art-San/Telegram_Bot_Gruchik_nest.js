@@ -6,11 +6,12 @@ import { corsConfig } from './cors-config'
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
 	app.enableCors(corsConfig)
+
 	// app.use(SkipBrowserWarningMiddleware) // Применяем middleware
 	app.setGlobalPrefix('api')
 
 	app.useGlobalPipes(new ValidationPipe()) // глобальный ValidationPipe не надо в контроллерах так писать @UsePipes(new ValidationPipe())
-	// await app.listen(3001)
+
 	await app.listen(process.env.PORT || 3001)
 	console.log(`Сервер запущен на порту ${process.env.PORT}`)
 }

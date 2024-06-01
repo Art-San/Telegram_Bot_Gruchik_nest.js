@@ -1,19 +1,34 @@
-import { Controller, Delete, Get, Param, Post } from '@nestjs/common'
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	HttpCode,
+	Param,
+	Post,
+} from '@nestjs/common'
 import { OrdersService } from './orders.service'
+import { CreateOrderDto } from './dto/order.dto'
 
 @Controller('orders')
 export class OrdersController {
 	constructor(private readonly ordersService: OrdersService) {}
 
+	@Post()
+	async create(@Body() dto: CreateOrderDto) {
+		console.log(12, dto)
+		return this.ordersService.create(dto)
+	}
 	@Get()
 	async getAll() {
 		const res = await this.ordersService.findAllOrders()
-		// console.log(11, res)
+		// console.log(12, res)
 		return res
 	}
 
 	@Get(':orderId')
 	async getOrder(@Param('orderId') orderId: string) {
+		console.log(12, orderId)
 		return this.ordersService.findByOrderId(orderId)
 	}
 

@@ -35,7 +35,7 @@ export class OrderProcessingService {
 	async handleOrderCreationForm(bot: TelegramBot, chatId, data: any) {
 		try {
 			// console.log(12, data)
-			const newOrder = await this.ordersService.creatingOrder(data)
+			const newOrder = await this.ordersService.create(data)
 			const templatesOrderEnd = formatOrderInfoMessageInit(newOrder)
 
 			const usersTelegramId =
@@ -167,9 +167,7 @@ export class OrderProcessingService {
 				throw new Error('Заказ пуст')
 			} else {
 				try {
-					const newOrder = await this.ordersService.creatingOrder(
-						userOrder.orderData
-					)
+					const newOrder = await this.ordersService.create(userOrder.orderData)
 					const templatesOrderEnd = formatOrderInfoMessageInit(newOrder)
 
 					const usersTelegramId =

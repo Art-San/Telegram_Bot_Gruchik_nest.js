@@ -14,7 +14,7 @@ import OrderDetails from './pages/Orders/OrdersPage/OrderDetails'
 import {
   QueryClient,
   QueryClientProvider,
-  useQuery
+  // useQuery
 } from '@tanstack/react-query'
 const queryClient = new QueryClient()
 
