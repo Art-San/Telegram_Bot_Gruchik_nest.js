@@ -41,7 +41,7 @@ const formSchema = z.object({
 })
 
 export function OrderForm() {
-  const { createOrder } = useCreateOrder()
+  const { createOrder, isPending } = useCreateOrder()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -81,11 +81,8 @@ export function OrderForm() {
     })
   }
 
-  // const emailSignIn = useEmailSignIn();
-  // onSubmit={form.handleSubmit((data) => emailSignIn.signIn(data.email))}
-
   return (
-    <div className="m-0 w-[330px] flex flex-col  justify-center ">
+    <div className="m-0 w-[330px] flex flex-col  justify-center text-slate-700">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -201,8 +198,9 @@ export function OrderForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">Отправка</Button>
-          {/* </div> */}
+          <Button disabled={isPending} type="submit">
+            Отправка
+          </Button>
         </form>
       </Form>
     </div>

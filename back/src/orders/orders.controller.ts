@@ -27,13 +27,13 @@ export class OrdersController {
 
 	@Get(':orderId')
 	async getOrder(@Param('orderId') orderId: string) {
-		console.log(12, orderId)
+		// console.log(12, orderId)
 		return this.ordersService.findByOrderId(orderId)
 	}
 
 	@Delete(':orderId')
 	async delete(@Param('orderId') orderId: string) {
-		return { msg: '1234', orderId }
+		return this.ordersService.delete(orderId)
 	}
 
 	@Delete(':orderId/remove-executor/:executorId')

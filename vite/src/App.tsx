@@ -13,9 +13,10 @@ import OrderDetails from './pages/Orders/OrdersPage/OrderDetails'
 
 import {
   QueryClient,
-  QueryClientProvider,
+  QueryClientProvider
   // useQuery
 } from '@tanstack/react-query'
+import { Toaster, toast } from 'sonner'
 const queryClient = new QueryClient()
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
             {/* <Footer /> */}
           </footer>
         </div>
+        <Toaster theme="dark" position="bottom-right" duration={1500} />
       </QueryClientProvider>
     </>
   )

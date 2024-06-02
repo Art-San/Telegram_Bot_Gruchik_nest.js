@@ -1,3 +1,5 @@
+import { toast } from 'sonner'
+
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { TypeOrderFormState } from '@/types/order.types'
@@ -10,6 +12,7 @@ export function useCreateOrder() {
     mutationKey: ['create order'],
     mutationFn: (data: TypeOrderFormState) => OrderService.createOrder(data),
     onSuccess() {
+      toast.success('Успешно создана заявка')
       queryClient.invalidateQueries({
         queryKey: ['orders']
       })

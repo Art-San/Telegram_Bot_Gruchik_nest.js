@@ -19,6 +19,30 @@ export class OrdersService {
 		}
 	}
 
+	async delete(orderId: string) {
+		try {
+			await this.db.$transaction([
+				this.db.orderExecutor.deleteMany({
+					where: {
+						orderId: +orderId,
+					},
+				}),
+				this.db.order.delete({
+					where: {
+						id: +orderId,
+					},
+				}),
+			])
+			return true
+		} catch (error) {
+			console.error(
+				'Ошибка удаления заказа и связанных с ним исполнителей:',
+				error
+			)
+			throw error
+		}
+	}
+
 	async findAllOrders() {
 		try {
 			const orders = await this.db.order.findMany({
@@ -57,7 +81,7 @@ export class OrdersService {
 			return order
 		} catch (error) {
 			console.log('Ошибка в findByOrderId', error.message)
-			throw error.message
+			return error.message
 		}
 	}
 
@@ -86,7 +110,9 @@ export class OrdersService {
 			if (!order) {
 				throw new NotFoundException(`Нет такого заказа №: ${orderId}`)
 			}
-			const isExecutorIdPresent = order.potentialExecutors.includes(executorId)
+			const isExecutorIdPresent = order.potentialExecutors.some(
+				(potentialExecutor) => potentialExecutor.userId === executorId
+			)
 
 			return { isExecutorIdPresent, order }
 		} catch (error) {
@@ -98,34 +124,39 @@ export class OrdersService {
 	async addPotentialExecutor(bot, data) {
 		const { orderId, executorId } = data
 		try {
+			// Находим заказ по ID
 			const order = await this.db.order.findUnique({
 				where: { id: Number(orderId) },
-				select: { potentialExecutors: true },
+				select: { id: true }, // Выбираем только ID заказа, чтобы избежать больших объемов данных
 			})
 
 			if (!order) {
 				throw new NotFoundException(`Нет такого заказа №: ${orderId}`)
 			}
-			if (order.potentialExecutors.includes(executorId)) {
+
+			// Проверяем, уже добавлен ли потенциальный исполнитель
+			const existingExecutor = await this.db.orderPossibleExecutor.findFirst({
+				where: { orderId: Number(orderId), userId: executorId },
+			})
+
+			if (existingExecutor) {
 				bot.sendMessage(executorId, `Нет смысла жать повторно`)
+				return // Если потенциальный исполнитель уже добавлен, завершаем функцию
 			}
 
 			// Добавляем нового потенциального исполнителя
-			await this.db.order.update({
-				where: { id: Number(orderId) },
+			await this.db.orderPossibleExecutor.create({
 				data: {
-					potentialExecutors: {
-						set: [...order.potentialExecutors, executorId],
-					},
+					orderId: Number(orderId),
+					userId: executorId,
 				},
 			})
 
 			console.log(
-				2,
 				'Исполнитель успешно добавлен в список потенциальных исполнителей.'
 			)
 		} catch (error) {
-			console.log(0, 'ошибка в addPotentialExecutor', error.message)
+			console.error('Ошибка в addPotentialExecutor', error.message)
 			throw error.message
 		}
 	}

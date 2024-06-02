@@ -18,7 +18,7 @@ export const OrderService = {
   // 	return response
   // },
 
-  async getAll() {
+  async getAllOrders() {
     return axiosClassic.get<IOrder[]>(getOrderUrl(``), {
       params: {}
     })
@@ -36,6 +36,11 @@ export const OrderService = {
     console.log(12, 'executorId', executorId)
     console.log(12, 'orderId', orderId)
     return { orderId, executorId }
+  },
+  async deleteOrder(orderId: number) {
+    console.log('orderId', typeof orderId)
+    const response = axiosClassic.delete(getOrderUrl(`/${orderId}`))
+    return response
   }
 
   // async getMostPopularMovies() {

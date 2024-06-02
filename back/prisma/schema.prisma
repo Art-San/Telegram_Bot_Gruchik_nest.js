@@ -9,17 +9,18 @@ datasource db {
 }
 
 model User {
- id             Int        @id @default(autoincrement())
- telegramId     String     @unique
- userName       String
- isActive       Boolean    @default(true)
- isBlocked      Boolean    @default(false)
- isAdmin        Boolean    @default(false)
- profile        Profile?
- profileFilled  Boolean    @default(false)
- createdAt      DateTime   @default(now())
- updatedAt      DateTime   @updatedAt
- executorOrders OrderExecutor[] // Добавляем связь с исполнительными заказами
+ id                  Int        @id @default(autoincrement())
+ telegramId          String     @unique
+ userName            String
+ isActive            Boolean    @default(true)
+ isBlocked           Boolean    @default(false)
+ isAdmin             Boolean    @default(false)
+ profile             Profile?
+ profileFilled       Boolean    @default(false)
+ createdAt           DateTime   @default(now())
+ updatedAt           DateTime   @updatedAt
+ executorOrders      OrderExecutor[] // Добавляем связь с исполнительными заказами
+ possibleExecutors   OrderPossibleExecutor[]
 }
 
 model Profile {
@@ -50,15 +51,24 @@ model Order {
  hourCount          Int             @default(1)
  createdAt          DateTime        @default(now())
  updatedAt          DateTime        @updatedAt
- potentialExecutors String[]
- executors          OrderExecutor[] // Указываем, что у заказа может быть несколько исполнителей
+ potentialExecutors OrderPossibleExecutor []
+ executors          OrderExecutor[]           
  status             OrderStatus     @default(created) // Добавляем поле для отслеживания статуса заказа
+}
+
+model OrderPossibleExecutor {
+ orderId    Int
+ userId     String
+ order      Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+ user       User       @relation(fields: [userId], references: [telegramId])
+
+ @@id([orderId, userId])
 }
 
 model OrderExecutor {
  orderId    Int
  userId     String
- order      Order      @relation(fields: [orderId], references: [id])
+ order      Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
  user       User       @relation(fields: [userId], references: [telegramId])
  startTime  DateTime?
  endTime    DateTime?

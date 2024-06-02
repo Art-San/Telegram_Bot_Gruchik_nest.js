@@ -8,17 +8,25 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { PersonStanding, View } from 'lucide-react'
-import { IOrder } from '@/shared/types/order.types'
+import { PersonStanding, View, Trash } from 'lucide-react'
+// import { IOrder } from '@/shared/types/order.types'
 import { getOrderUrl } from '@/configs/api.config'
 import { validIconStatus, validIconTypeWork } from '@/utils/icons/iconUtils'
+import { Button } from '@/components/ui/button'
+import { useDeleteOrder } from '@/pages/Orders/hooks/useDeleteOrder'
+import { useOrders } from '@/pages/Orders/hooks/useOrders'
 
-interface ITableOrdersProps {
-  orders: IOrder[]
-}
+// interface ITableOrdersProps {
+//   orders: IOrder[]
+// }
 
-const TableOrders: React.FC<ITableOrdersProps> = ({ orders }) => {
-  console.log(11, orders[5])
+// const TableOrders: React.FC<ITableOrdersProps> = ({ orders }) => {
+const TableOrders = () => {
+  const { orders, isLoading, isError } = useOrders()
+  const { deleteOrder, isDeletePending } = useDeleteOrder()
+
+  if (isLoading) return <p>Loading...</p>
+  if (isError) return <p>Error loading orders</p>
   return (
     <>
       <Table className="">
@@ -43,11 +51,21 @@ const TableOrders: React.FC<ITableOrdersProps> = ({ orders }) => {
                 <TableCell className="font-medium">{order?.id}</TableCell>
                 <TableCell>{validIconTypeWork(order?.typeWork)}</TableCell>
                 <TableCell>{validIconStatus(order?.status)}</TableCell>
-                <TableCell className="text-right">{`${order?.numExecutors} / ${order?.executors} `}</TableCell>
+                <TableCell className="">{`${order?.numExecutors} / ${order?.executors} `}</TableCell>
                 <TableCell className="font-medium">
                   <Link to={getOrderUrl(`/${order.id}`)}>
                     <View className=" text-blue-400" />
                   </Link>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant={'custom'}
+                    size={'icon'}
+                    onClick={() => deleteOrder(order.id)}
+                    disabled={isDeletePending}
+                  >
+                    <Trash size={15} />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

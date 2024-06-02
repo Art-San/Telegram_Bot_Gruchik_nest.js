@@ -1,3 +1,13 @@
+export interface User {
+  id: number
+  telegramId: string
+  userName: string
+}
+
+export interface Executor {
+  user: User
+}
+
 export interface IOrder {
   id: number
   authorId: string
@@ -14,16 +24,6 @@ export interface IOrder {
   potentialExecutors: string[]
   status: string
   executors: Executor[]
-}
-
-export interface Executor {
-  user: User
-}
-
-export interface User {
-  id: number
-  telegramId: string
-  userName: string
 }
 
 // export interface IOrder {
