@@ -69,7 +69,6 @@ export function OrderForm() {
       hourCost: parseNumber(formData.hourCost)
     }
 
-    console.log(111, transformedData)
     createOrder(transformedData)
 
     reset({
@@ -81,19 +80,6 @@ export function OrderForm() {
       hourCost: ''
     })
   }
-
-  // function onSubmit(formaData: any) {
-
-  //   createOrder(formaData)
-  //   reset({
-  //     startTime: '',
-  //     numExecutors: '',
-  //     typeWork: '',
-  //     address: '',
-  //     text: '',
-  //     hourCost: ''
-  //   })
-  // }
 
   // const emailSignIn = useEmailSignIn();
   // onSubmit={form.handleSubmit((data) => emailSignIn.signIn(data.email))}

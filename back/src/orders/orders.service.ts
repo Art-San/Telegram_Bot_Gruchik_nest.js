@@ -9,7 +9,6 @@ export class OrdersService {
 
 	async create(orderData: CreateOrderDto) {
 		try {
-			console.log(11, 'OrdersService', orderData)
 			const newOrder = await this.db.order.create({
 				data: orderData,
 			})

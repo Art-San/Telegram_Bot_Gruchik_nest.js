@@ -4,9 +4,11 @@ import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { UserX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useDelExecutorFromOrder } from '../hooks/useDelExecutorFromOrder'
 
 const OrderDetails: FC = () => {
   const { orderId } = useParams()
+  const { deleteExecutorFromOrder } = useDelExecutorFromOrder()
 
   const [order, setOrder] = useState<IOrder>()
 
@@ -24,30 +26,47 @@ const OrderDetails: FC = () => {
     fetchData()
   }, [orderId]) // Добавьте orderId в массив зависимостей, если он используется внутри useEffect
 
-  // console.log(12, 'orderId', orderId)
-  // console.log(12, 'order', order?.executors)
-
   const handleDeleteExecutor = async (executorId: string, orderId: number) => {
-    console.log(12, 'executorId', executorId)
-    console.log(12, 'orderId', orderId)
     try {
-      const response = await fetch(
-        `http://localhost:3001/api/orders/${orderId}/remove-executor/${executorId}`,
-        {
-          method: 'POST'
-        }
-      )
+      const response = deleteExecutorFromOrder({
+        orderId: String(orderId),
+        executorId
+      })
       if (response.ok) {
         // Обновление состояния, например, перезагрузка списка исполнителей
         // или удаление конкретного исполнителя из UI
-        console.log('Executor removed successfully')
+        console.log('Исполнитель успешно удален')
       } else {
-        console.error('Failed to remove executor')
+        console.error('Не удалось удалить исполнителя.')
       }
     } catch (error) {
-      console.error('Error removing executor:', error)
+      console.error('Ошибка удаления исполнителя:', error)
     }
   }
+  // const handleDeleteExecutor = async (executorId: string, orderId: number) => {
+  //   console.log(12, 'executorId', executorId)
+  //   console.log(12, 'orderId', orderId)
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:3001/api/orders/${orderId}/remove-executor/${executorId}`,
+  //       {
+  //         method: 'POST'
+  //       }
+  //     )
+  //     if (response.ok) {
+  //       // Обновление состояния, например, перезагрузка списка исполнителей
+  //       // или удаление конкретного исполнителя из UI
+  //       console.log('Executor removed successfully')
+  //     } else {
+  //       console.error('Failed to remove executor')
+  //     }
+  //   } catch (error) {
+  //     console.error('Error removing executor:', error)
+  //   }
+  // }
+
+  // console.log(1, order?.executors.length)
+  const executorsNum = order?.executors.length === 0
 
   if (!order) return <div className="">Загрузка</div>
   return (
@@ -75,22 +94,29 @@ const OrderDetails: FC = () => {
             <h2 className="w-full break-words">{order?.text}</h2>
           </div>
           <div className="flex flex-col">
-            <p className=" text-lg m-auto ">Исполнители</p>
-            {order?.executors.map((executor) => (
-              <div key={executor.user.id} className="flex gap-2 items-baseline">
-                <p>T-id: {executor.user.telegramId}</p>
-                <p>{executor.user.userName}</p>
-                <Button
-                  variant="custom"
-                  size={'icon'}
-                  onClick={() =>
-                    handleDeleteExecutor(executor.user.telegramId, order.id)
-                  }
+            <p className=" text-lg m-auto text-blue-400">Назначены</p>
+            {executorsNum ? (
+              <p className=" text-red-400">Нет ни кого</p>
+            ) : (
+              order?.executors.map((executor) => (
+                <div
+                  key={executor.user.id}
+                  className="flex gap-2 items-baseline"
                 >
-                  <UserX size={'17'} />
-                </Button>
-              </div>
-            ))}
+                  <p>T-id: {executor.user.telegramId}</p>
+                  <p>{executor.user.userName}</p>
+                  <Button
+                    variant="custom"
+                    size={'icon'}
+                    onClick={() =>
+                      handleDeleteExecutor(executor.user.telegramId, order.id)
+                    }
+                  >
+                    <UserX size={'17'} />
+                  </Button>
+                </div>
+              ))
+            )}
           </div>
           <div className="flex gap-2 items-baseline">
             <p className=" text-sm ">запросов: </p>

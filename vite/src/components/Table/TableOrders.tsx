@@ -34,32 +34,7 @@ const TableOrders: React.FC<ITableOrdersProps> = ({ orders }) => {
           </TableRow>
         </TableHeader>
         <TableBody className="">
-          {/* {orders &&
-            orders.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell className="font-medium">{order?.id}</TableCell>
-                <TableCell>{order?.typeWork}</TableCell>
-                <TableCell>{order?.status}</TableCell>
-                <TableCell className="text-right">{order?.hourCost}</TableCell>
-              </TableRow>
-            ))} */}
           {orders &&
-            orders.map((order) => (
-              <TableRow
-                key={`${order?.id}-${order?.typeWork}-${order?.createdAt}`}
-              >
-                <TableCell className="font-medium">{order?.id}</TableCell>
-                <TableCell>{validIconTypeWork(order?.typeWork)}</TableCell>
-                <TableCell>{order?.status}</TableCell>
-                <TableCell className="text-right">{`${order?.numExecutors} / ${order?.executors} `}</TableCell>
-                <TableCell className="font-medium">
-                  <Link to={getOrderUrl(`/${order.id}`)}>
-                    <View className=" text-blue-400" />
-                  </Link>
-                </TableCell>
-              </TableRow>
-            ))}
-          {/* {orders &&
             orders.map((order) => (
               <TableRow
                 key={order?.id}
@@ -75,7 +50,7 @@ const TableOrders: React.FC<ITableOrdersProps> = ({ orders }) => {
                   </Link>
                 </TableCell>
               </TableRow>
-            ))} */}
+            ))}
         </TableBody>
         <TableCaption>A list of your recent invoices.</TableCaption>
       </Table>

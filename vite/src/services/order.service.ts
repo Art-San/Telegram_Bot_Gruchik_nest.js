@@ -30,6 +30,12 @@ export const OrderService = {
   async createOrder(data: TypeOrderFormState) {
     const response = axiosClassic.post(getOrderUrl(''), data)
     return response
+  },
+
+  async deleteExecutorFromOrder(orderId: string, executorId: string) {
+    console.log(12, 'executorId', executorId)
+    console.log(12, 'orderId', orderId)
+    return { orderId, executorId }
   }
 
   // async getMostPopularMovies() {

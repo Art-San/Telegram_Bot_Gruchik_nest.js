@@ -46,16 +46,39 @@ import {
 //   return <div className="flex gap-1">{iconMap[type] || <CircleHelp />}</div>
 // }
 export const validIconTypeWork = (type: string) => {
-  const iconMap: Record<string, JSX.Element[]> = {
-    moving: [<Package />, <Sofa />, <Refrigerator />],
-    construction: [<HardHat />, <Cuboid />, <Trash2 />],
-    rigging: [<Piano />, <Anvil />]
+  const iconMap = {
+    moving: (
+      <div className="flex gap-1">
+        <Package />, <Sofa />, <Refrigerator />
+      </div>
+    ),
+    construction: (
+      <div className="flex gap-1">
+        <HardHat />, <Cuboid />, <Trash2 />
+      </div>
+    ),
+    rigging: (
+      <div className="flex gap-1">
+        <Piano />, <Anvil />
+      </div>
+    )
   }
 
   // Используем утверждение типа для ключа
   const icons = iconMap[type as keyof typeof iconMap]
   return <div className="flex gap-1">{icons || <CircleHelp />}</div>
 }
+// export const validIconTypeWork = (type: string) => {
+//   const iconMap: Record<string, JSX.Element[]> = {
+//     moving: [<Package />, <Sofa />, <Refrigerator />],
+//     construction: [<HardHat />, <Cuboid />, <Trash2 />],
+//     rigging: [<Piano />, <Anvil />]
+//   }
+
+//   // Используем утверждение типа для ключа
+//   const icons = iconMap[type as keyof typeof iconMap]
+//   return <div className="flex gap-1">{icons || <CircleHelp />}</div>
+// }
 
 export const validIconStatus = (status: string) => {
   switch (status) {

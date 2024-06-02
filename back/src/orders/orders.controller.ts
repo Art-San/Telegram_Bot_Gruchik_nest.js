@@ -16,7 +16,6 @@ export class OrdersController {
 
 	@Post()
 	async create(@Body() dto: CreateOrderDto) {
-		console.log(12, dto)
 		return this.ordersService.create(dto)
 	}
 	@Get()
@@ -37,13 +36,11 @@ export class OrdersController {
 		return { msg: '1234', orderId }
 	}
 
-	@Post(':orderId/remove-executor/:executorId')
+	@Delete(':orderId/remove-executor/:executorId')
 	async removeExecutor(
 		@Param('orderId') orderId: string,
 		@Param('executorId') executorId: string
 	) {
-		console.log(12, '@Controller(orders) ', orderId)
-		console.log(12, '@Controller(orders) ', executorId)
 		return this.ordersService.removeExecutorFromOrder(orderId, executorId)
 	}
 }
