@@ -1,0 +1,166 @@
+import { useEffect, useState } from 'react'
+import { OrderService } from '../../services/order.service'
+import { IOrder } from '@/shared/types/order.types'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from '@/components/ui/pagination'
+import { useLocation, useNavigate } from 'react-router-dom'
+
+function getPaginationParamsFromUrl() {
+  const urlParams = new URLSearchParams(window.location.search)
+  const page = urlParams.get('page') || '1'
+  const pageSize = urlParams.get('pageSize') || '2'
+  return { page, pageSize }
+}
+
+const OrdersCards_2 = () => {
+  const [orders, setOrders] = useState<IOrder[]>([])
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { page, pageSize } = getPaginationParamsFromUrl()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await OrderService.getAllOrders_2(page, pageSize)
+      setOrders(data)
+    }
+
+    fetchData()
+  }, [page, pageSize])
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(location.search)
+    params.set('page', String(newPage))
+    params.set('pageSize', pageSize)
+    navigate({ search: params.toString() })
+  }
+
+  // console.log(1234, orders)
+
+  return (
+    <>
+      {orders &&
+        orders.map((el) => (
+          <div className="flex flex-col" key={el.id}>
+            <h1 className="text-xl">{el.authorName}</h1>
+          </div>
+        ))}
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                handlePageChange(Math.max(1, Number(page) - 1))
+              }}
+            />
+          </PaginationItem>
+          {/* Добавляем ссылки для первых нескольких страниц */}
+          {[...Array(2)].map((_, i) => (
+            <PaginationItem key={i}>
+              <PaginationLink
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault()
+                  handlePageChange(i + 1)
+                }}
+              >
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                handlePageChange(Number(page) + 1)
+              }}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </>
+  )
+}
+
+export default OrdersCards_2
+
+// import { useEffect, useState } from 'react'
+// import { OrderService } from '../../services/order.service'
+// import { IOrder } from '@/shared/types/order.types'
+// import {
+//   Pagination,
+//   PaginationContent,
+//   PaginationEllipsis,
+//   PaginationItem,
+//   PaginationLink,
+//   PaginationNext,
+//   PaginationPrevious
+// } from '@/components/ui/pagination'
+
+// import { useLocation } from 'react-router-dom'
+
+// function getPaginationParamsFromUrl() {
+//   const urlParams = new URLSearchParams(window.location.search)
+//   const page = urlParams.get('page')
+//   const pageSize = urlParams.get('pageSize')
+//   return { page, pageSize }
+// }
+
+// const OrdersCards_2 = () => {
+//   const [orders, setOrders] = useState<IOrder[]>([])
+//   const location = useLocation()
+//   const { page, pageSize } = getPaginationParamsFromUrl()
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const { data } = await OrderService.getAllOrders()
+//       setOrders(data)
+//     }
+
+//     fetchData()
+//   }, [page, pageSize])
+
+//   return (
+//     <>
+//       {orders &&
+//         orders.map((el) => (
+//           <div className=" flex flex-col" key={el.id}>
+//             <h1 className="  text-xl"> {el.authorName}</h1>
+//           </div>
+//         ))}
+//       <Pagination>
+//         <PaginationContent>
+//           <PaginationItem>
+//             <PaginationPrevious href="#" />
+//           </PaginationItem>
+//           <PaginationItem>
+//             <PaginationLink href="#">1</PaginationLink>
+//           </PaginationItem>
+//           <PaginationItem>
+//             <PaginationLink href="#">2</PaginationLink>
+//           </PaginationItem>
+//           <PaginationItem>
+//             <PaginationEllipsis />
+//           </PaginationItem>
+//           <PaginationItem>
+//             <PaginationNext href="#" />
+//           </PaginationItem>
+//         </PaginationContent>
+//       </Pagination>
+//     </>
+//   )
+// }
+
+// export default OrdersCards_2

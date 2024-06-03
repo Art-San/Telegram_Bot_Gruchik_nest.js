@@ -1,7 +1,7 @@
 import { TypeOrderFormState } from './../types/order.types'
 // import axios from 'api/interceptors'
 
-import { IOrder } from '@/shared/types/order.types'
+import { IOrder, IPaginationResult } from '@/shared/types/order.types'
 import { axiosClassic } from '../api/interceptors'
 import { getOrderUrl } from '../configs/api.config'
 
@@ -18,19 +18,35 @@ export const OrderService = {
   // 	return response
   // },
 
-  async getAllOrders(page: string, pageSize: string) {
-    return axiosClassic.get<IOrder[]>(
-      getOrderUrl(`?page=${page}&pageSize=${pageSize}`),
-      {
-        params: {}
-      }
-    )
-  },
-  // async getAllOrders() {
-  //   return axiosClassic.get<IOrder[]>(getOrderUrl(``), {
-  //     params: {}
-  //   })
+  // async getAllOrders(page: string, pageSize: string) {
+  //   const response = await axiosClassic.get(
+  //     `/api/orders?page=${page}&pageSize=${pageSize}`
+  //   )
+  //   return response.data
   // },
+  async getOrdersPag(
+    page: string,
+    pageSize: string
+  ): Promise<IPaginationResult<IOrder>> {
+    const response = await axiosClassic.get<{
+      data: IOrder[]
+      totalPages: number
+    }>(getOrderUrl(`?page=${page}&pageSize=${pageSize}`))
+
+    const { data, totalPages } = response.data
+
+    console.log(1234, data) // [{…}, {…}, {…}, {…}, {…}]
+    console.log(1234, totalPages) // 1
+
+    return {
+      data,
+      totalPages
+    }
+  },
+
+  async getAllOrders() {
+    return axiosClassic.get<IOrder[]>(getOrderUrl(``), {})
+  },
 
   async getByOrder(orderId: string) {
     return axiosClassic.get<IOrder>(getOrderUrl(`/${orderId}`))

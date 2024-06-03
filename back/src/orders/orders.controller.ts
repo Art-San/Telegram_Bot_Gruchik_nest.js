@@ -19,14 +19,21 @@ export class OrdersController {
 	async create(@Body() dto: CreateOrderDto) {
 		return this.ordersService.create(dto)
 	}
+
 	@Get()
-	async getAll(
-		@Query('page') page: number = 1,
-		@Query('pageSize') pageSize: number = 10
-	) {
-		const res = await this.ordersService.findAllOrders(+page, +pageSize)
+	async getAll() {
+		const res = await this.ordersService.findAll()
 		return res
 	}
+
+	// @Get()
+	// async getOPagination(
+	// 	@Query('page') page: number = 1,
+	// 	@Query('pageSize') pageSize: number = 10
+	// ) {
+	// 	const res = await this.ordersService.findAllOrders(+page, +pageSize)
+	// 	return res
+	// }
 
 	@Get(':orderId')
 	async getOrder(@Param('orderId') orderId: string) {

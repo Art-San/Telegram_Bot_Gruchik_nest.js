@@ -16,7 +16,7 @@ import {
   QueryClientProvider
   // useQuery
 } from '@tanstack/react-query'
-import { Toaster, toast } from 'sonner'
+import { Toaster } from 'sonner'
 const queryClient = new QueryClient()
 
 function App() {

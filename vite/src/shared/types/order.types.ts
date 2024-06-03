@@ -30,6 +30,11 @@ export interface IOrder {
   executorsCount: number
 }
 
+export interface IPaginationResult<T> {
+  data: T[]
+  totalPages: number
+}
+
 // export interface IOrder {
 //   id: number
 //   authorId: string

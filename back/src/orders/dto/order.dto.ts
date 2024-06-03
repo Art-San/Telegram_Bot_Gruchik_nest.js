@@ -44,33 +44,24 @@ export class CreateOrderDto {
 	@IsNumber()
 	hourCost: number
 }
-// export class OrderDto {
-// 	id?: number
 
-// 	@IsNotEmpty()
-// 	createdBy: string
+export interface IOrder {
+	id: number
+	authorId: string
+	authorName: string
+	startTime: string
+	typeWork: string
+	numExecutors: number
+	address: string
+	text: string
+	hourCost: number
+	hourCount: number
+	createdAt: string
+	updatedAt: string
+	status: string
+}
 
-// 	@IsString()
-// 	text: string
-
-// 	@IsString()
-// 	address: string
-
-// 	@IsNumber()
-// 	numExecutors: number
-
-// 	@IsNumber()
-// 	hourCost?: number
-
-// 	@IsNumber()
-// 	hourCount?: number
-
-// 	@IsOptional()
-// 	potentialExecutors?: string[]
-
-// 	@IsOptional()
-// 	executors?: any[] // Замените any[] на более конкретный тип, если известен
-
-// 	@IsString()
-// 	status: string
-// }
+export interface IPaginationResult<T> {
+	data: T[]
+	totalPages: number
+}
