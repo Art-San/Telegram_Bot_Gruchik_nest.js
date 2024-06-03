@@ -27,6 +27,8 @@ const TableOrders = () => {
 
   if (isLoading) return <p>Loading...</p>
   if (isError) return <p>Error loading orders</p>
+
+  console.log(12, 'orders', orders)
   return (
     <>
       <Table className="">

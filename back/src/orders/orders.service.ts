@@ -43,13 +43,27 @@ export class OrdersService {
 		}
 	}
 
-	async findAllOrders() {
+	async findAllOrders(page = 1, pageSize = 10) {
 		try {
-			const orders = await this.db.order.findMany({
-				orderBy: {
-					createdAt: 'desc',
-				},
-			})
+			const offset = (page - 1) * pageSize
+
+			const ordersWithCounts = await this.db.$queryRaw`
+	          SELECT o.*, COUNT(ope."userId") AS "potentialExecutorsCount"
+	          FROM "Order" o
+	          LEFT JOIN "OrderPossibleExecutor" ope ON o.id = ope."orderId"
+	          GROUP BY o.id
+	          ORDER BY o."createdAt" DESC
+	          LIMIT ${pageSize}
+	          OFFSET ${offset}
+	      `
+
+			// Преобразуем BigInt в число
+			const orders = (ordersWithCounts as Array<any>).map((order) => ({
+				...order,
+				potentialExecutorsCount: Number(order.potentialExecutorsCount),
+			}))
+
+			console.log(12, orders)
 			return orders
 		} catch (error) {
 			console.log(0, 'Ошибка в findAllOrders', error.message)
@@ -57,11 +71,35 @@ export class OrdersService {
 		}
 	}
 
+	// async findAllOrders() {
+	// 	try {
+	// 		const orders = await this.db.order.findMany({
+	// 			orderBy: {
+	// 				createdAt: 'desc',
+	// 			},
+	// 		})
+	// 		return orders
+	// 	} catch (error) {
+	// 		console.log(0, 'Ошибка в findAllOrders', error.message)
+	// 		throw error.message
+	// 	}
+	// }
+
 	async findByOrderId(orderId: string) {
 		try {
 			const order = await this.db.order.findUnique({
 				where: { id: Number(orderId) },
 				include: {
+					potentialExecutors: {
+						select: {
+							user: {
+								select: {
+									id: true,
+									telegramId: true,
+								},
+							},
+						},
+					},
 					executors: {
 						select: {
 							user: {
