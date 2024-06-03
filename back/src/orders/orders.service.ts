@@ -42,48 +42,59 @@ export class OrdersService {
 			throw error
 		}
 	}
-
-	async findAllOrders(page = 1, pageSize = 10) {
-		try {
-			const offset = (page - 1) * pageSize
-
-			const ordersWithCounts = await this.db.$queryRaw`
-	          SELECT o.*, COUNT(ope."userId") AS "potentialExecutorsCount"
-	          FROM "Order" o
-	          LEFT JOIN "OrderPossibleExecutor" ope ON o.id = ope."orderId"
-	          GROUP BY o.id
-	          ORDER BY o."createdAt" DESC
-	          LIMIT ${pageSize}
-	          OFFSET ${offset}
-	      `
-
-			// Преобразуем BigInt в число
-			const orders = (ordersWithCounts as Array<any>).map((order) => ({
-				...order,
-				potentialExecutorsCount: Number(order.potentialExecutorsCount),
-			}))
-
-			console.log(12, orders)
-			return orders
-		} catch (error) {
-			console.log(0, 'Ошибка в findAllOrders', error.message)
-			throw error.message
-		}
-	}
-
-	// async findAllOrders() {
+	// async findAllOrders(page = 1, pageSize = 10) {
 	// 	try {
-	// 		const orders = await this.db.order.findMany({
-	// 			orderBy: {
-	// 				createdAt: 'desc',
-	// 			},
-	// 		})
+	// 		const offset = (page - 1) * pageSize
+
+	// 		// Получаем текущую дату и дату вчерашнего дня
+	// 		const today = new Date()
+	// 		today.setHours(0, 0, 0, 0) // Устанавливаем время в 00:00:00
+	// 		const yesterday = new Date(today)
+	// 		yesterday.setDate(yesterday.getDate() - 1)
+
+	// 		const ordersWithCounts = await this.db.$queryRaw`
+	//           SELECT o.*, COUNT(oe."userId") AS "executorsCount"
+	//           FROM "Order" o
+	//           LEFT JOIN "OrderExecutor" oe ON o.id = oe."orderId"
+	//           WHERE o."createdAt" >= ${yesterday}
+	//           GROUP BY o.id
+	//           ORDER BY o."createdAt" DESC
+	//           LIMIT ${pageSize}
+	//           OFFSET ${offset}
+	//       `
+
+	// 		// Преобразуем BigInt в число
+	// 		const orders = (ordersWithCounts as Array<any>).map((order) => ({
+	// 			...order,
+	// 			executorsCount: Number(order.executorsCount),
+	// 		}))
+
+	// 		// console.log(12, orders)
 	// 		return orders
 	// 	} catch (error) {
 	// 		console.log(0, 'Ошибка в findAllOrders', error.message)
 	// 		throw error.message
 	// 	}
 	// }
+
+	async findAllOrders(page: number, pageSize: number) {
+		try {
+			const offset = (page - 1) * pageSize
+
+			const orders = await this.db.order.findMany({
+				orderBy: {
+					createdAt: 'desc',
+				},
+				skip: offset,
+				take: pageSize,
+			})
+
+			return orders
+		} catch (error) {
+			console.log(0, 'Ошибка в findAllOrders', error.message)
+			throw new Error('Ошибка в findAllOrders: ' + error.message)
+		}
+	}
 
 	async findByOrderId(orderId: string) {
 		try {

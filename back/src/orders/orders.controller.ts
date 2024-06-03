@@ -6,6 +6,7 @@ import {
 	HttpCode,
 	Param,
 	Post,
+	Query,
 } from '@nestjs/common'
 import { OrdersService } from './orders.service'
 import { CreateOrderDto } from './dto/order.dto'
@@ -19,9 +20,11 @@ export class OrdersController {
 		return this.ordersService.create(dto)
 	}
 	@Get()
-	async getAll() {
-		const res = await this.ordersService.findAllOrders()
-		// console.log(12, res)
+	async getAll(
+		@Query('page') page: number = 1,
+		@Query('pageSize') pageSize: number = 10
+	) {
+		const res = await this.ordersService.findAllOrders(+page, +pageSize)
 		return res
 	}
 
@@ -30,7 +33,6 @@ export class OrdersController {
 		// console.log(12, orderId)
 		return this.ordersService.findByOrderId(orderId)
 	}
-
 	@Delete(':orderId')
 	async delete(@Param('orderId') orderId: string) {
 		return this.ordersService.delete(orderId)
@@ -46,3 +48,10 @@ export class OrdersController {
 }
 
 // `api/orders/${orderId}/remove-executor/${executorId}`
+// http://localhost:3001/api/orders?page=1&pageSize=10
+// export const getOrderUrl = (string: string) => `/orders${string}`
+// async getAllOrders() {
+// 	return axiosClassic.get<IOrder[]>(getOrderUrl(``), {
+// 		params: {}
+// 	})
+// },

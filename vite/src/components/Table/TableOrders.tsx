@@ -28,7 +28,9 @@ const TableOrders = () => {
   if (isLoading) return <p>Loading...</p>
   if (isError) return <p>Error loading orders</p>
 
-  console.log(12, 'orders', orders)
+  if (orders) {
+    // console.log(12, 'orders', orders[3].executorsCount)
+  }
   return (
     <>
       <Table className="">
@@ -53,7 +55,7 @@ const TableOrders = () => {
                 <TableCell className="font-medium">{order?.id}</TableCell>
                 <TableCell>{validIconTypeWork(order?.typeWork)}</TableCell>
                 <TableCell>{validIconStatus(order?.status)}</TableCell>
-                <TableCell className="">{`${order?.numExecutors} / ${order?.executors} `}</TableCell>
+                <TableCell className="">{`${order?.numExecutors} / ${order.executorsCount} `}</TableCell>
                 <TableCell className="font-medium">
                   <Link to={getOrderUrl(`/${order.id}`)}>
                     <View className=" text-blue-400" />

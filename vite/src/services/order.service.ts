@@ -18,11 +18,19 @@ export const OrderService = {
   // 	return response
   // },
 
-  async getAllOrders() {
-    return axiosClassic.get<IOrder[]>(getOrderUrl(``), {
-      params: {}
-    })
+  async getAllOrders(page: string, pageSize: string) {
+    return axiosClassic.get<IOrder[]>(
+      getOrderUrl(`?page=${page}&pageSize=${pageSize}`),
+      {
+        params: {}
+      }
+    )
   },
+  // async getAllOrders() {
+  //   return axiosClassic.get<IOrder[]>(getOrderUrl(``), {
+  //     params: {}
+  //   })
+  // },
 
   async getByOrder(orderId: string) {
     return axiosClassic.get<IOrder>(getOrderUrl(`/${orderId}`))

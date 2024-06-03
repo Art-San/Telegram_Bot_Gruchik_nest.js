@@ -21,29 +21,24 @@ import {
   Anvil,
   CircleHelp
 } from 'lucide-react'
+import { IOrder } from '@/shared/types/order.types'
 
-interface IOrder {
-  id: number
-  authorId: string
-  authorName: string
-  startTime: string
-  typeWork: string
-  numExecutors: number
-  address: string
-  text: string
-  hourCost: number
-  potentialExecutors: string[]
-  hourCount: number
-  status: string
-}
-
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from '@/components/ui/pagination'
 const OrdersCards = () => {
   const [orders, setOrders] = useState<IOrder[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await OrderService.getAll()
-      setOrders(data) // Предполагается, что сервер возвращает строку 'hello world'
+      const { data } = await OrderService.getAllOrders()
+      setOrders(data)
       console.log(13, data)
     }
     fetchData()
@@ -75,29 +70,50 @@ const OrdersCards = () => {
   }
 
   return (
-    <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[]">№</TableHead>
-          <TableHead>Тип</TableHead>
-          <TableHead>Статус</TableHead>
-          <TableHead className="text-right">Цена/ч</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {orders &&
-          orders.map((order) => (
-            <TableRow key={order.id}>
-              <TableCell className="font-medium">{order?.id}</TableCell>
-              <TableCell>{validIcon(order?.typeWork)}</TableCell>
-              {/* <TableCell>{order?.typeWork}</TableCell> */}
-              <TableCell>{order?.status}</TableCell>
-              <TableCell className="text-right">{order?.hourCost}</TableCell>
-            </TableRow>
-          ))}
-      </TableBody>
-    </Table>
+    <>
+      <Table>
+        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[]">№</TableHead>
+            <TableHead>Тип</TableHead>
+            <TableHead>Статус</TableHead>
+            <TableHead className="text-right">Цена/ч</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {orders &&
+            orders.map((order) => (
+              <TableRow key={order.id}>
+                <TableCell className="font-medium">{order?.id}</TableCell>
+                <TableCell>{validIcon(order?.typeWork)}</TableCell>
+                {/* <TableCell>{order?.typeWork}</TableCell> */}
+                <TableCell>{order?.status}</TableCell>
+                <TableCell className="text-right">{order?.hourCost}</TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">2</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </>
   )
 }
 

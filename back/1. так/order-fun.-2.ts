@@ -49,8 +49,23 @@
 // const orders = await findAllOrders(page, pageSize);
 // console.log(orders);
 
+// самая простая
+// async findAllOrders() {
+//   try {
+//     const orders = await this.db.order.findMany({
+//       orderBy: {
+//         createdAt: 'desc',
+//       },
+//     })
+//     return orders
+//   } catch (error) {
+//     console.log(0, 'Ошибка в findAllOrders', error.message)
+//     throw error.message
+//   }
+// }
+
 //===================================================================
-// тяжелая
+// тяжелая Все заказы + количество potentialExecutors
 // async findAllOrders() {
 //   try {
 //     const orders = await this.db.order.findMany({
@@ -87,5 +102,69 @@
 //   } catch (error) {
 //     console.log(0, 'Ошибка в findAllOrders', error.message)
 //     throw error.message
+//   }
+// }
+
+// Gpt-4o написал тяжелая Все заказы + количество potentialExecutors + пагинация
+// async findAllOrders(page = 1, pageSize = 10) {
+//   try {
+//     const offset = (page - 1) * pageSize
+
+//     const ordersWithCounts = await this.db.$queryRaw`
+//           SELECT o.*, COUNT(ope."userId") AS "potentialExecutorsCount"
+//           FROM "Order" o
+//           LEFT JOIN "OrderPossibleExecutor" ope ON o.id = ope."orderId"
+//           GROUP BY o.id
+//           ORDER BY o."createdAt" DESC
+//           LIMIT ${pageSize}
+//           OFFSET ${offset}
+//       `
+
+//     // Преобразуем BigInt в число
+//     const orders = (ordersWithCounts as Array<any>).map((order) => ({
+//       ...order,
+//       potentialExecutorsCount: Number(order.potentialExecutorsCount),
+//     }))
+
+//     console.log(12, orders)
+//     return orders
+//   } catch (error) {
+//     console.log(0, 'Ошибка в findAllOrders', error.message)
+//     throw error.message
+//   }
+// }
+// Gpt-4o написал тяжелая Все заказы + количество executorsCount + пагинация
+// async findAllOrders(page = 1, pageSize = 10) {
+//   try {
+//       const offset = (page - 1) * pageSize;
+
+//       // Получаем текущую дату и дату вчерашнего дня
+//       const today = new Date();
+//       today.setHours(0, 0, 0, 0); // Устанавливаем время в 00:00:00
+//       const yesterday = new Date(today);
+//       yesterday.setDate(yesterday.getDate() - 1);
+
+//       const ordersWithCounts = await this.db.$queryRaw`
+//           SELECT o.*, COUNT(oe."userId") AS "executorsCount"
+//           FROM "Order" o
+//           LEFT JOIN "OrderExecutor" oe ON o.id = oe."orderId"
+//           WHERE o."createdAt" >= ${yesterday}
+//           GROUP BY o.id
+//           ORDER BY o."createdAt" DESC
+//           LIMIT ${pageSize}
+//           OFFSET ${offset}
+//       `;
+
+//       // Преобразуем BigInt в число
+//       const orders = ordersWithCounts.map(order => ({
+//           ...order,
+//           executorsCount: Number(order.executorsCount),
+//       }));
+
+//       console.log(12, orders);
+//       return orders;
+//   } catch (error) {
+//       console.log(0, 'Ошибка в findAllOrders', error.message);
+//       throw error.message;
 //   }
 // }
