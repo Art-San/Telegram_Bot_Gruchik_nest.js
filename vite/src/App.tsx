@@ -1,25 +1,25 @@
-// import './App.css'
+import { Routes, Route, Navigate } from 'react-router-dom'
 
-import { Routes, Route } from 'react-router-dom'
 import ProductList from './components/ProductList/ProductList'
 import Header from './components/Header/Header'
-// import Footer from './components/Footer/Footer'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useAuthContext } from './context/AuthContext'
+import { Toaster } from 'sonner'
+
+import Login from './pages/Auth/Login'
 import AddOrderPage from './pages/AddOrderPage/AddOrderPage'
 import OrdersPage from './pages/Orders/OrdersPage/OrdersPage'
 import TestPage from './pages/TestPage/TestPage'
 import AddOrderSitePage from './pages/AddOrderPage/AddOrderSitePage'
 import OrderDetails from './pages/Orders/OrdersPage/OrderDetails'
-// import TestPage_2 from './pages/TestPage_2/TestPage_2'
 
-import {
-  QueryClient,
-  QueryClientProvider
-  // useQuery
-} from '@tanstack/react-query'
-import { Toaster } from 'sonner'
 const queryClient = new QueryClient()
 
 function App() {
+  const { authUser, isLoading } = useAuthContext()
+  console.log(1, 'authUser', authUser)
+  console.log(1, 'isLoading', isLoading)
+  // if (isLoading) return null
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -27,7 +27,6 @@ function App() {
           <header>
             <Header />
           </header>
-          {/* <div className="flex flex-col w-[1000px]  mx-auto"> */}
           <div className="flex flex-col items-center justify-center">
             <Routes>
               <Route index element={<ProductList />} />
@@ -37,6 +36,8 @@ function App() {
               <Route path={'/add_order_page'} element={<AddOrderSitePage />} />
               <Route path={'/test'} element={<TestPage />} />
               <Route path={'/test_2'} element={<AddOrderSitePage />} />
+              {/* <Route path='/login' element={!authUser ? <Login /> : <Navigate to={"/"} />} /> */}
+              <Route path="/login" element={<Login />} />
             </Routes>
           </div>
           <footer className="fixed bottom-0 left-0 w-full">
@@ -50,46 +51,3 @@ function App() {
 }
 
 export default App
-
-// import { useEffect } from 'react'
-// import { useTelegram } from './hooks/useTelegram'
-// import Header from './components/Header/Header'
-// import { Routes } from 'react-router-dom'
-
-// import ProductList from './components/ProductList/ProductList'
-
-// import OrdersPage from './page/OrdersPage/OrdersPage'
-// import AddOrderPage from './page/AddOrderPage/AddOrderPage'
-// import TestPage from './page/TestPage/TestPage'
-
-// import Footer from './components/Footer/Footer'
-
-// function App() {
-//   const { tg } = useTelegram()
-
-//   useEffect(() => {
-//     // tg.ready()
-//   }, [])
-
-//   // console.log('process.env.APP_URL', API_URL)
-//   return (
-//     <div className=" flex flex-col h-screen">
-//       <header>
-//         <div className=" text-black">Header</div>
-//         {/* <Header /> */}
-//       </header>
-//       <Routes>
-//         <Route index element={<ProductList />} />.
-//         <Route path={'add-order'} element={<AddOrderPage />} />
-//         <Route path={'orders'} element={<OrdersPage />} />
-//         <Route path={'test'} element={<TestPage />} />
-//       </Routes>
-//       <footer className="fixed bottom-0 left-0 w-full">
-//         <div className="">Footer</div>
-//         {/* <Footer /> */}
-//       </footer>
-//     </div>
-//   )
-// }
-
-// export default App
