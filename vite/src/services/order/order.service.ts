@@ -1,9 +1,9 @@
-import { TypeOrderFormState } from './../types/order.types'
+import { TypeOrderFormState } from '../../types/order.types'
 // import axios from 'api/interceptors'
 
 import { IOrder, IPaginationResult } from '@/shared/types/order.types'
-import { axiosClassic } from '../api/interceptors'
-import { getOrderUrl } from '../configs/api.config'
+import { axiosClassic } from '../../api/interceptors'
+import { getOrderUrl } from '../../configs/api.config'
 
 export const OrderService = {
   // async create() {

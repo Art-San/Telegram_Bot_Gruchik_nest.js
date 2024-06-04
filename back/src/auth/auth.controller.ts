@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, HttpCode } from '@nestjs/common'
+import { Controller, Get, Post, Body, HttpCode, Res } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { CreateAuthDto } from './dto/create-auth.dto'
 import { UpdateAuthDto } from './dto/update-auth.dto'
 import { AuthDto } from './dto/auth.dto'
+import { Response } from 'express'
 
 @Controller('auth')
 export class AuthController {
@@ -10,9 +11,25 @@ export class AuthController {
 
 	@HttpCode(200)
 	@Post('login')
-	create(@Body() dto: AuthDto) {
-		return this.authService.create(dto)
+	login(@Body() dto: AuthDto, @Res({ passthrough: true }) res: Response) {
+		const telegramId = dto.password
+		return this.authService.login(dto.userName, telegramId)
 	}
+
+	// @Post('sign-in')
+	// @ApiOkResponse()
+	// @HttpCode(200)
+	// async signIn(
+	// 	@Body() body: SignInBodyDto,
+	// 	@Res({ passthrough: true }) res: Response
+	// ) {
+	// 	const { accessToken } = await this.authService.signIn(
+	// 		body.email,
+	// 		body.password
+	// 	)
+
+	// 	this.cookieService.setToken(res, accessToken)
+	// }
 
 	// @Get()
 	// findAll() {

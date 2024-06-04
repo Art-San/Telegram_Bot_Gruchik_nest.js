@@ -5,6 +5,16 @@ import { DbService } from 'src/db/db.service'
 export class UserService {
 	constructor(private readonly db: DbService) {}
 
+	async findUserTelegramId(telegramId: string) {
+		try {
+			const user = await this.db.user.findUnique({ where: { telegramId } })
+			// return null
+			return user
+		} catch (error) {
+			console.log('findUserTelegramId', error)
+			throw error
+		}
+	}
 	async getUserByTelegramId(telegramId: string) {
 		try {
 			const user = await this.db.user.findUnique({ where: { telegramId } })

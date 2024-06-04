@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { OrderService } from '../../services/order.service'
+import { OrderService } from '../../services/order/order.service'
 import { IOrder } from '@/shared/types/order.types'
 import {
   Pagination,

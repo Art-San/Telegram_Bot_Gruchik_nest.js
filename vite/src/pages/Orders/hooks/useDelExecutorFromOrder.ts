@@ -1,4 +1,4 @@
-import { OrderService } from '@/services/order.service'
+import { OrderService } from '@/services/order/order.service'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function useDelExecutorFromOrder() {
