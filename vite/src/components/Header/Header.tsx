@@ -1,6 +1,11 @@
 import { FC } from 'react'
 import { useTelegram } from '../../hooks/useTelegram'
+
 const Header: FC = () => {
+  // const { data: session } = useSessionQuery()
+
+  // if (!session) return null
+
   const { user } = useTelegram()
   return (
     <div className="flex items-center justify-center  px-6 py-4 bg-gray-900 text-white">

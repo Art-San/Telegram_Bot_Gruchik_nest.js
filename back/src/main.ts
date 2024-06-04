@@ -1,11 +1,15 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { ValidationPipe } from '@nestjs/common'
-import { corsConfig } from './cors-config'
+import { corsConfig, corsOptions } from './cors-config'
+import * as cookieParser from 'cookie-parser'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
-	app.enableCors(corsConfig)
+	app.use(cookieParser())
+
+	app.enableCors(corsOptions)
+	// app.enableCors(corsConfig)
 
 	// app.use(SkipBrowserWarningMiddleware) // Применяем middleware
 	app.setGlobalPrefix('api')

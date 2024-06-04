@@ -1,7 +1,10 @@
 import { FC } from 'react'
 import TableOrders from '@/components/Table/TableOrders'
+import { useSessionQuery } from '@/pages/Auth/hooks/useSessionQuery'
 
 const OrdersPage: FC = () => {
+  const { session, isLoading, isError } = useSessionQuery()
+  console.log('session', session)
   // const { orders, isLoading, isError } = useOrders() // перенес в  таблицу
   // const [orders, setOrders] = useState<IOrder[]>([])
   // useEffect(() => {

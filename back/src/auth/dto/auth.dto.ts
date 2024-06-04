@@ -10,3 +10,13 @@ export class AuthDto {
 	@IsString()
 	password: string
 }
+
+export class GetSessionInfoDto {
+	telegramId: number
+
+	userName: string
+
+	'iat': number
+
+	'exp': number
+}

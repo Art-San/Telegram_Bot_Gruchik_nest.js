@@ -16,10 +16,17 @@ export const AuthService = {
   async login(data: IAuthForm) {
     const response = await axiosClassic.post<IUser>(getAuthUrl('/login'), data)
 
-    console.log(12, response)
+    console.log(177, 'response', response)
     // if (response.data.accessToken) {
     //   saveToStorage(response.data)
     // }
+
+    return response
+  },
+  async session() {
+    const response = await axiosClassic.get<any>(getAuthUrl('/session'))
+
+    console.log(177, 'response', response)
 
     return response
   }

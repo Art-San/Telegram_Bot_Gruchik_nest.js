@@ -17,8 +17,8 @@ const queryClient = new QueryClient()
 
 function App() {
   const { authUser, isLoading } = useAuthContext()
-  console.log(1, 'authUser', authUser)
-  console.log(1, 'isLoading', isLoading)
+  // console.log(1, 'authUser', authUser)
+  // console.log(1, 'isLoading', isLoading)
   // if (isLoading) return null
   return (
     <>

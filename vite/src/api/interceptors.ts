@@ -12,9 +12,9 @@ import { VITE_URL_API } from '@/configs/api.config'
 export const axiosClassic = axios.create({
   baseURL: VITE_URL_API,
   // baseURL: import.meta.env.VITE_API_URL + api,
-  timeout: 15_000, //  Это означает, что если сервер не ответит в течение 15 секунд, запрос будет прерван, и axios сгенерирует ошибку таймаута
+  // timeout: 15_000, //  Это означает, что если сервер не ответит в течение 15 секунд, запрос будет прерван, и axios сгенерирует ошибку таймаута
   headers: getContentType(),
-  withCredentials: false // Запросы без учетных данных
+  withCredentials: true // Запросы без учетных данных
 })
 
 // Interceptor позволит скрытно от пользователя обновить токен, когда у того истечет срок

@@ -1,32 +1,55 @@
-import { Controller, Get, Post, Body, HttpCode, Res } from '@nestjs/common'
+import {
+	Controller,
+	Get,
+	Post,
+	Body,
+	HttpCode,
+	Res,
+	HttpStatus,
+	UseGuards,
+} from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { CreateAuthDto } from './dto/create-auth.dto'
 import { UpdateAuthDto } from './dto/update-auth.dto'
-import { AuthDto } from './dto/auth.dto'
+import { AuthDto, GetSessionInfoDto } from './dto/auth.dto'
 import { Response } from 'express'
+import { AuthGuard } from './auth.guard'
+import { CookieService } from './cookie.service'
+import { SessionInfo } from './session-info.decorator'
 
 @Controller('auth')
 export class AuthController {
-	constructor(private readonly authService: AuthService) {}
+	constructor(
+		private readonly authService: AuthService,
+		private cookieService: CookieService
+	) {}
 
 	@HttpCode(200)
 	@Post('login')
-	login(@Body() dto: AuthDto, @Res({ passthrough: true }) res: Response) {
+	async login(@Body() dto: AuthDto, @Res({ passthrough: true }) res: Response) {
 		const telegramId = dto.password
-		return this.authService.login(dto.userName, telegramId)
+		const { accessToken } = await this.authService.login(
+			dto.userName,
+			telegramId
+		)
+
+		this.cookieService.setToken(res, accessToken)
 	}
 
-	// @Post('sign-in')
-	// @ApiOkResponse()
-	// @HttpCode(200)
-	// async signIn(
-	// 	@Body() body: SignInBodyDto,
-	// 	@Res({ passthrough: true }) res: Response
-	// ) {
-	// 	const { accessToken } = await this.authService.signIn(
-	// 		body.email,
-	// 		body.password
-	// 	)
+	@Post('logout')
+	@HttpCode(HttpStatus.OK)
+	@UseGuards(AuthGuard)
+	signOut(@Res({ passthrough: true }) res: Response) {
+		this.cookieService.removeToken(res)
+	}
+
+	@HttpCode(200)
+	@Get('session')
+	@UseGuards(AuthGuard)
+	getSessionInfo(@SessionInfo() session: GetSessionInfoDto) {
+		console.log(123, 'session', session)
+		return session
+	}
 
 	// 	this.cookieService.setToken(res, accessToken)
 	// }
