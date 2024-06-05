@@ -26,15 +26,13 @@ export const AuthService = {
   async session() {
     const response = await axiosClassic.get<any>(getAuthUrl('/session'))
 
-    console.log(177, 'response', response)
+    return response
+  },
 
+  async logout() {
+    const response = await axiosClassic.post<any>(getAuthUrl('/logout'))
     return response
   }
-
-  // logout() {
-  //   removeTokensStorage()
-  //   localStorage.removeItem('user')
-  // },
 
   // async register(userName: string, password: string) {
   // 	const response = await axiosClassic.post<IAuthResponse>(

@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
 		const req = context.switchToHttp().getRequest() as Request // Достаем токен
 		const token = req.cookies[CookieService.tokenKey]
 
-		console.log(1234, 'token ', token)
+		// console.log(1234, 'token ', token)
 		if (!token) {
 			throw new UnauthorizedException({ message: 'нет токена в куках' })
 		}

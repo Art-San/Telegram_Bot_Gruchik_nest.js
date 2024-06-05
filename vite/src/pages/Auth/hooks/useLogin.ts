@@ -1,11 +1,12 @@
 import { toast } from 'sonner'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
 import { AuthService } from '@/services/auth/auth.service'
 import { IAuthForm } from '@/types/auth.types'
+import { useNavigate } from 'react-router-dom'
 
 export function useLoginUser() {
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
 
   const { mutate: login, isPending } = useMutation({
@@ -13,6 +14,7 @@ export function useLoginUser() {
     mutationFn: (data: IAuthForm) => AuthService.login(data),
     onSuccess() {
       toast.success('Успешный вход')
+      navigate('/')
       queryClient.invalidateQueries({
         queryKey: ['users']
       })

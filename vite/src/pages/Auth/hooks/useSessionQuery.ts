@@ -20,8 +20,8 @@ export function useSessionQuery() {
 
 export function useResetSession() {
   const queryClient = useQueryClient()
-  return () => queryClient.removeQueries() // Убрали ключ queryKey: sessionKey чтоб удалялся весь кэш
-  // return () => queryClient.removeQueries({ queryKey: sessionKey })
+  // return () => queryClient.removeQueries() // Убрали ключ queryKey: sessionKey чтоб удалялся весь кэш
+  return () => queryClient.removeQueries({ queryKey: sessionKey })
 }
 
 // export const authControllerGetSessionInfo = (

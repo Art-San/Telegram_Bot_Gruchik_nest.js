@@ -40,6 +40,7 @@ export class AuthController {
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard)
 	signOut(@Res({ passthrough: true }) res: Response) {
+		console.log(345, 'срабатывает ', res)
 		this.cookieService.removeToken(res)
 	}
 
