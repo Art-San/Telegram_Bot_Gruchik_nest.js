@@ -39,9 +39,10 @@ export class AuthController {
 	@Post('logout')
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard)
-	signOut(@Res({ passthrough: true }) res: Response) {
+	Logout(@Res({ passthrough: true }) res: Response) {
 		console.log(345, 'срабатывает ', res)
 		this.cookieService.removeToken(res)
+		return true
 	}
 
 	@HttpCode(200)
@@ -52,7 +53,7 @@ export class AuthController {
 		return session
 	}
 
-	// 	this.cookieService.setToken(res, accessToken)
+	// this.cookieService.setToken(res, accessToken)
 	// }
 
 	// @Get()
