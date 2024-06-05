@@ -1,8 +1,10 @@
 import { FC } from 'react'
 import { useTelegram } from '../../hooks/useTelegram'
+import { useSessionQuery } from '@/pages/Auth/hooks/useSessionQuery'
 
 const Header: FC = () => {
-  // const { data: session } = useSessionQuery()
+  const { session } = useSessionQuery()
+  console.log(session)
 
   // if (!session) return null
 
@@ -35,6 +37,10 @@ const Header: FC = () => {
         >
           Товары
         </a>
+        <div className="flex gap-2 items-center">
+          {session?.data.userName}
+          {/* <SignOutButton /> */}
+        </div>
         {/* <Button
           onClick={onClose}
           className="bg-transparent border-none text-white hover:text-gray-400 focus:text-gray-400"
