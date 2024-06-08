@@ -19,5 +19,8 @@ export function useCreateOrder() {
     }
   })
 
+  // если  mutate то react-query сам обрабатывает ошибки
+  // если  mutateAsync то самому придется обрабатывает ошибки
+
   return { createOrder, isPending }
 }

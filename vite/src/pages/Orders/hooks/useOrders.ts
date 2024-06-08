@@ -4,15 +4,23 @@ import { useEffect, useState } from 'react'
 import { OrderService } from '@/services/order/order.service'
 import { IOrder } from '@/shared/types/order.types'
 
+const isAuth = true
+
 export function useOrders() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['orders'],
-    queryFn: () => OrderService.getAllOrders()
+    queryFn: () => OrderService.getAllOrders(),
+    enabled: isAuth // отключает включает запросник
+    // select: (data) => data.data // избавляемся от лишней data
     // надо читать Rename cacheTime to gcTime
     // keepPreviousData: true, // Сохраняет предыдущие данные до обновления
     // staleTime: 10000, // Данные считаются устаревшими через 10 секунд
-    // cacheTime: 60000, // Данные удаляются из кэша через 60 секунд
+    // cacheTime: 60000, // Данные удаляются из кэша через 60 секунд RED сказал что вырезали
   })
+
+  // =======
+  // isLoading срабатывает когда идет первый раз запрос
+  // isFetched срабатывает когда данные обновляются из кэша
 
   const [orders, setOrders] = useState<IOrder[] | undefined>(data?.data)
 
