@@ -1,7 +1,7 @@
 import { AuthService } from '@/services/auth/auth.service'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
-const sessionKey = ['session']
+// const sessionKey = ['session']
 
 export function useSessionQuery() {
   const {
@@ -9,7 +9,7 @@ export function useSessionQuery() {
     isLoading,
     isError
   } = useQuery({
-    queryKey: sessionKey,
+    queryKey: ['session'],
     queryFn: () => AuthService.session(),
     retry: 0, // по умолчанию делает несколько попыток залогиниться
     staleTime: 5 * 60 * 1000 //4:32:35 избавлялись от лишних запросов. Если staleTime стал больше 0, у нас появляется потребность в ручной валидации.

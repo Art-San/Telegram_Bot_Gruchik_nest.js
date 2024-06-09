@@ -47,6 +47,7 @@ export class OrdersService {
 			throw error
 		}
 	}
+
 	// async findAllOrders(page = 1, pageSize = 10) {
 	// 	try {
 	// 		const offset = (page - 1) * pageSize
@@ -96,43 +97,43 @@ export class OrdersService {
 		}
 	}
 
-	// async findPagination(
-	// 	page: number,
-	// 	pageSize: number
-	// ): Promise<IPaginationResult<IOrder>> {
-	// 	try {
-	// 		const offset = (page - 1) * pageSize
+	async findPagination(
+		page: number,
+		pageSize: number
+	): Promise<IPaginationResult<IOrder>> {
+		try {
+			const offset = (page - 1) * pageSize
 
-	// 		const orders = await this.db.order.findMany({
-	// 			orderBy: {
-	// 				createdAt: 'desc',
-	// 			},
-	// 			skip: offset,
-	// 			take: pageSize,
-	// 		})
+			const orders = await this.db.order.findMany({
+				orderBy: {
+					createdAt: 'desc',
+				},
+				skip: offset,
+				take: pageSize,
+			})
 
-	// 		const totalOrders = await this.db.order.count() // Подсчет общего количества заказов
+			const totalOrders = await this.db.order.count() // Подсчет общего количества заказов
 
-	// 		// Преобразование объектов Date в строки
-	// 		const transformedOrders: IOrder[] = orders.map((order) => ({
-	// 			...order,
-	// 			createdAt: order.createdAt.toISOString(),
-	// 			updatedAt: order.updatedAt.toISOString(),
-	// 		}))
+			// Преобразование объектов Date в строки
+			const transformedOrders: IOrder[] = orders.map((order) => ({
+				...order,
+				createdAt: order.createdAt.toISOString(),
+				updatedAt: order.updatedAt.toISOString(),
+			}))
 
-	// 		// return { ---------- Можно было без трансформации createdAt и updatedAt
-	// 		// 	data: orders, ----------- НО ТОГДА ПРИШЛОСЬ БЫ В interface писать к ним any
-	// 		// 	totalPages: Math.ceil(totalOrders / pageSize),
-	// 		// }
-	// 		return {
-	// 			data: transformedOrders,
-	// 			totalPages: Math.ceil(totalOrders / pageSize),
-	// 		}
-	// 	} catch (error) {
-	// 		console.log(0, 'Ошибка в findAllOrders', error.message)
-	// 		throw new Error('Ошибка в findAllOrders: ' + error.message)
-	// 	}
-	// }
+			// return { ---------- Можно было без трансформации createdAt и updatedAt
+			// 	data: orders, ----------- НО ТОГДА ПРИШЛОСЬ БЫ В interface писать к ним any
+			// 	totalPages: Math.ceil(totalOrders / pageSize),
+			// }
+			return {
+				data: transformedOrders,
+				totalPages: Math.ceil(totalOrders / pageSize),
+			}
+		} catch (error) {
+			console.log(0, 'Ошибка в findAllOrders', error.message)
+			throw new Error('Ошибка в findAllOrders: ' + error.message)
+		}
+	}
 
 	async findByOrderId(orderId: string) {
 		try {

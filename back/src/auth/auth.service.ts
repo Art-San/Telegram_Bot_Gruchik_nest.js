@@ -24,8 +24,13 @@ export class AuthService {
 				userName: user.userName,
 			})
 
+			const data = {
+				telegramId: user.telegramId,
+				userName: user.userName,
+			}
+
 			// return user
-			return { accessToken }
+			return { data, accessToken }
 		} catch (error) {
 			throw error
 		}

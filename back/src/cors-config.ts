@@ -1,18 +1,18 @@
 // src/cors-config.ts
 
-export const corsOptions = {
-	// origin: process.env.NGROK_URL,
-	origin: 'http://localhost:5173', // Замените на домен вашего клиента
-	methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-	credentials: true, // Разрешает запросы с учетными данными
-}
+// export const corsOptions = {
+// 	origin: '*', // Замените на домен вашего клиента
+// 	// origin: 'http://localhost:5173', // Замените на домен вашего клиента
+// 	methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+// 	credentials: true, // Разрешает запросы с учетными данными (true записывается access-token в cookies, на фронте axios.create({ withCredentials: true }) )
+// }
 
 // ----------------------------------------
-// export const corsConfig = {
-// 	origin: '*',
-// 	methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-// 	preflightContinue: false,
-// }
+export const corsConfig = {
+	origin: '*',
+	methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+	preflightContinue: false,
+}
 // ----------------------------------------
 
 // --------  credentials: true

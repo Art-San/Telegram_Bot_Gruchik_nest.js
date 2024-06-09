@@ -5,13 +5,13 @@ import { OrderService } from '@/services/order/order.service'
 import { IOrder } from '@/shared/types/order.types'
 
 const isAuth = true
-
+// pagination
 export function useOrders() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['orders'],
     queryFn: () => OrderService.getAllOrders(),
+    select: (data) => data.data, // избавляемся от лишней data
     enabled: isAuth // отключает включает запросник
-    // select: (data) => data.data // избавляемся от лишней data
     // надо читать Rename cacheTime to gcTime
     // keepPreviousData: true, // Сохраняет предыдущие данные до обновления
     // staleTime: 10000, // Данные считаются устаревшими через 10 секунд
@@ -22,11 +22,11 @@ export function useOrders() {
   // isLoading срабатывает когда идет первый раз запрос
   // isFetched срабатывает когда данные обновляются из кэша
 
-  const [orders, setOrders] = useState<IOrder[] | undefined>(data?.data)
+  const [orders, setOrders] = useState<IOrder[] | undefined>(data)
 
   useEffect(() => {
-    setOrders(data?.data)
-  }, [data?.data])
+    setOrders(data)
+  }, [data])
 
   return { orders, isLoading, isError }
 }

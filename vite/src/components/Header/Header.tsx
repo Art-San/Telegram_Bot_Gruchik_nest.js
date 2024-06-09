@@ -1,11 +1,11 @@
 import { FC } from 'react'
 import { useTelegram } from '../../hooks/useTelegram'
-import { useSessionQuery } from '@/pages/Auth/hooks/useSessionQuery'
-import { LogoutButton } from '../CustomButton/LogoutButton'
+// import { useSessionQuery } from '@/pages/Auth/hooks/useSessionQuery'
+// import { LogoutButton } from '../CustomButton/LogoutButton'
 
 const Header: FC = () => {
-  const { session } = useSessionQuery()
-  console.log(session)
+  // const { session } = useSessionQuery()
+  // console.log(session)
 
   // if (!session) return null
 
@@ -38,7 +38,7 @@ const Header: FC = () => {
         >
           Товары
         </a>
-        {session && (
+        {/* {session && (
           <div className="flex flex-col gap-2 items-center">
             <p>{session?.data.userName}</p>
             <div className=" flex gap-2 items-center">
@@ -46,7 +46,7 @@ const Header: FC = () => {
               <LogoutButton />
             </div>
           </div>
-        )}
+        )} */}
       </nav>
     </div>
   )

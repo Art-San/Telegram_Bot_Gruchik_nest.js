@@ -26,14 +26,14 @@ export class OrdersController {
 		return res
 	}
 
-	// @Get()
-	// async getOPagination(
-	// 	@Query('page') page: number = 1,
-	// 	@Query('pageSize') pageSize: number = 10
-	// ) {
-	// 	const res = await this.ordersService.findAllOrders(+page, +pageSize)
-	// 	return res
-	// }
+	@Get('pagination')
+	async getOPagination(
+		@Query('page') page: number = 1,
+		@Query('pageSize') pageSize: number = 10
+	) {
+		const res = await this.ordersService.findPagination(+page, +pageSize)
+		return res
+	}
 
 	@Get(':orderId')
 	async getOrder(@Param('orderId') orderId: string) {

@@ -28,12 +28,13 @@ export class AuthController {
 	@Post('login')
 	async login(@Body() dto: AuthDto, @Res({ passthrough: true }) res: Response) {
 		const telegramId = dto.password
-		const { accessToken } = await this.authService.login(
+		const { data, accessToken } = await this.authService.login(
 			dto.userName,
 			telegramId
 		)
 
 		this.cookieService.setToken(res, accessToken)
+		return data
 	}
 
 	@Post('logout')
@@ -49,30 +50,14 @@ export class AuthController {
 	@Get('session')
 	@UseGuards(AuthGuard)
 	getSessionInfo(@SessionInfo() session: GetSessionInfoDto) {
+		console.log(123, 'session', session)
+		return session
+	}
+	@HttpCode(200)
+	@Get('me')
+	@UseGuards(AuthGuard)
+	getMe(@SessionInfo() session: GetSessionInfoDto) {
 		// console.log(123, 'session', session)
 		return session
 	}
-
-	// this.cookieService.setToken(res, accessToken)
-	// }
-
-	// @Get()
-	// findAll() {
-	//   return this.authService.findAll();
-	// }
-
-	// @Get(':id')
-	// findOne(@Param('id') id: string) {
-	//   return this.authService.findOne(+id);
-	// }
-
-	// @Patch(':id')
-	// update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-	//   return this.authService.update(+id, updateAuthDto);
-	// }
-
-	// @Delete(':id')
-	// remove(@Param('id') id: string) {
-	//   return this.authService.remove(+id);
-	// }
 }

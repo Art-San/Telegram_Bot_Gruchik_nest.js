@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import TableOrders from '@/components/Table/TableOrders'
+// import TableOrders from '@/components/Table/TableOrders'
+import TableOrdersPag from '@/components/Table/TableOrdersPag'
 // import { useSessionQuery } from '@/pages/Auth/hooks/useSessionQuery'
 
 const OrdersPage: FC = () => {
@@ -23,7 +24,8 @@ const OrdersPage: FC = () => {
   return (
     <>
       <div className=" flex flex-col justify-center items-center gap-6">
-        {<TableOrders />}
+        {/* {<TableOrders />} */}
+        <TableOrdersPag />
         {/* {orders && <TableOrders orders={orders} />} */}
       </div>
       <div className="flex flex-col space-y-4">

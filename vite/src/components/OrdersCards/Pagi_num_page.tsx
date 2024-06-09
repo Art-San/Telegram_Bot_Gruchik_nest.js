@@ -15,7 +15,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
   const page = urlParams.get('page') || '1'
-  const pageSize = urlParams.get('pageSize') || '2'
+  const pageSize = urlParams.get('pageSize') || '3'
   return { page, pageSize }
 }
 
