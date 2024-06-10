@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 import ProductList from './components/ProductList/ProductList'
 import Header from './components/Header/Header'

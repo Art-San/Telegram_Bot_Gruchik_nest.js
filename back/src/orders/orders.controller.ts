@@ -32,6 +32,7 @@ export class OrdersController {
 		@Query('pageSize') pageSize: number = 10
 	) {
 		const res = await this.ordersService.findPagination(+page, +pageSize)
+		console.log(123, res)
 		return res
 	}
 
