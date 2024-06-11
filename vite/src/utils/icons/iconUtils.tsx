@@ -8,7 +8,10 @@ import {
   Trash2,
   Piano,
   Anvil,
-  CircleHelp
+  CircleHelp,
+  UserPlus,
+  LockKeyhole,
+  ShieldQuestion
 } from 'lucide-react'
 
 // export const validIconTypeWork = (type: string) => {
@@ -80,33 +83,37 @@ export const validIconTypeWork = (type: string) => {
 //   return <div className="flex gap-1">{icons || <CircleHelp />}</div>
 // }
 
-export const validIconStatus = (status: string) => {
-  switch (status) {
-    case 'created':
-      return <p>Создана</p>
-    case 'pending':
-      return <p>Ожидание</p>
-    case 'inProgress':
-      return <p>В процессе</p>
-    case 'completed':
-      return <p>Выполнена</p>
-    default:
-      return <p>Так</p>
-  }
-}
+// export const validIconStatus = (status: string) => {
+//   switch (status) {
+//     case 'created':
+//       return <p>Создана</p>
+//     case 'pending':
+//       return <p>Ожидание</p>
+//     case 'inProgress':
+//       return <p>В процессе</p>
+//     case 'completed':
+//       return <p>Выполнена</p>
+//     default:
+//       return <p>Так</p>
+//   }
+// }
 
 //=======================================================
-// const statusMessages: { [key: string]: JSX.Element } = {
-//   created: <Anvil />,
-//   pending: <CircleHelp />,
-//   inProgress: <HardHat />,
-//   completed: <Trash2 />,
-//   default: <Piano />
-// }
+const statusMessages: { [key: string]: JSX.Element } = {
+  created: <UserPlus className=" text-green-700" />,
+  pending: <LockKeyhole className="text-orange-400" />,
+  inProgress: <LockKeyhole className="text-orange-400" />,
+  completed: <LockKeyhole className="text-green-700" />,
+  default: <ShieldQuestion />
+}
 
-// export const validIconStatus2 = (status: string) => {
-//   return statusMessages[status] || statusMessages.default
-// }
+// <LockKeyhole /> замок закрыт
+// <LockKeyholeOpen /> замок открыт
+// <UserPlus /> человек с +
+
+export const validIconStatus = (status: string) => {
+  return statusMessages[status] || statusMessages.default
+}
 // ====================================================
 // const statusMessages: { [key: string]: string } = {
 //   created: 'Создана',

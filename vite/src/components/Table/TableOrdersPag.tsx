@@ -43,8 +43,7 @@ const TableOrdersPag = () => {
 
   useEffect(() => {
     setTotalPages(total)
-    // setTotalPages(Math.ceil(total / Number(pageSize)))
-  }, [total, pageSize])
+  }, [total])
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(location.search)

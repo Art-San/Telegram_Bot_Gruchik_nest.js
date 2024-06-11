@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import {
   Table,
   TableBody,
@@ -21,15 +23,31 @@ import { getOrderUrl } from '@/configs/api.config'
 import { validIconStatus, validIconTypeWork } from '@/utils/icons/iconUtils'
 import { Button } from '@/components/ui/button'
 import { useDeleteOrder } from '@/pages/Orders/hooks/useDeleteOrder'
-import { useOrdersPag } from '@/pages/Orders/hooks/useOrdersPag'
-import { useState, useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { OrderService } from '@/services/order/order.service'
+import { IOrder, IPaginationResult } from '@/shared/types/order.types'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
   const page = urlParams.get('page') || '1'
-  const pageSize = urlParams.get('pageSize') || '3'
+  const pageSize = urlParams.get('pageSize') || '2'
   return { page, pageSize }
+}
+
+export function useOrdersPag(page: string, pageSize: string) {
+  const { data, isLoading, isError } = useQuery<IPaginationResult<IOrder>>({
+    queryKey: ['orders', page, pageSize],
+    queryFn: () => OrderService.getOrdersPag(page, pageSize)
+  })
+
+  const [orders, setOrders] = useState<IOrder[] | undefined>(data?.data)
+  const [totalPages, setTotalPages] = useState<number>(data?.totalPages || 0)
+
+  useEffect(() => {
+    setOrders(data?.data)
+    setTotalPages(data?.totalPages || 0)
+  }, [data])
+
+  return { orders, isLoading, isError, total: totalPages }
 }
 
 const TableOrdersPag = () => {
@@ -39,16 +57,11 @@ const TableOrdersPag = () => {
   const { page, pageSize } = getPaginationParamsFromUrl()
 
   const { deleteOrder, isDeletePending } = useDeleteOrder()
-  const {
-    orders,
-    isLoading,
-    isError,
-    totalPages: fetchedTotalPages
-  } = useOrdersPag(page, pageSize)
+  const { orders, isLoading, isError, total } = useOrdersPag(page, pageSize)
 
   useEffect(() => {
-    setTotalPages(fetchedTotalPages)
-  }, [fetchedTotalPages])
+    setTotalPages(total)
+  }, [total])
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(location.search)
@@ -78,13 +91,13 @@ const TableOrdersPag = () => {
           {orders &&
             orders.map((order) => (
               <TableRow
-                key={order.id}
+                key={order?.id}
                 className="hover:bg-slate-200 hover:text-gray-600"
               >
-                <TableCell className="font-medium">{order.id}</TableCell>
-                <TableCell>{validIconTypeWork(order.typeWork)}</TableCell>
-                <TableCell>{validIconStatus(order.status)}</TableCell>
-                <TableCell>{`${order.numExecutors} / ${order.executorsCount}`}</TableCell>
+                <TableCell className="font-medium">{order?.id}</TableCell>
+                <TableCell>{validIconTypeWork(order?.typeWork)}</TableCell>
+                <TableCell>{validIconStatus(order?.status)}</TableCell>
+                <TableCell>{`${order?.numExecutors} / ${order.executorsCount}`}</TableCell>
                 <TableCell className="flex justify-end space-x-2">
                   <Link to={getOrderUrl(`/${order.id}`)}>
                     <View className="text-blue-400" />
