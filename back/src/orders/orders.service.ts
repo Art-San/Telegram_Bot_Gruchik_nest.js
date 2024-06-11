@@ -49,7 +49,6 @@ export class OrdersService {
 	}
 
 	async findTodayYesterdayAll(day: string, page: number, pageSize: number) {
-		console.log(day)
 		try {
 			const offset = (page - 1) * pageSize
 
@@ -60,16 +59,16 @@ export class OrdersService {
 			let sevenDaysAgo = new Date(today)
 			sevenDaysAgo.setDate(today.getDate() - 7)
 
-			let dateCondition
+			let dateVar
 			switch (day) {
 				case 'today':
-					dateCondition = today
+					dateVar = today
 					break
 				case 'yesterday':
-					dateCondition = yesterday
+					dateVar = yesterday
 					break
 				case 'sevenDays':
-					dateCondition = sevenDaysAgo // Нет условия по дате, выбираются все заказы
+					dateVar = sevenDaysAgo // Нет условия по дате, выбираются все заказы
 					break
 				default:
 					throw new Error('Invalid day value')
@@ -79,7 +78,7 @@ export class OrdersService {
 						SELECT o.*, COUNT(oe."userId") AS "executorsCount"
 						FROM "Order" o
 						LEFT JOIN "OrderExecutor" oe ON o.id = oe."orderId"
-						WHERE o."createdAt" >= ${dateCondition}
+						WHERE o."createdAt" >= ${dateVar}
 						GROUP BY o.id
 						ORDER BY o."createdAt" DESC
 						LIMIT ${pageSize}
@@ -147,18 +146,18 @@ export class OrdersService {
 			const yesterdayISOString = yesterday.toISOString()
 
 			// Determine the date range based on the day parameter
-			let dateCondition = ''
+			let dateVar = ''
 			if (day === 'today') {
-				dateCondition = `WHERE o."createdAt" >= '${todayISOString}'`
+				dateVar = `WHERE o."createdAt" >= '${todayISOString}'`
 			} else if (day === 'yesterday') {
-				dateCondition = `WHERE o."createdAt" >= '${yesterdayISOString}' AND o."createdAt" < '${todayISOString}'`
+				dateVar = `WHERE o."createdAt" >= '${yesterdayISOString}' AND o."createdAt" < '${todayISOString}'`
 			}
 
 			const ordersWithCounts = await this.db.$queryRaw`
 				SELECT o.*, COUNT(oe."userId") AS "executorsCount"
 				FROM "Order" o
 				LEFT JOIN "OrderExecutor" oe ON o.id = oe."orderId"
-				${dateCondition}
+				${dateVar}
 				GROUP BY o.id
 				ORDER BY o."createdAt" DESC
 				LIMIT ${pageSize}
@@ -175,7 +174,7 @@ export class OrdersService {
 			const totalOrdersResult = await this.db.$queryRaw`
 				SELECT COUNT(*) AS count
 				FROM "Order" o
-				${dateCondition}
+				${dateVar}
 			`
 			const totalOrdersCount = Number(totalOrdersResult[0]?.count || 0)
 
