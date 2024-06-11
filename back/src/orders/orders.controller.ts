@@ -20,21 +20,49 @@ export class OrdersController {
 		return this.ordersService.create(dto)
 	}
 
+	// @Get()
+	// async getAll() {
+	// 	const res = await this.ordersService.findAllOrders()
+	// 	return res
+	// }
 	@Get()
-	async getAll() {
-		const res = await this.ordersService.findAll()
-		return res
-	}
-
-	@Get('pagination')
-	async getOPagination(
+	async getAll(
+		@Query('day') day: string = 'sevenDays', // 'today', // 'yesterday' // 'sevenDays'
 		@Query('page') page: number = 1,
 		@Query('pageSize') pageSize: number = 10
 	) {
-		const res = await this.ordersService.findPagination(+page, +pageSize)
-		console.log(123, res)
+		const res = await this.ordersService.findTodayYesterdayAll(
+			day,
+			+page,
+			+pageSize
+		)
 		return res
 	}
+
+	// @Get('pagination')
+	// async getOPagination(
+	// 	@Query('page') page: number = 1,
+	// 	@Query('pageSize') pageSize: number = 10
+	// ) {
+	// 	const res = await this.ordersService.findPagination(+page, +pageSize)
+	// 	console.log(123, res)
+	// 	return res
+	// }
+
+	// @Get('day')
+	// async getTodayYesterdayAllPag(
+	// 	@Query('day') day: string = 'today', // 'yesterday' // 'sevenDays'
+	// 	@Query('page') page: number = 1,
+	// 	@Query('pageSize') pageSize: number = 10
+	// ) {
+	// 	const res = await this.ordersService.findTodayYesterdayAllPag(
+	// 		day,
+	// 		+page,
+	// 		+pageSize
+	// 	)
+	// 	console.log(123, res)
+	// 	return res
+	// }
 
 	@Get(':orderId')
 	async getOrder(@Param('orderId') orderId: string) {
