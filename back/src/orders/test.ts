@@ -1,49 +1,99 @@
-// day: string, page: number, pageSize: numbe
+import { PrismaClient } from '@prisma/client'
 
-// перепиши функцю так чтоб
-// если day= 'today' то заказы skb за сегодняшний день
-// если day= 'yesterday' то заказы за вчера
-// если day= 'all' то все заказы
+const prisma = new PrismaClient()
 
-// async findTodayYesterdayAll(day: string, page: number, pageSize: number) {
-//   try {
-//       const offset = (page - 1) * pageSize;
+export async function findTodayYesterdaySevenDay(
+	day: string,
+	page: number,
+	pageSize: number
+) {
+	try {
+		const offset = (page - 1) * pageSize
 
-//       let dateCondition = '';
-//       switch (day) {
-//           case 'today':
-//               dateCondition = `WHERE o."createdAt" >= CURRENT_DATE`;
-//               break;
-//           case 'yesterday':
-//               dateCondition = `WHERE o."createdAt" >= CURRENT_DATE - INTERVAL '1 day' AND o."createdAt" < CURRENT_DATE`;
-//               break;
-//           case 'all':
-//               dateCondition = ''; // Нет условия по дате, выбираются все заказы
-//               break;
-//           default:
-//               throw new Error('Invalid day value');
-//       }
+		const today = new Date()
+		today.setHours(0, 0, 0, 0)
+		const yesterday = new Date(today)
+		yesterday.setDate(today.getDate() - 1)
+		const sevenDaysAgo = new Date(today)
+		sevenDaysAgo.setDate(today.getDate() - 7)
 
-//       const ordersWithCounts = await this.db.$queryRaw`
-//           SELECT o.*, COUNT(oe."userId") AS "executorsCount"
-//           FROM "Order" o
-//           LEFT JOIN "OrderExecutor" oe ON o.id = oe."orderId"
-//           ${dateCondition}
-//           GROUP BY o.id
-//           ORDER BY o."createdAt" DESC
-//           LIMIT ${pageSize}
-//           OFFSET ${offset}
-//       `;
+		let dateCondition: any
+		switch (day) {
+			case 'today':
+				dateCondition = {
+					gte: today,
+				}
+				break
+			case 'yesterday':
+				dateCondition = {
+					gte: yesterday,
+					lt: today,
+				}
+				break
+			case 'last7Days':
+				dateCondition = {
+					gte: sevenDaysAgo,
+				}
+				break
+			default:
+				throw new Error('Invalid day value')
+		}
 
-//       // Преобразуем BigInt в число
-//       const orders = (ordersWithCounts as Array<any>).map((order) => ({
-//          ...order,
-//           executorsCount: Number(order.executorsCount),
-//       }));
+		const ordersWithCounts = await prisma.order.findMany({
+			where: {
+				createdAt: dateCondition,
+			},
+			include: {
+				potentialExecutors: {
+					select: {
+						user: {
+							select: {
+								id: true,
+								telegramId: true,
+							},
+						},
+					},
+				},
+				executors: {
+					select: {
+						user: {
+							select: {
+								id: true,
+								telegramId: true,
+								userName: true,
+							},
+						},
+					},
+				},
+			},
+			skip: offset,
+			take: pageSize,
+			orderBy: {
+				createdAt: 'desc',
+			},
+		})
 
-//       return orders;
-//   } catch (error) {
-//       console.log(0, 'Ошибка в findOrdersByDay', error.message);
-//       throw error.message;
-//   }
-// }
+		const transformedOrders = ordersWithCounts.map((order) => ({
+			...order,
+			executorsCount: order.executors.length,
+			createdAt: order.createdAt.toISOString(),
+			updatedAt: order.updatedAt.toISOString(),
+		}))
+
+		const totalOrdersCount = await prisma.order.count({
+			where: {
+				createdAt: dateCondition,
+			},
+		})
+
+		return {
+			data: transformedOrders,
+			totalPages: Math.ceil(totalOrdersCount / pageSize),
+		}
+	} catch (error) {
+		console.log('Ошибка в findTodayYesterdaySevenDay', error.message)
+		throw new Error(error.message)
+	}
+}
+
+export default findTodayYesterdaySevenDay

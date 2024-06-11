@@ -8,6 +8,6 @@
 
 export const VITE_URL_API = `${import.meta.env.VITE_API_URL}/api`
 
-export const getOrderPagUrl = (string: string) => `/orders/pagination${string}`
+export const getOrderPagUrl = (string: string) => `/orders${string}`
 export const getOrderUrl = (string: string) => `/orders${string}`
 export const getAuthUrl = (string: string) => `/auth${string}`

@@ -25,13 +25,14 @@ export class OrdersController {
 	// 	const res = await this.ordersService.findAllOrders()
 	// 	return res
 	// }
+
 	@Get()
-	async getAll(
-		@Query('day') day: string = 'sevenDays', // 'today', // 'yesterday' // 'sevenDays'
+	async getTodayYesterdaySevenDay(
+		@Query('day') day: string = 'last7Days', // 'today', // 'yesterday' // 'last7Days' // ast30Days
 		@Query('page') page: number = 1,
 		@Query('pageSize') pageSize: number = 10
 	) {
-		const res = await this.ordersService.findTodayYesterdayAll(
+		const res = await this.ordersService.findTodayYesterdaySevenDay(
 			day,
 			+page,
 			+pageSize
@@ -39,34 +40,17 @@ export class OrdersController {
 		return res
 	}
 
-	// @Get('pagination')
-	// async getOPagination(
-	// 	@Query('page') page: number = 1,
-	// 	@Query('pageSize') pageSize: number = 10
-	// ) {
-	// 	const res = await this.ordersService.findPagination(+page, +pageSize)
-	// 	console.log(123, res)
-	// 	return res
-	// }
-
-	// @Get('day')
-	// async getTodayYesterdayAllPag(
-	// 	@Query('day') day: string = 'today', // 'yesterday' // 'sevenDays'
-	// 	@Query('page') page: number = 1,
-	// 	@Query('pageSize') pageSize: number = 10
-	// ) {
-	// 	const res = await this.ordersService.findTodayYesterdayAllPag(
-	// 		day,
-	// 		+page,
-	// 		+pageSize
-	// 	)
-	// 	console.log(123, res)
-	// 	return res
-	// }
+	@Get('pagination')
+	async getOPagination(
+		@Query('page') page: number = 1,
+		@Query('pageSize') pageSize: number = 10
+	) {
+		const res = await this.ordersService.findPagination(+page, +pageSize)
+		return res
+	}
 
 	@Get(':orderId')
 	async getOrder(@Param('orderId') orderId: string) {
-		// console.log(12, orderId)
 		return this.ordersService.findByOrderId(orderId)
 	}
 	@Delete(':orderId')
@@ -82,12 +66,3 @@ export class OrdersController {
 		return this.ordersService.removeExecutorFromOrder(orderId, executorId)
 	}
 }
-
-// `api/orders/${orderId}/remove-executor/${executorId}`
-// http://localhost:3001/api/orders?page=1&pageSize=10
-// export const getOrderUrl = (string: string) => `/orders${string}`
-// async getAllOrders() {
-// 	return axiosClassic.get<IOrder[]>(getOrderUrl(``), {
-// 		params: {}
-// 	})
-// },

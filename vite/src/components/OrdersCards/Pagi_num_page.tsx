@@ -11,6 +11,7 @@ import {
   PaginationPrevious
 } from '@/components/ui/pagination'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { transformDate } from '@/utils/dateUtils'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
@@ -21,7 +22,6 @@ function getPaginationParamsFromUrl() {
 
 const OrdersCards_2 = () => {
   const [orders, setOrders] = useState<IOrder[]>([])
-  // const [orders, setOrders] = useState<IOrder[]>([])
   const [totalPages, setTotalPages] = useState<number>(1)
   const location = useLocation()
   const navigate = useNavigate()
@@ -47,12 +47,15 @@ const OrdersCards_2 = () => {
     navigate({ search: params.toString() })
   }
 
+  // const date = transformDate(orders[0]?.createdAt)
+  // console.log(12, date)
   return (
     <>
       {orders &&
         orders.map((el) => (
           <div className="flex flex-col" key={el.id}>
             <h1 className="text-xl">{el.authorName}</h1>
+            <p>{transformDate(el?.createdAt)}</p>
           </div>
         ))}
       <Pagination>

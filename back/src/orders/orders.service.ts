@@ -48,153 +48,99 @@ export class OrdersService {
 		}
 	}
 
-	async findTodayYesterdayAll(day: string, page: number, pageSize: number) {
+	async findTodayYesterdaySevenDay(
+		day: string,
+		page: number,
+		pageSize: number
+	) {
 		try {
 			const offset = (page - 1) * pageSize
 
 			const today = new Date()
 			today.setHours(0, 0, 0, 0)
-			let yesterday = new Date(today)
-			yesterday.setDate(yesterday.getDate() - 1)
-			let sevenDaysAgo = new Date(today)
+			const yesterday = new Date(today)
+			yesterday.setDate(today.getDate() - 1)
+			const sevenDaysAgo = new Date(today)
 			sevenDaysAgo.setDate(today.getDate() - 7)
 
-			let dateVar
+			let dateCondition: any
 			switch (day) {
 				case 'today':
-					dateVar = today
+					dateCondition = {
+						gte: today,
+					}
 					break
 				case 'yesterday':
-					dateVar = yesterday
+					dateCondition = {
+						gte: yesterday,
+						lt: today,
+					}
 					break
-				case 'sevenDays':
-					dateVar = sevenDaysAgo // Нет условия по дате, выбираются все заказы
+				case 'last7Days':
+					dateCondition = {
+						gte: sevenDaysAgo,
+					}
 					break
 				default:
 					throw new Error('Invalid day value')
 			}
 
-			const ordersWithCounts = await this.db.$queryRaw`
-						SELECT o.*, COUNT(oe."userId") AS "executorsCount"
-						FROM "Order" o
-						LEFT JOIN "OrderExecutor" oe ON o.id = oe."orderId"
-						WHERE o."createdAt" >= ${dateVar}
-						GROUP BY o.id
-						ORDER BY o."createdAt" DESC
-						LIMIT ${pageSize}
-						OFFSET ${offset}
-				`
+			const ordersWithCounts = await this.db.order.findMany({
+				where: {
+					createdAt: dateCondition,
+				},
+				include: {
+					potentialExecutors: {
+						select: {
+							user: {
+								select: {
+									id: true,
+									telegramId: true,
+								},
+							},
+						},
+					},
+					executors: {
+						select: {
+							user: {
+								select: {
+									id: true,
+									telegramId: true,
+									userName: true,
+								},
+							},
+						},
+					},
+				},
+				skip: offset,
+				take: pageSize,
+				orderBy: {
+					createdAt: 'desc',
+				},
+			})
 
-			// Преобразуем BigInt в число
-			const orders = (ordersWithCounts as Array<any>).map((order) => ({
+			const transformedOrders = ordersWithCounts.map((order) => ({
 				...order,
-				executorsCount: Number(order.executorsCount),
-			}))
-
-			return orders
-		} catch (error) {
-			console.log(0, 'Ошибка в findOrdersByDay', error.message)
-			throw error.message
-		}
-	}
-
-	// async findTodayYesterday(page: number, pageSize: number) {
-	// 	try {
-	// 		const offset = (page - 1) * pageSize
-
-	// 		// Получаем текущую дату и дату вчерашнего дня
-	// 		const today = new Date()
-	// 		today.setHours(0, 0, 0, 0) // Устанавливаем время в 00:00:00
-	// 		const yesterday = new Date(today)
-	// 		yesterday.setDate(yesterday.getDate() - 1)
-
-	// 		const ordersWithCounts = await this.db.$queryRaw`
-	//           SELECT o.*, COUNT(oe."userId") AS "executorsCount"
-	//           FROM "Order" o
-	//           LEFT JOIN "OrderExecutor" oe ON o.id = oe."orderId"
-	//           WHERE o."createdAt" >= ${yesterday}
-	//           GROUP BY o.id
-	//           ORDER BY o."createdAt" DESC
-	//           LIMIT ${pageSize}
-	//           OFFSET ${offset}
-	//       `
-
-	// 		// Преобразуем BigInt в число
-	// 		const orders = (ordersWithCounts as Array<any>).map((order) => ({
-	// 			...order,
-	// 			executorsCount: Number(order.executorsCount),
-	// 		}))
-
-	// 		// console.log(12, orders)
-	// 		return orders
-	// 	} catch (error) {
-	// 		console.log(0, 'Ошибка в findAllOrders', error.message)
-	// 		throw error.message
-	// 	}
-	// }
-
-	async findTodayYesterdayAllPag(day: string, page: number, pageSize: number) {
-		try {
-			const offset = (page - 1) * pageSize
-
-			// Get current date and yesterday's date
-			const today = new Date()
-			today.setHours(0, 0, 0, 0) // Set time to 00:00:00
-			const todayISOString = today.toISOString()
-			const yesterday = new Date(today)
-			yesterday.setDate(yesterday.getDate() - 1)
-			const yesterdayISOString = yesterday.toISOString()
-
-			// Determine the date range based on the day parameter
-			let dateVar = ''
-			if (day === 'today') {
-				dateVar = `WHERE o."createdAt" >= '${todayISOString}'`
-			} else if (day === 'yesterday') {
-				dateVar = `WHERE o."createdAt" >= '${yesterdayISOString}' AND o."createdAt" < '${todayISOString}'`
-			}
-
-			const ordersWithCounts = await this.db.$queryRaw`
-				SELECT o.*, COUNT(oe."userId") AS "executorsCount"
-				FROM "Order" o
-				LEFT JOIN "OrderExecutor" oe ON o.id = oe."orderId"
-				${dateVar}
-				GROUP BY o.id
-				ORDER BY o."createdAt" DESC
-				LIMIT ${pageSize}
-				OFFSET ${offset}
-			`
-
-			// Transform BigInt to number
-			const orders = (ordersWithCounts as Array<any>).map((order) => ({
-				...order,
-				executorsCount: Number(order.executorsCount),
-			}))
-
-			// Calculate total orders for pagination
-			const totalOrdersResult = await this.db.$queryRaw`
-				SELECT COUNT(*) AS count
-				FROM "Order" o
-				${dateVar}
-			`
-			const totalOrdersCount = Number(totalOrdersResult[0]?.count || 0)
-
-			// Transform the order dates to ISO strings
-			const transformedOrders = orders.map((order) => ({
-				...order,
+				executorsCount: order.executors.length,
 				createdAt: order.createdAt.toISOString(),
 				updatedAt: order.updatedAt.toISOString(),
 			}))
+
+			const totalOrdersCount = await this.db.order.count({
+				where: {
+					createdAt: dateCondition,
+				},
+			})
 
 			return {
 				data: transformedOrders,
 				totalPages: Math.ceil(totalOrdersCount / pageSize),
 			}
 		} catch (error) {
-			console.log('Ошибка в findTodayYesterdayAllPag', error.message)
-			throw error.message
+			console.log('Ошибка в findTodayYesterdaySevenDay', error.message)
+			throw new Error(error.message)
 		}
 	}
-
 	// async findAll() {
 	// 	try {
 	// 		const orders = await this.db.order.findMany({
@@ -206,6 +152,75 @@ export class OrdersService {
 	// 	} catch (error) {
 	// 		console.log(0, 'Ошибка в findAllOrders', error.message)
 	// 		throw new Error('Ошибка в findAllOrders: ' + error.message)
+	// 	}
+	// }
+
+	// async findTodayYesterdaySevenDay(
+	// 	day: string,
+	// 	page: number,
+	// 	pageSize: number
+	// ) {
+	// 	try {
+	// 		const offset = (page - 1) * pageSize
+
+	// 		const today = new Date()
+	// 		today.setHours(0, 0, 0, 0)
+	// 		let yesterday = new Date(today)
+	// 		yesterday.setDate(yesterday.getDate() - 1)
+	// 		let sevenDaysAgo = new Date(today)
+	// 		sevenDaysAgo.setDate(today.getDate() - 7)
+
+	// 		let dateVar
+	// 		switch (day) {
+	// 			case 'today':
+	// 				dateVar = today
+	// 				break
+	// 			case 'yesterday':
+	// 				dateVar = yesterday
+	// 				break
+	// 			case 'last7Days':
+	// 				dateVar = sevenDaysAgo // Нет условия по дате, выбираются все заказы
+	// 				break
+	// 			default:
+	// 				throw new Error('Invalid day value')
+	// 		}
+
+	// 		const ordersWithCounts = await this.db.$queryRaw`
+	// 					SELECT o.*, COUNT(oe."userId") AS "executorsCount"
+	// 					FROM "Order" o
+	// 					LEFT JOIN "OrderExecutor" oe ON o.id = oe."orderId"
+	// 					WHERE o."createdAt" >= ${dateVar}
+	// 					GROUP BY o.id
+	// 					ORDER BY o."createdAt" DESC
+	// 					LIMIT ${pageSize}
+	// 					OFFSET ${offset}
+	// 			`
+
+	// 		// Преобразуем BigInt в число
+	// 		const orders = (ordersWithCounts as Array<any>).map((order) => ({
+	// 			...order,
+	// 			executorsCount: Number(order.executorsCount),
+	// 		}))
+
+	// 		const totalOrdersResult = await this.db.$queryRaw`
+	//     SELECT COUNT(*) AS count
+	//     FROM "Order" o
+	//     WHERE o."createdAt" >= ${dateVar}
+	//   `
+	// 		const totalOrdersCount = Number(totalOrdersResult[0]?.count || 0)
+	// 		const transformedOrders: IOrder[] = orders.map((order) => ({
+	// 			...order,
+	// 			createdAt: order.createdAt.toISOString(),
+	// 			updatedAt: order.updatedAt.toISOString(),
+	// 		}))
+
+	// 		return {
+	// 			data: transformedOrders,
+	// 			totalPages: Math.ceil(totalOrdersCount / pageSize),
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(0, 'Ошибка в findOrdersByDay', error.message)
+	// 		throw error.message
 	// 	}
 	// }
 

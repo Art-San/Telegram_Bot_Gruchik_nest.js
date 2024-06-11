@@ -24,6 +24,7 @@ import { useDeleteOrder } from '@/pages/Orders/hooks/useDeleteOrder'
 import { useOrdersPag } from '@/pages/Orders/hooks/useOrdersPag'
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { transformDate } from '@/utils/dateUtils'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
@@ -76,7 +77,12 @@ const TableOrdersPag = () => {
                 key={order?.id}
                 className="hover:bg-slate-200 hover:text-gray-600"
               >
-                <TableCell className="font-medium">{order?.id}</TableCell>
+                <TableCell className="font-medium">
+                  <div className="">
+                    <p>{order?.id}</p>
+                    <p>{transformDate(order?.createdAt)}</p>
+                  </div>
+                </TableCell>
                 <TableCell>{validIconTypeWork(order?.typeWork)}</TableCell>
                 <TableCell>{validIconStatus(order?.status)}</TableCell>
                 <TableCell>{`${order?.numExecutors} / ${order.executorsCount}`}</TableCell>
