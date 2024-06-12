@@ -6,6 +6,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { useOrdersPag } from '@/pages/Orders/hooks/useOrdersPag'
+import { validDay } from '@/utils/validDays'
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -15,6 +16,16 @@ function getDaysParamsFromUrl() {
   const days = urlParams.get('days') || 'today'
   return { days }
 }
+
+// const validType = (type: keyof typeof days) => {
+//   const days = {
+//     today: 'Сегодня',
+//     yesterday: 'Вчера',
+//     last7Days: 'Последние 7 дней'
+//   }
+
+//   return <div className="flex gap-1">{days[type] || 'х.з'}</div>
+// }
 
 const SelectDays = () => {
   const navigate = useNavigate()
@@ -35,16 +46,29 @@ const SelectDays = () => {
 
   return (
     <>
-      <Select onValueChange={handleChange}>
-        <SelectTrigger className="focus:ring-2 focus:ring-inset focus:ring-indigo-100">
-          <SelectValue placeholder={day} />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="today">Сегодня</SelectItem>
-          <SelectItem value="yesterday">Вчера</SelectItem>
-          <SelectItem value="last7Days">Последние 7 дней</SelectItem>
-        </SelectContent>
-      </Select>
+      <div className=" flex justify-end space-x-4">
+        {/* <div className=" flex justify-end items-end space-x-4"> */}
+        <Select onValueChange={handleChange}>
+          <SelectTrigger className="max-w-fit flex focus:ring-2 focus:ring-inset focus:ring-indigo-100">
+            <SelectValue placeholder={validDay(day)} className="" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="today">Сегодня</SelectItem>
+            <SelectItem value="yesterday">Вчера</SelectItem>
+            <SelectItem value="last7Days">Последние 7 дней</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select onValueChange={handleChange}>
+          <SelectTrigger className="max-w-fit flex focus:ring-2 focus:ring-inset focus:ring-indigo-100">
+            <SelectValue placeholder={day} className="" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="today">Сегодня</SelectItem>
+            <SelectItem value="yesterday">Вчера</SelectItem>
+            <SelectItem value="last7Days">Последние 7 дней</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </>
   )
 }
