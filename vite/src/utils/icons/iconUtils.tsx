@@ -1,43 +1,31 @@
 import React from 'react'
 import {
-  Package,
-  Sofa,
-  Refrigerator,
-  Cuboid,
-  HardHat,
-  Trash2,
-  Piano,
-  Anvil,
+  // Package,
+  // Sofa,
+  // Refrigerator,
+  // Cuboid,
+  // HardHat,
+  // Trash2,
+  // Piano,
+  // Anvil,
   CircleHelp,
   UserPlus,
   LockKeyhole,
   ShieldQuestion
 } from 'lucide-react'
 
-// export const validIconTypeWork = (type: string) => {
-//   switch (type) {
-//     case 'moving':
-//       return (
-//         <div className="flex gap-1">
-//           <Package /> <Sofa /> <Refrigerator />
-//         </div>
-//       )
-//     case 'construction':
-//       return (
-//         <div className="flex gap-1">
-//           <HardHat /> <Cuboid /> <Trash2 />
-//         </div>
-//       )
-//     case 'rigging':
-//       return (
-//         <div className="flex gap-1">
-//           <Piano /> <Anvil />
-//         </div>
-//       )
-//     default:
-//       return <CircleHelp />
-//   }
-// }
+export const validIconTypeWork = (type: string) => {
+  switch (type) {
+    case 'moving':
+      return <p>п/в/м</p>
+    case 'construction':
+      return <p>с/м/м</p>
+    case 'rigging':
+      return <p>т/п/с</p>
+    default:
+      return <CircleHelp />
+  }
+}
 
 // export const validIconTypeWork = (type: string) => {
 //   const iconMap = {
@@ -48,29 +36,29 @@ import {
 
 //   return <div className="flex gap-1">{iconMap[type] || <CircleHelp />}</div>
 // }
-export const validIconTypeWork = (type: string) => {
-  const iconMap = {
-    moving: (
-      <div className="flex gap-1">
-        <Package />, <Sofa />, <Refrigerator />
-      </div>
-    ),
-    construction: (
-      <div className="flex gap-1">
-        <HardHat />, <Cuboid />, <Trash2 />
-      </div>
-    ),
-    rigging: (
-      <div className="flex gap-1">
-        <Piano />, <Anvil />
-      </div>
-    )
-  }
+// export const validIconTypeWork = (type: string) => {
+//   const iconMap = {
+//     moving: (
+//       <div className="flex gap-1">
+//         <Package />, <Sofa />, <Refrigerator />
+//       </div>
+//     ),
+//     construction: (
+//       <div className="flex gap-1">
+//         <HardHat />, <Cuboid />, <Trash2 />
+//       </div>
+//     ),
+//     rigging: (
+//       <div className="flex gap-1">
+//         <Piano />, <Anvil />
+//       </div>
+//     )
+//   }
 
-  // Используем утверждение типа для ключа
-  const icons = iconMap[type as keyof typeof iconMap]
-  return <div className="flex gap-1">{icons || <CircleHelp />}</div>
-}
+//   // Используем утверждение типа для ключа
+//   const icons = iconMap[type as keyof typeof iconMap]
+//   return <div className="flex gap-1">{icons || <CircleHelp />}</div>
+// }
 // export const validIconTypeWork = (type: string) => {
 //   const iconMap: Record<string, JSX.Element[]> = {
 //     moving: [<Package />, <Sofa />, <Refrigerator />],

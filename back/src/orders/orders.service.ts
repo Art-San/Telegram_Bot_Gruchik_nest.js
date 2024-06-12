@@ -49,7 +49,7 @@ export class OrdersService {
 	}
 
 	async findTodayYesterdaySevenDay(
-		day: string,
+		days: string,
 		page: number,
 		pageSize: number
 	) {
@@ -64,7 +64,7 @@ export class OrdersService {
 			sevenDaysAgo.setDate(today.getDate() - 7)
 
 			let dateCondition: any
-			switch (day) {
+			switch (days) {
 				case 'today':
 					dateCondition = {
 						gte: today,
@@ -82,7 +82,7 @@ export class OrdersService {
 					}
 					break
 				default:
-					throw new Error('Invalid day value')
+					throw new Error('Invalid days value')
 			}
 
 			const ordersWithCounts = await this.db.order.findMany({
@@ -156,7 +156,7 @@ export class OrdersService {
 	// }
 
 	// async findTodayYesterdaySevenDay(
-	// 	day: string,
+	// 	days: string,
 	// 	page: number,
 	// 	pageSize: number
 	// ) {
@@ -171,7 +171,7 @@ export class OrdersService {
 	// 		sevenDaysAgo.setDate(today.getDate() - 7)
 
 	// 		let dateVar
-	// 		switch (day) {
+	// 		switch (days) {
 	// 			case 'today':
 	// 				dateVar = today
 	// 				break
@@ -182,7 +182,7 @@ export class OrdersService {
 	// 				dateVar = sevenDaysAgo // Нет условия по дате, выбираются все заказы
 	// 				break
 	// 			default:
-	// 				throw new Error('Invalid day value')
+	// 				throw new Error('Invalid days value')
 	// 		}
 
 	// 		const ordersWithCounts = await this.db.$queryRaw`

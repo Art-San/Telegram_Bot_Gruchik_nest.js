@@ -36,7 +36,7 @@ const Header: FC = () => {
           href="/test_2"
           className="text-gray-400 hover:text-white focus:text-white"
         >
-          Товары
+          Form s/ui
         </a>
         {/* {session && (
           <div className="flex flex-col gap-2 items-center">

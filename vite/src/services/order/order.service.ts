@@ -31,12 +31,13 @@ export const OrderService = {
 
   async getOrdersPag(
     page: string,
-    pageSize: string
+    pageSize: string,
+    days?: string
   ): Promise<IPaginationResult<IOrder>> {
     const response = await axiosClassic.get<{
       data: IOrder[]
       totalPages: number
-    }>(getOrderPagUrl(`?page=${page}&pageSize=${pageSize}`))
+    }>(getOrderPagUrl(`?page=${page}&pageSize=${pageSize}&days=${days}`))
 
     const { data, totalPages } = response.data
 

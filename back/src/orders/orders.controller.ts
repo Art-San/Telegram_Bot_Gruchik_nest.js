@@ -28,12 +28,13 @@ export class OrdersController {
 
 	@Get()
 	async getTodayYesterdaySevenDay(
-		@Query('day') day: string = 'last7Days', // 'today', // 'yesterday' // 'last7Days' // ast30Days
+		@Query('days') days: string = 'last7Days', // 'today', // 'yesterday' // 'last7Days' // ast30Days
 		@Query('page') page: number = 1,
 		@Query('pageSize') pageSize: number = 10
 	) {
+		console.log(1, days, +page, +pageSize)
 		const res = await this.ordersService.findTodayYesterdaySevenDay(
-			day,
+			days,
 			+page,
 			+pageSize
 		)

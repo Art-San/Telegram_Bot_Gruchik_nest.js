@@ -40,7 +40,11 @@ const TableOrdersPag = () => {
   const { page, pageSize } = getPaginationParamsFromUrl()
 
   const { deleteOrder, isDeletePending } = useDeleteOrder()
-  const { orders, isLoading, isError, total } = useOrdersPag(page, pageSize)
+  const { orders, isLoading, isError, total } = useOrdersPag(
+    page,
+    pageSize,
+    'last7Days'
+  )
 
   useEffect(() => {
     setTotalPages(total)
@@ -58,16 +62,13 @@ const TableOrdersPag = () => {
 
   return (
     <>
-      <Table>
+      <Table className="">
         <TableHeader>
           <TableRow>
             <TableHead>№</TableHead>
             <TableHead>Тип</TableHead>
-            <TableHead>Статус</TableHead>
-            <TableHead className="text-right">
-              <PersonStanding />
-            </TableHead>
-            <TableHead>Действия</TableHead>
+            <TableHead>Статус </TableHead>
+            <TableHead>Дейс</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -77,27 +78,29 @@ const TableOrdersPag = () => {
                 key={order?.id}
                 className="hover:bg-slate-200 hover:text-gray-600"
               >
-                <TableCell className="font-medium">
-                  <div className="">
-                    <p>{order?.id}</p>
-                    <p>{transformDate(order?.createdAt)}</p>
-                  </div>
+                <TableCell className="font-medium flex flex-col items-center">
+                  <p>{order?.id}</p>
+                  <p>{transformDate(order?.createdAt)}</p>
                 </TableCell>
                 <TableCell>{validIconTypeWork(order?.typeWork)}</TableCell>
-                <TableCell>{validIconStatus(order?.status)}</TableCell>
-                <TableCell>{`${order?.numExecutors} / ${order.executorsCount}`}</TableCell>
-                <TableCell className="flex justify-end space-x-2">
-                  <Link to={getOrderUrl(`/${order.id}`)}>
-                    <View className="text-blue-400" />
-                  </Link>
-                  <Button
-                    variant={'custom'}
-                    size={'icon'}
-                    onClick={() => deleteOrder(order.id)}
-                    disabled={isDeletePending}
-                  >
-                    <Trash size={15} />
-                  </Button>
+                <TableCell className=" flex flex-col items-center ">
+                  {validIconStatus(order?.status)}{' '}
+                  <p>{`${order?.numExecutors} / ${order.executorsCount}`}</p>
+                </TableCell>
+                <TableCell className="">
+                  <div className="flex flex-col items-center">
+                    <Link to={getOrderUrl(`/${order.id}`)}>
+                      <View className="text-blue-400" />
+                    </Link>
+                    <Button
+                      variant={'custom'}
+                      size={'icon'}
+                      onClick={() => deleteOrder(order.id)}
+                      disabled={isDeletePending}
+                    >
+                      <Trash size={15} />
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

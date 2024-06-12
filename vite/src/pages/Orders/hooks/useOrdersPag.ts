@@ -5,10 +5,10 @@ import { IOrder, IPaginationResult } from '@/shared/types/order.types'
 
 const isAuth = true
 
-export function useOrdersPag(page: string, pageSize: string) {
+export function useOrdersPag(page: string, pageSize: string, days?: string) {
   const { data, isLoading, isError } = useQuery<IPaginationResult<IOrder>>({
-    queryKey: ['orders', page, pageSize],
-    queryFn: () => OrderService.getOrdersPag(page, pageSize),
+    queryKey: ['orders', page, pageSize, days],
+    queryFn: () => OrderService.getOrdersPag(page, pageSize, days),
     enabled: isAuth
   })
 

@@ -31,7 +31,8 @@ const OrdersCards_2 = () => {
     const fetchData = async () => {
       const { data, totalPages } = await OrderService.getOrdersPag(
         page,
-        pageSize
+        pageSize,
+        'last7Days'
       )
       setOrders(data)
       setTotalPages(totalPages)
