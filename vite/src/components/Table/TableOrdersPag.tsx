@@ -30,7 +30,7 @@ import SelectDay from '../Form/fieldsForm/SelectDay'
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
   const page = urlParams.get('page') || '1'
-  const pageSize = urlParams.get('pageSize') || '2'
+  const pageSize = urlParams.get('pageSize') || '3'
   const days = urlParams.get('days') || 'today'
   return { page, pageSize, days }
 }
@@ -65,89 +65,93 @@ const TableOrdersPag = () => {
 
   return (
     <>
-      <SelectDay setDay={setDay} day={day} />
-      <Table className="">
-        <TableHeader>
-          <TableRow>
-            <TableHead>№</TableHead>
-            <TableHead>Тип</TableHead>
-            <TableHead>Статус </TableHead>
-            <TableHead>Дейст</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {orders &&
-            orders.map((order) => (
-              <TableRow
-                key={order?.id}
-                className="hover:bg-slate-200 hover:text-gray-600"
-              >
-                <TableCell className="font-medium flex flex-col items-center">
-                  <p>{order?.id}</p>
-                  <p>{transformDate(order?.createdAt)}</p>
-                </TableCell>
-                <TableCell>{validIconTypeWork(order?.typeWork)}</TableCell>
-                <TableCell className=" flex flex-col items-center ">
-                  {validIconStatus(order?.status)}{' '}
-                  <p>{`${order?.numExecutors} / ${order.executorsCount}`}</p>
-                </TableCell>
-                <TableCell className="">
-                  <div className="flex flex-col items-center">
-                    <Link to={getOrderUrl(`/${order.id}`)}>
-                      <View className="text-blue-400" />
-                    </Link>
-                    <Button
-                      variant={'custom'}
-                      size={'icon'}
-                      onClick={() => deleteOrder(order.id)}
-                      disabled={isDeletePending}
-                    >
-                      <Trash size={15} />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-      <Pagination className="flex justify-center mt-4">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              href="#"
-              onClick={(e) => {
-                e.preventDefault()
-                handlePageChange(Math.max(1, Number(page) - 1))
-              }}
-            />
-          </PaginationItem>
-          {[...Array(totalPages)].map((_, i) => (
-            <PaginationItem key={i}>
-              <PaginationLink
+      <div className=" max-w-[1200px] min-w-[400px] my-auto p-[2rem] text-center ">
+        <div className="flex justify-start">
+          <SelectDay setDay={setDay} day={day} />
+        </div>
+        <Table className="">
+          <TableHeader>
+            <TableRow>
+              <TableHead>№</TableHead>
+              <TableHead>Тип</TableHead>
+              <TableHead>Статус </TableHead>
+              <TableHead>Дейст</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {orders &&
+              orders.map((order) => (
+                <TableRow
+                  key={order?.id}
+                  className="hover:bg-slate-200 hover:text-gray-600"
+                >
+                  <TableCell className="font-medium flex flex-col items-center">
+                    <p>{order?.id}</p>
+                    <p>{transformDate(order?.createdAt)}</p>
+                  </TableCell>
+                  <TableCell>{validIconTypeWork(order?.typeWork)}</TableCell>
+                  <TableCell className=" flex flex-col items-center ">
+                    {validIconStatus(order?.status)}{' '}
+                    <p>{`${order?.numExecutors} / ${order.executorsCount}`}</p>
+                  </TableCell>
+                  <TableCell className="">
+                    <div className="flex flex-col items-center">
+                      <Link to={getOrderUrl(`/${order.id}`)}>
+                        <View className="text-blue-400" />
+                      </Link>
+                      <Button
+                        variant={'custom'}
+                        size={'icon'}
+                        onClick={() => deleteOrder(order.id)}
+                        disabled={isDeletePending}
+                      >
+                        <Trash size={15} />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+        <Pagination className="flex justify-center mt-4">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
                 href="#"
                 onClick={(e) => {
                   e.preventDefault()
-                  handlePageChange(i + 1)
+                  handlePageChange(Math.max(1, Number(page) - 1))
                 }}
-              >
-                {i + 1}
-              </PaginationLink>
+              />
             </PaginationItem>
-          ))}
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext
-              href="#"
-              onClick={(e) => {
-                e.preventDefault()
-                handlePageChange(Math.min(totalPages, Number(page) + 1))
-              }}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+            {[...Array(2)].map((_, i) => (
+              <PaginationItem key={i}>
+                <PaginationLink
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handlePageChange(i + 1)
+                  }}
+                >
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault()
+                  handlePageChange(Math.min(totalPages, Number(page) + 1))
+                }}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </>
   )
 }

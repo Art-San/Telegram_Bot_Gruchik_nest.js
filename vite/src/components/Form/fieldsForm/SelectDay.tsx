@@ -26,8 +26,19 @@ const SelectDay: React.FC<SelectDayProps> = ({ setDay, day }) => {
 
   return (
     <>
-      <div className=" flex flex-col">
-        <div className=" ">
+      <div className=" flex ">
+        <Select onValueChange={handleChange}>
+          <SelectTrigger className="max-w-fit flex focus:ring-2 focus:ring-inset focus:ring-indigo-100">
+            <SelectValue placeholder={validDay(day)} className="" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="today">Сегодня</SelectItem>
+            <SelectItem value="yesterday">Вчера</SelectItem>
+            <SelectItem value="last7Days">Последние 7 дней</SelectItem>
+          </SelectContent>
+        </Select>
+
+        {/* <div className="">
           <Select onValueChange={handleChange}>
             <SelectTrigger className="max-w-fit flex focus:ring-2 focus:ring-inset focus:ring-indigo-100">
               <SelectValue placeholder={validDay(day)} className="" />
@@ -38,19 +49,7 @@ const SelectDay: React.FC<SelectDayProps> = ({ setDay, day }) => {
               <SelectItem value="last7Days">Последние 7 дней</SelectItem>
             </SelectContent>
           </Select>
-        </div>
-        <div className="">
-          <Select onValueChange={handleChange}>
-            <SelectTrigger className="max-w-fit flex focus:ring-2 focus:ring-inset focus:ring-indigo-100">
-              <SelectValue placeholder={validDay(day)} className="" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="today">Сегодня</SelectItem>
-              <SelectItem value="yesterday">Вчера</SelectItem>
-              <SelectItem value="last7Days">Последние 7 дней</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        </div> */}
       </div>
     </>
   )
