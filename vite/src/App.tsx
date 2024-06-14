@@ -1,17 +1,17 @@
-import { Routes, Route } from 'react-router-dom'
+// import { Routes, Route } from 'react-router-dom'
+// import ProductList from './components/ProductList/ProductList'
+// import Header from './components/Header/Header'
+// // import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+// // import { useAuthContext } from './context/AuthContext'
+// import { Toaster } from 'sonner'
+// import Login from './pages/Auth/Login'
+// import AddOrderPage from './pages/AddOrderPage/AddOrderPage'
+// import OrdersPage from './pages/Orders/OrdersPage/OrdersPage'
+// import TestPage from './pages/TestPage/TestPage'
+// import AddOrderSitePage from './pages/AddOrderPage/AddOrderSitePage'
+// import OrderDetails from './pages/Orders/OrdersPage/OrderDetails'
 
-import ProductList from './components/ProductList/ProductList'
-import Header from './components/Header/Header'
-// import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-// import { useAuthContext } from './context/AuthContext'
-import { Toaster } from 'sonner'
-
-import Login from './pages/Auth/Login'
-import AddOrderPage from './pages/AddOrderPage/AddOrderPage'
-import OrdersPage from './pages/Orders/OrdersPage/OrdersPage'
-import TestPage from './pages/TestPage/TestPage'
-import AddOrderSitePage from './pages/AddOrderPage/AddOrderSitePage'
-import OrderDetails from './pages/Orders/OrdersPage/OrderDetails'
+import { Routes } from './Layouts/Routes'
 import { useUser } from './pages/Auth/hooks/useUser'
 
 function App() {
@@ -20,7 +20,8 @@ function App() {
   console.log(isPending)
   return (
     <>
-      <div className=" flex flex-col h-screen">
+      <Routes isAuthorized={false} />
+      {/* <div className=" flex flex-col h-screen">
         <header>
           <Header />
         </header>
@@ -38,10 +39,10 @@ function App() {
           </Routes>
         </div>
         <footer className="fixed bottom-0 left-0 w-full">
-          {/* <Footer /> */}
+          <Footer />
         </footer>
       </div>
-      <Toaster theme="dark" position="bottom-right" duration={1500} />
+      <Toaster theme="dark" position="bottom-right" duration={1500} /> */}
     </>
   )
 }

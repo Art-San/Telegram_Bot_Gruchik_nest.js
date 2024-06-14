@@ -1,15 +1,15 @@
 // Layouts
-import AnonymousLayout from '../Layouts/AnonymousLayout'
-import MainLayout from '../Layouts/MainLayout'
-import PublicLayout from '../Layouts/PublicLayout'
+import PublicLayout from '../PublicLayout'
+import AnonymousLayout from '../AnonymousLayout'
+import MainLayout from '../MainLayout'
+
 import { renderRoutes } from './renderRoutes'
 
 // Pages
-import Login from '../../pages/Login'
-import Home from '../../pages/Home'
-import CreateUser from '../../pages/CreateUser'
-import ListUsers from '../../pages/ListUsers'
-import Showcase from '../../pages/Showcase'
+import OrdersPage from '@/pages/Orders/OrdersPage/OrdersPage'
+import Login from '@/pages/Auth/Login'
+import Profile from '@/pages/User/Profile'
+import TestPage from '@/pages/TestPage/TestPage'
 
 // Определение интерфейса RouteElement с обязательным свойством path
 export interface RouteElement {
@@ -27,17 +27,24 @@ export interface MainRoute {
   layout: React.ElementType
   routes: RouteElement[]
 }
-
+// profile
 // Объявление массива маршрутов, соответствующего типу MainRoute[]
 export const routes: MainRoute[] = [
   {
     layout: PublicLayout,
     routes: [
       {
-        name: 'showcase',
-        title: 'Showcase page',
-        component: Showcase,
+        name: 'orders',
+        title: 'Orders page',
+        component: OrdersPage,
         path: '/',
+        isPublic: true
+      },
+      {
+        name: 'profile',
+        title: 'Profile page',
+        component: Profile,
+        path: '/profile',
         isPublic: true
       }
     ]
@@ -58,31 +65,31 @@ export const routes: MainRoute[] = [
     layout: MainLayout,
     routes: [
       {
-        name: 'home',
-        title: 'Home page',
-        component: Home,
-        path: '/home'
+        name: 'Test',
+        title: 'Test page',
+        component: TestPage,
+        path: '/test'
       },
       {
         name: 'users',
         title: 'Users',
         hasSiderLink: true,
-        path: '/users', // Добавляем path для главного маршрута "users"
+        path: '/test', // Добавляем path для главного маршрута "users"
         routes: [
           {
-            name: 'list-users',
-            title: 'List of users',
+            name: 'Test_2',
+            title: 'Test page 2',
             hasSiderLink: true,
-            component: ListUsers,
-            path: '/users' // Убедиться, что path существует
-          },
-          {
-            name: 'create-user',
-            title: 'Add user',
-            hasSiderLink: true,
-            component: CreateUser,
-            path: '/users/new' // Убедиться, что path существует
+            component: TestPage,
+            path: '/test_2' // Убедиться, что path существует
           }
+          // {
+          //   name: 'create-user',
+          //   title: 'Add user',
+          //   hasSiderLink: true,
+          //   component: CreateUser,
+          //   path: '/users/new' // Убедиться, что path существует
+          // }
         ]
       }
     ]
