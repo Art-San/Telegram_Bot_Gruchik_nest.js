@@ -8,7 +8,7 @@ export class UserController {
 
 	@HttpCode(200)
 	@Post('create')
-	async register(@Body() dto: RegisterDto) {
+	async register(@Body() dto: any) {
 		return this.userService.createUser(dto.userName, dto.telegramId)
 	}
 }

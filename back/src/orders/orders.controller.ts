@@ -32,7 +32,6 @@ export class OrdersController {
 		@Query('page') page: number = 1,
 		@Query('pageSize') pageSize: number = 10
 	) {
-		console.log(1, days, +page, +pageSize)
 		const res = await this.ordersService.findTodayYesterdaySevenDay(
 			days,
 			+page,

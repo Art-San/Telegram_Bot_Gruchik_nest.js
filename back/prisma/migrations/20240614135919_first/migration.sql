@@ -12,6 +12,7 @@ CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "telegramId" TEXT NOT NULL,
     "userName" TEXT NOT NULL,
+    "userAvatar" TEXT,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "isBlocked" BOOLEAN NOT NULL DEFAULT false,
     "isAdmin" BOOLEAN NOT NULL DEFAULT false,

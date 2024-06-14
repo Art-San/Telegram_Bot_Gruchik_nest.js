@@ -1,6 +1,8 @@
 import { FC, useEffect, useState } from 'react'
 import { useTelegram } from '../../hooks/useTelegram'
-import { useIsAdmin } from '@/pages/Auth/hooks/useIsAdmin'
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useUser } from '@/pages/Auth/hooks/useUser'
 // import { useSessionQuery } from '@/pages/Auth/hooks/useSessionQuery'
 // import { LogoutButton } from '../CustomButton/LogoutButton'
 
@@ -10,24 +12,37 @@ const Header: FC = () => {
 
   // if (!session) return null
 
-  const { user, queryId } = useTelegram()
+  // const { user, queryId } = useTelegram()
 
   // const [user, setUser] = useState()
-  const { data, isPending } = useIsAdmin()
+  const { data, isPending } = useUser()
 
   // useEffect(() => {
   //   setUser(data)
   // }, [])
 
-  console.log(data, isPending)
+  // const { userAvatar } = data
+  console.log(data)
+  console.log(isPending)
   return (
     <div className="flex flex-col items-center justify-center  px-6 py-4 bg-gray-900 text-white">
-      <div className="flex">
-        <span className=" text-xs">
-          {user?.username || 'null'} -- {user?.id || 'null'}
-        </span>
+      <div className=" flex gap-2">
+        <Avatar>
+          <AvatarImage
+            src={
+              data?.userAvatar
+                ? data.userAvatar
+                : 'https://github.com/shadcn.png'
+            }
+          />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+
+        <div className=" flex flex-col">
+          <p className=" text-xs">{data?.userName || 'null'}</p>
+          <p className=" text-xs">{data?.telegramId || 'null'}</p>
+        </div>
       </div>
-      <span className="text-xs">{queryId || 'null'}</span>
       <nav className="flex gap-5 space-x-4">
         <a
           href="/orders"

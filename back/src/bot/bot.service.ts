@@ -10,6 +10,7 @@ import { OrderProcessingService } from 'src/orders/order-processing.service'
 import { UserService } from 'src/user/users.service'
 import { OrdersService } from 'src/orders/orders.service'
 import { MessageHandlerService } from 'src/message-handler/message-handler.service'
+import { getUserAvatarUrl } from './utils/user-avatar-url'
 
 @Injectable()
 export class BotService implements OnModuleInit {
@@ -163,9 +164,11 @@ export class BotService implements OnModuleInit {
 
 			if (text === '/start') {
 				try {
+					const userAvatar = await getUserAvatarUrl(+telegramId, bot)
 					const response = await this.botCommandsService.commandStart(
 						telegramId,
-						userName
+						userName,
+						userAvatar
 					)
 					bot.sendMessage(chatId, response.msg)
 				} catch (error) {

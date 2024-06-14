@@ -12,14 +12,12 @@ import OrdersPage from './pages/Orders/OrdersPage/OrdersPage'
 import TestPage from './pages/TestPage/TestPage'
 import AddOrderSitePage from './pages/AddOrderPage/AddOrderSitePage'
 import OrderDetails from './pages/Orders/OrdersPage/OrderDetails'
-
-// const queryClient = new QueryClient()
+import { useUser } from './pages/Auth/hooks/useUser'
 
 function App() {
-  // const { authUser, isLoading } = useAuthContext()
-  // console.log(1, 'authUser', authUser)
-  // console.log(1, 'isLoading', isLoading)
-  // if (isLoading) return null
+  const { data, isPending } = useUser()
+  console.log(data)
+  console.log(isPending)
   return (
     <>
       <div className=" flex flex-col h-screen">

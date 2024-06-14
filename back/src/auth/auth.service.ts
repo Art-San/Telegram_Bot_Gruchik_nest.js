@@ -58,7 +58,14 @@ export class AuthService {
 			if (!user) {
 				throw new UnauthorizedException({ type: 'не верный telegramId' })
 			}
-			return user.isAdmin
+
+			const res = {
+				telegramId: user.telegramId,
+				userName: user.userName,
+				userAvatar: user.userAvatar,
+				isAdmin: user.isAdmin,
+			}
+			return res
 		} catch (error) {
 			throw error
 		}

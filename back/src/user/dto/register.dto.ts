@@ -12,4 +12,6 @@ export class RegisterDto {
 
 	@IsNotEmpty()
 	telegramId: string
+
+	userAvatar?: string
 }

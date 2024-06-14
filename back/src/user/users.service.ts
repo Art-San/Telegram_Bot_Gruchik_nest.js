@@ -26,7 +26,7 @@ export class UserService {
 		}
 	}
 
-	async createUser(userName: string, telegramId: string) {
+	async createUser(userName: string, telegramId: string, userAvatar?: string) {
 		try {
 			const existingUser = await this.getUserByTelegramId(telegramId)
 			// const existingUser = await this.db.user.findUnique({
@@ -39,7 +39,7 @@ export class UserService {
 				return existingUser
 			} else {
 				const newUser = await this.db.user.create({
-					data: { userName, telegramId },
+					data: { userName, telegramId, userAvatar },
 				})
 				return newUser
 			}
