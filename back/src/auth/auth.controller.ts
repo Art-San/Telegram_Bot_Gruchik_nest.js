@@ -7,6 +7,7 @@ import {
 	Res,
 	HttpStatus,
 	UseGuards,
+	Param,
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { CreateAuthDto } from './dto/create-auth.dto'
@@ -35,6 +36,22 @@ export class AuthController {
 
 		this.cookieService.setToken(res, accessToken)
 		return data
+	}
+
+	@HttpCode(200)
+	@Post('admin')
+	async IsAdmin(
+		@Body() dto: AuthDto,
+		@Res({ passthrough: true }) res: Response
+	) {
+		const telegramId = dto.password
+		return this.authService.isAdmin(dto.userName, telegramId)
+	}
+
+	@HttpCode(200)
+	@Get('admin/:id')
+	async IsAdmin2(@Param('id') id: string) {
+		return this.authService.isAdmin2(id)
 	}
 
 	@Post('logout')

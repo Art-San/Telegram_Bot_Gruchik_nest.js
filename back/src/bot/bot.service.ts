@@ -230,6 +230,17 @@ export class BotService implements OnModuleInit {
 				}
 			}
 			if (text === '/add_order') {
+				await bot.sendMessage(
+					chatId,
+					'Заходи в наш интернет магазин по кнопке ниже',
+					{
+						reply_markup: {
+							inline_keyboard: [
+								[{ text: 'Сделать заказ', web_app: { url: webAppUrl } }],
+							],
+						},
+					}
+				)
 				await bot.sendMessage(chatId, 'Ниже появится кнопка, заполни форму', {
 					reply_markup: {
 						keyboard: [

@@ -1,5 +1,6 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useTelegram } from '../../hooks/useTelegram'
+import { useIsAdmin } from '@/pages/Auth/hooks/useIsAdmin'
 // import { useSessionQuery } from '@/pages/Auth/hooks/useSessionQuery'
 // import { LogoutButton } from '../CustomButton/LogoutButton'
 
@@ -9,10 +10,24 @@ const Header: FC = () => {
 
   // if (!session) return null
 
-  const { user } = useTelegram()
+  const { user, queryId } = useTelegram()
+
+  // const [user, setUser] = useState()
+  const { data, isPending } = useIsAdmin()
+
+  // useEffect(() => {
+  //   setUser(data)
+  // }, [])
+
+  console.log(data, isPending)
   return (
-    <div className="flex items-center justify-center  px-6 py-4 bg-gray-900 text-white">
-      <span className="text-3xl font-semibold">{user?.username}</span>
+    <div className="flex flex-col items-center justify-center  px-6 py-4 bg-gray-900 text-white">
+      <div className="flex">
+        <span className=" text-xs">
+          {user?.username || 'null'} -- {user?.id || 'null'}
+        </span>
+      </div>
+      <span className="text-xs">{queryId || 'null'}</span>
       <nav className="flex gap-5 space-x-4">
         <a
           href="/orders"

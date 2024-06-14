@@ -9,7 +9,7 @@ import { IAuthForm } from './../../types/auth.types'
 // import { IAuthResponse } from '@/store/user/user.interface'
 
 // import { removeTokensStorage, saveToStorage } from './auth.helper'
-import { getAuthUrl } from '@/configs/api.config'
+import { getAuthAdminUrl, getAuthUrl } from '@/configs/api.config'
 import { IUser } from '@/types/user.types'
 
 export const AuthService = {
@@ -31,6 +31,10 @@ export const AuthService = {
 
   async logout() {
     const response = await axiosClassic.post<any>(getAuthUrl('/logout'))
+    return response
+  },
+  async isAdmin(id: string) {
+    const response = await axiosClassic.get<any>(getAuthAdminUrl(`/${id}`))
     return response
   }
 

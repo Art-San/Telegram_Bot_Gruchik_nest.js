@@ -1,3 +1,5 @@
+import * as TelegramBot from 'node-telegram-bot-api'
+
 export function extractInfoCallbackQueryCTX(ctx) {
 	const data = ctx.data
 	const telegramId = String(ctx.from.id)
