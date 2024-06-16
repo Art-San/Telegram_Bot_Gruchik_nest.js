@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Routes as ReactRoutes } from 'react-router-dom'
 import generateFlattenRoutes from '../../utils/generateFlattenRoutes'
 import ProtectedRoute from './ProtectedRoute'
-import { MainRoute } from '../../types'
+import { MainRoute } from '@/types/route.types'
 
 interface RoutesProps {
   isAuthorized: boolean
@@ -25,7 +25,7 @@ export const renderRoutes = (mainRoutes: MainRoute[]) => {
                     <ProtectedRoute
                       isPublic={!!isPublic}
                       isAuthorized={isAuthorized}
-                      redirectTo="/home"
+                      redirectTo="/admin"
                     >
                       <Component />
                     </ProtectedRoute>

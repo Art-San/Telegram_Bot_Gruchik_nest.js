@@ -1,9 +1,10 @@
+import Header from '@/components/Header/Header'
 import { Outlet } from 'react-router-dom'
 
 const MainLayout = () => {
   return (
     <div className="">
-      <h3>Header для залогиненных пользователей</h3>
+      <Header />
       <Outlet />
     </div>
   )

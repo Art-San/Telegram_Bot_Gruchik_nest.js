@@ -68,13 +68,13 @@ export const routes: MainRoute[] = [
         name: 'Test',
         title: 'Test page',
         component: TestPage,
-        path: '/test'
+        path: '/admin'
       },
       {
         name: 'users',
         title: 'Users',
         hasSiderLink: true,
-        path: '/test', // Добавляем path для главного маршрута "users"
+        path: '/admin', // Добавляем path для главного маршрута "users"
         routes: [
           {
             name: 'Test_2',
