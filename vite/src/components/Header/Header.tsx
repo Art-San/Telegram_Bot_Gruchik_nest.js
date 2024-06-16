@@ -15,7 +15,7 @@ const Header: FC = () => {
   // const { user, queryId } = useTelegram()
 
   // const [user, setUser] = useState()
-  const { data, isPending } = useUser()
+  const { data, isPending } = useUser('721836748')
 
   // useEffect(() => {
   //   setUser(data)
