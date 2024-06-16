@@ -51,7 +51,9 @@ export class AuthController {
 	@HttpCode(200)
 	@Get('admin/:id')
 	async IsAdmin2(@Param('id') id: string) {
-		return this.authService.isAdmin2(id)
+		const res = await this.authService.isAdmin2(id)
+		console.log(12, res)
+		return res
 	}
 
 	@Post('logout')
