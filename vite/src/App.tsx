@@ -6,9 +6,10 @@ import { useUser } from './pages/Auth/hooks/useUser'
 
 function App() {
   const { telegramId = '721836748' } = useTelegram()
-  const { data: user, isPending } = useUser(String(telegramId))
-  const { setCurrentUser } = useUserContext()
 
+  const { data: user, isPending } = useUser(String(telegramId))
+  const { currentUser, setCurrentUser } = useUserContext()
+  console.log(currentUser)
   useEffect(() => {
     if (user) {
       setCurrentUser(user)

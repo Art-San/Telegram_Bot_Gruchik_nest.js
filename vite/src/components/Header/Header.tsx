@@ -1,8 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { useUserContext } from '@/context/useUser'
+import { useUserContext } from '@/context/UserContextProvider'
+// import { useUserContext } from '@/context/useUser'
 
 const Header = () => {
+  // const { currentUser } = useUserContext()
   const { currentUser } = useUserContext()
+
   console.log(12, 'PublicHeader', currentUser?.userAvatar)
 
   return (

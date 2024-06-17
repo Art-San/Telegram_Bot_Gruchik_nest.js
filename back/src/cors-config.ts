@@ -1,20 +1,28 @@
 // src/cors-config.ts
 
-export const corsOptions = {
-	origin: '*', // Замените на домен вашего клиента
-	// origin: 'http://localhost:5173', // Замените на домен вашего клиента
+// export const corsOptions = {
+// 	origin: '*', // Замените на домен вашего клиента
+// 	// origin: 'http://localhost:5173', // Замените на домен вашего клиента
+// 	methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+// 	credentials: true, // Разрешает запросы с учетными данными (true записывается access-token в cookies, на фронте axios.create({ withCredentials: true }) )
+// }
+
+// ----------------------------------------
+export const corsConfig = {
+	origin: '*',
 	methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-	credentials: true, // Разрешает запросы с учетными данными (true записывается access-token в cookies, на фронте axios.create({ withCredentials: true }) )
+	preflightContinue: false,
 }
+// ----------------------------------------
 
 // ----------------------------------------
 // export const corsConfig = {
-// 	origin: '*',
-// 	methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-// 	preflightContinue: false,
+// 	origin: '*', // c любых путей
+// 	methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'], // Разрешает только эти HTTP методы
+// 	allowedHeaders: 'Content-Type, Accept',, // Разрешает только эти заголовки
 // }
-// ----------------------------------------
 
+// ----------------------------------------
 // --------  credentials: true
 // Параметр credentials определяет, должны ли запросы с учетная
 // данными (например, cookies, HTTP аутентификация) быть включены в ответ.

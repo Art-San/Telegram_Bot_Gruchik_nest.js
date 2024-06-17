@@ -40,6 +40,9 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchAuthUser = async () => {
       try {
+        // идет запрос по этому адресу в куках токен, в токене id,
+        // поподает в гуард на сервере, происходит валидация токена,
+        // и по id достается юзер. отправляется обратно
         const res = await fetch('/api/auth/me')
         const data = await res.json()
         if (!res.ok) {
