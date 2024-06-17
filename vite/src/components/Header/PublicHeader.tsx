@@ -1,9 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { useUserContext } from '@/context/useUser'
+import { useUserStore } from '@/zustand/useUserStore'
+
 import { BookA, CircleUserRound, History } from 'lucide-react'
 
 const PublicHeader = () => {
-  const { currentUser } = useUserContext()
+  const currentUser = useUserStore((state) => state.currentUser)
 
   return (
     <header className="w-full h-16 bg-slate-100 shadow-md flex justify-center items-center gap-4 px-4">

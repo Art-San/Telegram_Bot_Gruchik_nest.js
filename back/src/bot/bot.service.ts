@@ -254,17 +254,17 @@ export class BotService implements OnModuleInit {
 								// },
 								{
 									text: 'Создать заявку',
-									web_app: { url: webAppUrl + '/add_order' },
+									web_app: { url: webAppUrl + '/admin/add_order' },
 								},
 							],
 							[
 								{
 									text: 'Заказы',
-									web_app: { url: webAppUrl + '/orders' },
+									web_app: { url: webAppUrl + '/admin/orders' },
 								},
 								{
 									text: 'Товары',
-									web_app: { url: webAppUrl + '/test_2' },
+									web_app: { url: webAppUrl + '/admin/test_2' },
 								},
 							],
 						],

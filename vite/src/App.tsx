@@ -1,37 +1,35 @@
 import { useEffect } from 'react'
 import { Routes } from './Layouts/Routes'
 import { useTelegram } from './hooks/useTelegram'
-import { useUserContext } from './context/useUser'
+
 import { useUser } from './pages/Auth/hooks/useUser'
 import { Spinner } from '@/components/ui/spinner'
-import { Spinner2, SvgSpinnersBarsRotateFade } from '@/components/ui/spinner2'
+import { useUserStore } from './zustand/useUserStore'
 
 function App() {
   const { telegramId = '721836748' } = useTelegram()
-
+  const setCurrentUser = useUserStore((state) => state.setCurrentUser)
   const { data: user, isPending } = useUser(String(telegramId))
-  const { currentUser, setCurrentUser } = useUserContext()
-  console.log(currentUser)
+
   useEffect(() => {
     if (user) {
       setCurrentUser(user)
     }
   }, [user, setCurrentUser])
 
-  if (true)
+  if (isPending)
     return (
       <div className=" flex items-center justify-center h-screen w-screen">
         <Spinner
           className="mr-2 h-8 w-8 animate-spin"
           aria-label="Обновление профиля"
         />
-        <SvgSpinnersBarsRotateFade />
       </div>
     )
 
   return (
     <>
-      <Routes isAuthorized={user?.isAdmin} />
+      <Routes isAuthorized={!user?.isAdmin} />
     </>
   )
 }

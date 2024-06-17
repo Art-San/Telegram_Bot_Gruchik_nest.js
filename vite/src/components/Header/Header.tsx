@@ -31,13 +31,13 @@ const Header = () => {
       )}
       <nav className="flex gap-5 space-x-4">
         <a
-          href="/orders"
+          href="/admin/orders"
           className="text-gray-400 hover:text-white focus:text-white"
         >
           Заказы
         </a>
         <a
-          href="/add_order"
+          href="/admin/add_order"
           className="text-gray-400 hover:text-white focus:text-white"
         >
           Добавить заказ

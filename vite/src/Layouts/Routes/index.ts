@@ -1,7 +1,7 @@
 // Layouts
 import PublicLayout from '../PublicLayout'
 import AnonymousLayout from '../AnonymousLayout'
-import MainLayout from '../MainLayout'
+import ProtectedLayout from '../ProtectedLayout'
 
 import { renderRoutes } from './renderRoutes'
 
@@ -9,7 +9,10 @@ import { renderRoutes } from './renderRoutes'
 import OrdersPage from '@/pages/Orders/OrdersPage/OrdersPage'
 import Login from '@/pages/Auth/Login'
 import Profile from '@/pages/User/Profile'
-import TestPage from '@/pages/TestPage/TestPage'
+
+import StatisticsPageMover from '@/pages/Statistics/StatisticsPageMover'
+import OrdersPageMovers from '@/pages/Orders/OrdersPage/OrdersPageMovers'
+import AddOrderPage from '@/pages/AddOrderPage/AddOrderPage'
 
 // Определение интерфейса RouteElement с обязательным свойством path
 export interface RouteElement {
@@ -18,7 +21,7 @@ export interface RouteElement {
   component?: React.ComponentType
   path: string // path обязательно
   isPublic?: boolean
-  hasSiderLink?: boolean
+  hasSideLink?: boolean
   routes?: RouteElement[]
 }
 
@@ -35,9 +38,16 @@ export const routes: MainRoute[] = [
     routes: [
       {
         name: 'orders',
-        title: 'Orders page',
-        component: OrdersPage,
+        title: 'Orders Movers page',
+        component: OrdersPageMovers,
         path: '/',
+        isPublic: true
+      },
+      {
+        name: 'statistics',
+        title: 'Statistics Mover page',
+        component: StatisticsPageMover,
+        path: '/statistics',
         isPublic: true
       },
       {
@@ -62,34 +72,34 @@ export const routes: MainRoute[] = [
     ]
   },
   {
-    layout: MainLayout,
+    layout: ProtectedLayout,
     routes: [
       {
-        name: 'Test',
-        title: 'Test page',
-        component: TestPage,
+        name: 'admin',
+        title: 'Welcome page for admin',
+        component: OrdersPage,
         path: '/admin'
       },
       {
-        name: 'users',
-        title: 'Users',
-        hasSiderLink: true,
-        path: '/admin', // Добавляем path для главного маршрута "users"
+        name: 'admin',
+        title: 'admin',
+        hasSideLink: true,
+        path: '/admin',
         routes: [
           {
-            name: 'Test_2',
-            title: 'Test page 2',
-            hasSiderLink: true,
-            component: TestPage,
-            path: '/test_2' // Убедиться, что path существует
+            name: 'page_orders_admin',
+            title: 'Page Orders for admin',
+            hasSideLink: true,
+            component: OrdersPage,
+            path: '/admin/orders'
+          },
+          {
+            name: 'create_order',
+            title: 'Add order',
+            hasSideLink: true,
+            component: AddOrderPage,
+            path: '/admin/add_order'
           }
-          // {
-          //   name: 'create-user',
-          //   title: 'Add user',
-          //   hasSiderLink: true,
-          //   component: CreateUser,
-          //   path: '/users/new' // Убедиться, что path существует
-          // }
         ]
       }
     ]
@@ -123,19 +133,19 @@ export const Routes = renderRoutes(routes)
 //       {
 //         name: 'users',
 //         title: 'Users',
-//         hasSiderLink: true,
+//         hasSideLink: true,
 //         routes: [
 //           {
 //             name: 'list-users',
 //             title: 'List of users',
-//             hasSiderLink: true,
+//             hasSideLink: true,
 //             component: ListUsers,
 //             path: '/users'
 //           },
 //           {
 //             name: 'create-user',
 //             title: 'Add user',
-//             hasSiderLink: true,
+//             hasSideLink: true,
 //             component: CreateUser,
 //             path: '/users/new'
 //           }
