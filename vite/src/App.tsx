@@ -3,6 +3,8 @@ import { Routes } from './Layouts/Routes'
 import { useTelegram } from './hooks/useTelegram'
 import { useUserContext } from './context/useUser'
 import { useUser } from './pages/Auth/hooks/useUser'
+import { Spinner } from '@/components/ui/spinner'
+import { Spinner2, SvgSpinnersBarsRotateFade } from '@/components/ui/spinner2'
 
 function App() {
   const { telegramId = '721836748' } = useTelegram()
@@ -16,7 +18,16 @@ function App() {
     }
   }, [user, setCurrentUser])
 
-  if (isPending) return <div>Loading...</div>
+  if (true)
+    return (
+      <div className=" flex items-center justify-center h-screen w-screen">
+        <Spinner
+          className="mr-2 h-8 w-8 animate-spin"
+          aria-label="Обновление профиля"
+        />
+        <SvgSpinnersBarsRotateFade />
+      </div>
+    )
 
   return (
     <>
