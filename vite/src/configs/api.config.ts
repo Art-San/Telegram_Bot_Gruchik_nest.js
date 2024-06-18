@@ -12,4 +12,7 @@ export const getOrderPagUrl = (string: string) => `/orders${string}`
 export const getOrderUrl = (string: string) => `/orders${string}`
 
 export const getAuthUrl = (string: string) => `/auth${string}`
+
+// Admin
+export const getAdminOrderUrl = (string: string) => `/admin/orders${string}`
 export const getAuthAdminUrl = (string: string) => `/auth/admin${string}`

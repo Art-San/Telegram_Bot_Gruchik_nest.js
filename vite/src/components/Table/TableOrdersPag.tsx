@@ -17,7 +17,7 @@ import {
   PaginationPrevious
 } from '@/components/ui/pagination'
 import { View, Trash } from 'lucide-react'
-import { getOrderUrl } from '@/configs/api.config'
+
 import { validIconStatus, validIconTypeWork } from '@/utils/icons/iconUtils'
 import { Button } from '@/components/ui/button'
 import { useDeleteOrder } from '@/pages/Orders/hooks/useDeleteOrder'
@@ -26,6 +26,7 @@ import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { transformDate } from '@/utils/dateUtils'
 import SelectDay from '../Form/fieldsForm/SelectDay'
+import { getAdminOrderUrl } from '@/configs/api.config'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
@@ -96,7 +97,7 @@ const TableOrdersPag = () => {
                   </TableCell>
                   <TableCell className="">
                     <div className="flex flex-col items-center">
-                      <Link to={getOrderUrl(`/${order.id}`)}>
+                      <Link to={getAdminOrderUrl(`/${order.id}`)}>
                         <View className="text-blue-400" />
                       </Link>
                       <Button

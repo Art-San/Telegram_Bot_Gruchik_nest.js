@@ -19,8 +19,6 @@ import {
 import { View, Trash } from 'lucide-react'
 import { getOrderUrl } from '@/configs/api.config'
 import { validIconStatus, validIconTypeWork } from '@/utils/icons/iconUtils'
-import { Button } from '@/components/ui/button'
-import { useDeleteOrder } from '@/pages/Orders/hooks/useDeleteOrder'
 import { useOrdersPag } from '@/pages/Orders/hooks/useOrdersPag'
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -42,7 +40,6 @@ const TableOrdersForMovers = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const { deleteOrder, isDeletePending } = useDeleteOrder()
   const { orders, isLoading, isError, total } = useOrdersPag(
     page,
     pageSize,
@@ -99,14 +96,6 @@ const TableOrdersForMovers = () => {
                       <Link to={getOrderUrl(`/${order.id}`)}>
                         <View className="text-blue-400" />
                       </Link>
-                      <Button
-                        variant={'custom'}
-                        size={'icon'}
-                        onClick={() => deleteOrder(order.id)}
-                        disabled={isDeletePending}
-                      >
-                        <Trash size={15} />
-                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>

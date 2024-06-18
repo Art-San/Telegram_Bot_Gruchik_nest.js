@@ -52,7 +52,7 @@ export class AuthController {
 	@Get('admin/:id')
 	async IsAdmin2(@Param('id') id: string) {
 		const res = await this.authService.isAdmin2(id)
-		console.log(12, res)
+		// console.log(12, res)
 		return res
 	}
 
@@ -69,7 +69,7 @@ export class AuthController {
 	@Get('session')
 	@UseGuards(AuthGuard)
 	getSessionInfo(@SessionInfo() session: GetSessionInfoDto) {
-		console.log(123, 'session', session)
+		// console.log(123, 'session', session)
 		return session
 	}
 	@HttpCode(200)
