@@ -26,6 +26,13 @@ export class OrdersController {
 	// 	return res
 	// }
 
+	// @Get()
+	// async getAllCreated() {
+	// 	const res = await this.ordersService.findAllOrders()
+	// 	return res
+	// }
+
+	// getOrdersByStatus
 	@Get()
 	async getTodayYesterdaySevenDay(
 		@Query('days') days: string = 'last7Days', // 'today', // 'yesterday' // 'last7Days' // ast30Days
