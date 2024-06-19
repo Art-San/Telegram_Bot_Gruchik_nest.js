@@ -13,10 +13,13 @@ import Profile from '@/pages/User/Profile'
 import StatisticsPageMover from '@/pages/History/Statistics/StatisticsPageMover'
 import OrdersPageMovers from '@/pages/Orders/movers/OrdersPageMover'
 import AddOrderPage from '@/pages/AddOrderPage/AddOrderPage'
-import WelcomeMovers from '@/pages/WelcomePage/movers/WelcomeMovers'
+
 import MowerHistory from '@/pages/History/mowers/MowerHistory'
 import OrderDetailsMover from '@/pages/Orders/movers/OrderDetailsMover'
 import OrderDetails from '@/pages/Orders/OrdersPage/OrderDetails'
+import WelcomeMovers from '@/pages/Welcom/movers/WelcomeMovers'
+import RulesForMovers from '@/pages/Rules/movers/RulesForMovers'
+import HelpForMovers from '@/pages/Help/movers/HelpForMovers'
 
 // Определение интерфейса RouteElement с обязательным свойством path
 export interface RouteElement {
@@ -73,6 +76,20 @@ export const routes: MainRoute[] = [
         title: 'Profile page',
         component: Profile,
         path: '/profile',
+        isPublic: true
+      },
+      {
+        name: 'help',
+        title: 'Help page',
+        component: HelpForMovers,
+        path: '/help',
+        isPublic: true
+      },
+      {
+        name: 'roles',
+        title: 'Roles page',
+        component: RulesForMovers,
+        path: '/roles',
         isPublic: true
       }
     ]

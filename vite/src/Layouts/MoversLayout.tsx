@@ -8,8 +8,10 @@ const MoversLayout = () => {
       <div className="sticky top-0 z-10">
         <MoversHeader />
       </div>
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto ">
         <h3 className=" text-center text-orange-800">Header для Грузчиков</h3>
+        {/* <div className=" flex flex-col items-center justify-center "></div> */}
+
         <Outlet />
       </main>
       <div className="sticky bottom-0 z-10">

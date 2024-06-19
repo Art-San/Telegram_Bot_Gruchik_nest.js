@@ -29,6 +29,7 @@ const OrderDetailsMover: FC = () => {
   }, [orderId]) // Добавьте orderId в массив зависимостей, если он используется внутри useEffect
 
   const handleDeleteExecutor = async (executorId: string, orderId: number) => {
+    console.log(123, 'deleteExecutorFromOrder')
     try {
       const response = deleteExecutorFromOrder({
         orderId: String(orderId),
@@ -64,15 +65,15 @@ const OrderDetailsMover: FC = () => {
     )
 
   return (
-    <div className=" flex items-start justify-center ">
-      <div className="">
+    <div className=" flex  flex-col items-center justify-center ">
+      <div className=" flex w-full justify-start ">
         <Button variant={'ghost'} onClick={goBack}>
           {/* <Button onClick={() => navigate(-1)}> */}
           <ArrowBigLeft /> <p>назад</p>
         </Button>
       </div>
 
-      <div className="flex m-1 flex-col max-w-[350px] min-w-24">
+      <div className="flex px-2 flex-col max-w-[350px] min-w-24">
         {order && (
           <div className="flex flex-col  gap-2">
             <div className=" flex gap-4">
@@ -98,26 +99,25 @@ const OrderDetailsMover: FC = () => {
               <h2 className="w-full text-lg">{order?.authorName}</h2>
             </div>
             <div className="flex flex-col">
-              <p className=" text-lg m-auto text-blue-400">Назначены</p>
+              <p className=" text-lg m-auto text-blue-400">Исполнители</p>
               {executorsNum ? (
                 <p className=" text-red-400">Нет ни кого</p>
               ) : (
                 order?.executors.map((executor) => (
                   <div
                     key={executor.user.id}
-                    className="flex gap-2 items-baseline"
+                    className="px-2 py-1  flex gap-3 items-baseline bg-slate-200  rounded-lg"
                   >
-                    <p>T-id: {executor.user.telegramId}</p>
-                    <p>{executor.user.userName}</p>
-                    <Button
-                      variant="custom"
-                      size={'icon'}
-                      onClick={() =>
-                        handleDeleteExecutor(executor.user.telegramId, order.id)
-                      }
-                    >
-                      <UserX size={'17'} />
-                    </Button>
+                    <div className="flex flex-col">
+                      <p className=" font-medium text-gray-500 text-xs">
+                        telegramId:
+                      </p>
+                      <p>{executor.user.telegramId}</p>
+                    </div>
+                    <div className="flex flex-col">
+                      <p className=" font-medium text-gray-500 text-xs">имя:</p>
+                      <p>{executor.user.userName}</p>
+                    </div>
                   </div>
                 ))
               )}

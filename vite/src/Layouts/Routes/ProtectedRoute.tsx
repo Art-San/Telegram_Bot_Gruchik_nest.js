@@ -1,6 +1,6 @@
+import { ProtectedRouteProps } from '@/types/route.types'
 import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-import { ProtectedRouteProps } from '../../types'
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   isPublic,
