@@ -1,31 +1,43 @@
 import React from 'react'
 import {
-  // Package,
-  // Sofa,
-  // Refrigerator,
-  // Cuboid,
-  // HardHat,
-  // Trash2,
-  // Piano,
-  // Anvil,
+  Package,
+  Sofa,
+  Refrigerator,
+  Cuboid,
+  HardHat,
+  Trash2,
+  Piano,
+  Anvil,
   CircleHelp,
   UserPlus,
   LockKeyhole,
   ShieldQuestion
 } from 'lucide-react'
 
-export const validIconTypeWork = (type: string) => {
-  switch (type) {
-    case 'moving':
-      return <p>п/в/м</p>
-    case 'construction':
-      return <p>с/м/м</p>
-    case 'rigging':
-      return <p>т/п/с</p>
-    default:
-      return <CircleHelp />
-  }
-}
+// export const validIconTypeWork = (type: string) => {
+//   switch (type) {
+//     case 'moving':
+//       return <p>п/в/м</p>
+//     case 'construction':
+//       return <p>с/м/м</p>
+//     case 'rigging':
+//       return <p>т/п/с</p>
+//     default:
+//       return <CircleHelp />
+//   }
+// }
+// export const validTextTypeWork = (type: string) => {
+//   switch (type) {
+//     case 'moving':
+//       return <p>Переезд, вещи, меб.</p>
+//     case 'construction':
+//       return <p>Строй-мат, мусор</p>
+//     case 'rigging':
+//       return <p>Пианино, такелаж</p>
+//     default:
+//       return <CircleHelp />
+//   }
+// }
 
 // export const validIconTypeWork = (type: string) => {
 //   const iconMap = {
@@ -36,29 +48,30 @@ export const validIconTypeWork = (type: string) => {
 
 //   return <div className="flex gap-1">{iconMap[type] || <CircleHelp />}</div>
 // }
-// export const validIconTypeWork = (type: string) => {
-//   const iconMap = {
-//     moving: (
-//       <div className="flex gap-1">
-//         <Package />, <Sofa />, <Refrigerator />
-//       </div>
-//     ),
-//     construction: (
-//       <div className="flex gap-1">
-//         <HardHat />, <Cuboid />, <Trash2 />
-//       </div>
-//     ),
-//     rigging: (
-//       <div className="flex gap-1">
-//         <Piano />, <Anvil />
-//       </div>
-//     )
-//   }
+export const validIconTypeWork = (type: string) => {
+  const iconMap = {
+    moving: (
+      <div className="flex gap-1">
+        <Package /> <Sofa /> <Refrigerator />
+      </div>
+    ),
+    construction: (
+      <div className="flex gap-1">
+        <HardHat /> <Cuboid /> <Trash2 />
+      </div>
+    ),
+    rigging: (
+      <div className="flex gap-1">
+        <Piano /> <Anvil />
+      </div>
+    )
+  }
 
-//   // Используем утверждение типа для ключа
-//   const icons = iconMap[type as keyof typeof iconMap]
-//   return <div className="flex gap-1">{icons || <CircleHelp />}</div>
-// }
+  // Используем утверждение типа для ключа
+  const icons = iconMap[type as keyof typeof iconMap]
+  return <div className="flex gap-1">{icons || <CircleHelp />}</div>
+}
+
 // export const validIconTypeWork = (type: string) => {
 //   const iconMap: Record<string, JSX.Element[]> = {
 //     moving: [<Package />, <Sofa />, <Refrigerator />],
@@ -88,12 +101,26 @@ export const validIconTypeWork = (type: string) => {
 
 //=======================================================
 const statusMessages: { [key: string]: JSX.Element } = {
-  created: <UserPlus className=" text-green-700" />,
-  pending: <LockKeyhole className="text-orange-400" />,
-  inProgress: <LockKeyhole className="text-orange-400" />,
-  completed: <LockKeyhole className="text-green-700" />,
-  default: <ShieldQuestion />
+  created: <p className=" text-green-700">Открыто</p>,
+  pending: <p className=" text-orange-400">Закрыто</p>,
+  inProgress: <p className=" text-orange-400">Закрыто</p>,
+  completed: <p className=" text-green-700">Закрыто</p>,
+  default: <ShieldQuestion size={20} />
 }
+// const statusMessages: { [key: string]: JSX.Element } = {
+//   created: <p className=" text-green-700">Открыто</p>,
+//   pending: <LockKeyhole size={20} className="text-orange-400 " />,
+//   inProgress: <LockKeyhole size={20} className="text-orange-400" />,
+//   completed: <LockKeyhole size={20} className="text-green-700" />,
+//   default: <ShieldQuestion size={20} />
+// }
+// const statusMessages: { [key: string]: JSX.Element } = {
+//   created: <UserPlus className=" text-green-700" />,
+//   pending: <LockKeyhole className="text-orange-400" />,
+//   inProgress: <LockKeyhole className="text-orange-400" />,
+//   completed: <LockKeyhole className="text-green-700" />,
+//   default: <ShieldQuestion />
+// }
 
 // <LockKeyhole /> замок закрыт
 // <LockKeyholeOpen /> замок открыт

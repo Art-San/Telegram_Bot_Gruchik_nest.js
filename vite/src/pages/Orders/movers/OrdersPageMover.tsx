@@ -1,12 +1,14 @@
 import { FC } from 'react'
 import TableOrdersForMovers from '@/components/Table/TableOrdersForMovers'
 import { Eye } from 'lucide-react'
+import ListOrdersForMovers from '@/components/List/ListOrdersForMovers'
 
 const OrdersPageMover: FC = () => {
   return (
     <>
-      <div className=" flex flex-col justify-center items-center ">
-        <TableOrdersForMovers />
+      <div className="  ">
+        {/* <TableOrdersForMovers /> */}
+        <ListOrdersForMovers />
       </div>
 
       <ul className=" bg-slate-50 flex flex-col gap-1  shadow overflow-hidden sm:rounded-md max-w-sm mx-auto mt-16">
