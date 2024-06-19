@@ -22,6 +22,15 @@ const HelpForMovers: FC = () => {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Если низкий рейтиг, что будет?</AccordionTrigger>
+            <AccordionContent>
+              Если значение опустится ниже 2, удаление. За рейтингом нужно
+              следить, стараться качественно выполнять свою работу.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
     </>
   )
