@@ -10,9 +10,10 @@ export const VITE_URL_API = `${import.meta.env.VITE_API_URL}/api`
 
 export const getOrderPagUrl = (string: string) => `/orders${string}`
 export const getOrderUrl = (string: string) => `/orders${string}`
-
 export const getAuthUrl = (string: string) => `/auth${string}`
 
+export const getOrderUrlForMover = (string: string) => `/orders${string}`
+
 // Admin
-export const getAdminOrderUrl = (string: string) => `/admin/orders${string}`
+export const getOrderUrlForAdmin = (string: string) => `/admin/orders${string}`
 export const getAuthAdminUrl = (string: string) => `/auth/admin${string}`

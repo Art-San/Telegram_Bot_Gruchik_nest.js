@@ -1,10 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { useUserContext } from '@/context/UserContextProvider'
+import { useUserStore } from '@/zustand/useUserStore'
+
+import { Link } from 'react-router-dom'
 // import { useUserContext } from '@/context/useUser'
 
-const Header = () => {
-  // const { currentUser } = useUserContext()
-  const { currentUser } = useUserContext()
+const AdminHeader = () => {
+  const currentUser = useUserStore((state) => state.currentUser)
 
   console.log(12, 'PublicHeader', currentUser?.userAvatar)
 
@@ -30,30 +31,30 @@ const Header = () => {
         </div>
       )}
       <nav className="flex gap-5 space-x-4">
-        <a
-          href="/admin/orders"
+        <Link
+          to="/admin/orders"
           className="text-gray-400 hover:text-white focus:text-white"
         >
           Заказы
-        </a>
-        <a
-          href="/admin/add_order"
+        </Link>
+        <Link
+          to="/admin/add_order"
           className="text-gray-400 hover:text-white focus:text-white"
         >
           Добавить заказ
-        </a>
-        <a
-          href="/test"
+        </Link>
+        <Link
+          to="/test"
           className="text-gray-400 hover:text-white focus:text-white"
         >
           Test
-        </a>
-        <a
-          href="/test_2"
+        </Link>
+        <Link
+          to="/test_2"
           className="text-gray-400 hover:text-white focus:text-white"
         >
           Form s/ui
-        </a>
+        </Link>
         {/* {session && (
           <div className="flex flex-col gap-2 items-center">
             <p>{session?.currentUser.userName}</p>
@@ -68,4 +69,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default AdminHeader

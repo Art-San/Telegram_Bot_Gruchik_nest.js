@@ -16,7 +16,7 @@ import { useOrderStore } from '@/zustand/useOrderStore'
 import { Eye } from 'lucide-react'
 import { transformDate } from '@/utils/dateUtils'
 import { validIconStatus, validIconTypeWork } from '@/utils/icons/iconUtils'
-import { getOrderUrlForMover } from '@/configs/api.config'
+import { getOrderUrlForAdmin } from '@/configs/api.config'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
@@ -26,7 +26,7 @@ function getPaginationParamsFromUrl() {
   return { page, pageSize, days }
 }
 
-const ListOrdersForMovers = () => {
+const ListOrdersForAdmin = () => {
   const { page, pageSize, days } = getPaginationParamsFromUrl()
   const [totalPages, setTotalPages] = useState<number>(1)
   const [day, setDay] = useState(days)
@@ -54,13 +54,10 @@ const ListOrdersForMovers = () => {
     <>
       <div className="">
         {/* <div className="max-w-[1200px] min-w-[400px] my-auto p-[2rem] text-center"> */}
-        {/* <div className="flex justify-center">
+        <div className="flex justify-start">
           <SelectDay setDay={setDay} day={day} />
-        </div> */}
+        </div>
         <ul className=" bg-slate-50 flex flex-col gap-1  shadow overflow-hidden sm:rounded-md max-w-sm mx-auto ">
-          <div className="flex ">
-            <SelectDay setDay={setDay} day={day} />
-          </div>
           {orders &&
             orders.map((order) => (
               <li key={order.id}>
@@ -81,18 +78,15 @@ const ListOrdersForMovers = () => {
                       {`${order?.numExecutors} / ${order.executorsCount}`}{' '}
                       <span className="text-sm text-gray-400">чел</span>
                     </p>
-                    <p className="text-base leading-6 font-medium text-gray-900">
-                      {order?.hourCost}
-                      <span className="text-sm text-gray-400"> руб</span>
+                    <p className="mt-1 max-w-2xl text-lg text-gray-500">
+                      {validIconTypeWork(order?.typeWork)}
                     </p>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-gray-400 mt-1">
-                      Адрес:{' '}
-                      <span className="text-gray-500">{order?.address}</span>
-                    </p>
-                    {validIconTypeWork(order?.typeWork)}
-                  </div>
+
+                  <p className="text-sm font-medium text-gray-400 mt-1">
+                    Адрес:{' '}
+                    <span className="text-gray-500">{order?.address}</span>
+                  </p>
 
                   <div className="mt-1 flex items-center justify-between">
                     <div className=" flex  items-center gap-2">
@@ -101,7 +95,7 @@ const ListOrdersForMovers = () => {
                       </p>
                       {validIconStatus(order?.status)}
                     </div>
-                    <Link to={getOrderUrlForMover(`/${order.id}`)}>
+                    <Link to={getOrderUrlForAdmin(`/${order.id}`)}>
                       <Eye
                         size={20}
                         className="text-indigo-400 hover:text-indigo-300"
@@ -112,6 +106,12 @@ const ListOrdersForMovers = () => {
               </li>
             ))}
         </ul>
+        {/* {orders &&
+          orders.map((order) => (
+            <div key={order.id}>
+              <h1>{order.authorName}</h1>
+            </div>
+          ))} */}
         <Pagination className="flex justify-center mt-4">
           <PaginationContent>
             <PaginationItem>
@@ -155,4 +155,4 @@ const ListOrdersForMovers = () => {
   )
 }
 
-export default ListOrdersForMovers
+export default ListOrdersForAdmin

@@ -20,6 +20,7 @@ import OrderDetails from '@/pages/Orders/OrdersPage/OrderDetails'
 import WelcomeMovers from '@/pages/Welcom/movers/WelcomeMovers'
 import RulesForMovers from '@/pages/Rules/movers/RulesForMovers'
 import HelpForMovers from '@/pages/Help/movers/HelpForMovers'
+import AddOrderSitePage from '@/pages/AddOrderPage/AddOrderSitePage'
 
 // Определение интерфейса RouteElement с обязательным свойством path
 export interface RouteElement {
@@ -94,18 +95,18 @@ export const routes: MainRoute[] = [
       }
     ]
   },
-  {
-    layout: AnonymousLayout,
-    routes: [
-      {
-        name: 'login',
-        title: 'Login page',
-        component: Login,
-        path: '/login',
-        isPublic: true
-      }
-    ]
-  },
+  // {
+  //   layout: AnonymousLayout,
+  //   routes: [
+  //     {
+  //       name: 'login',
+  //       title: 'Login page',
+  //       component: Login,
+  //       path: '/login',
+  //       isPublic: true
+  //     }
+  //   ]
+  // },
   {
     layout: ProtectedLayout,
     routes: [
@@ -139,7 +140,7 @@ export const routes: MainRoute[] = [
             name: 'create_order',
             title: 'Add order',
             hasSideLink: true,
-            component: AddOrderPage,
+            component: AddOrderSitePage,
             path: '/admin/add_order'
           }
         ]

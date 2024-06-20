@@ -26,7 +26,7 @@ import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { transformDate } from '@/utils/dateUtils'
 import SelectDay from '../Form/fieldsForm/SelectDay'
-import { getAdminOrderUrl } from '@/configs/api.config'
+import { getOrderUrlForAdmin } from '@/configs/api.config'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
@@ -97,7 +97,7 @@ const TableOrdersPag = () => {
                   </TableCell>
                   <TableCell className="">
                     <div className="flex flex-col items-center">
-                      <Link to={getAdminOrderUrl(`/${order.id}`)}>
+                      <Link to={getOrderUrlForAdmin(`/${order.id}`)}>
                         <View className="text-blue-400" />
                       </Link>
                       <Button

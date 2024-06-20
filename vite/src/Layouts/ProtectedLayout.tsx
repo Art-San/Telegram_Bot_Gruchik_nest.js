@@ -1,10 +1,11 @@
-import Header from '@/components/Header/Header'
+import AdminHeader from '@/components/Header/AdminHeader'
+
 import { Outlet } from 'react-router-dom'
 
 const ProtectedLayout = () => {
   return (
     <div className="">
-      <Header />
+      <AdminHeader />
       <Outlet />
     </div>
   )

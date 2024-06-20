@@ -51,19 +51,19 @@ import {
 export const validIconTypeWork = (type: string) => {
   const iconMap = {
     moving: (
-      <div className="flex gap-1">
+      <span className="flex gap-1">
         <Package /> <Sofa /> <Refrigerator />
-      </div>
+      </span>
     ),
     construction: (
-      <div className="flex gap-1">
+      <span className="flex gap-1">
         <HardHat /> <Cuboid /> <Trash2 />
-      </div>
+      </span>
     ),
     rigging: (
-      <div className="flex gap-1">
+      <span className="flex gap-1">
         <Piano /> <Anvil />
-      </div>
+      </span>
     )
   }
 

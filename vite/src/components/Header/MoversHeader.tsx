@@ -39,13 +39,6 @@ const PublicHeader = () => {
             <CircleUserRound />
           </AvatarFallback>
         </Avatar>
-
-        {/* <img
-          src={currentUser?.userAvatar || 'path/to/default/avatar.png'}
-          alt="User Avatar"
-          className="h-10 w-10 rounded-full"
-        /> */}
-        {/* <span className=" text-xs">{currentUser?.userName || 'null'}</span> */}
       </div>
     </header>
   )
