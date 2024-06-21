@@ -17,6 +17,8 @@ import { Eye } from 'lucide-react'
 import { transformDate } from '@/utils/dateUtils'
 import { validIconStatus, validIconTypeWork } from '@/utils/icons/iconUtils'
 import { getOrderUrlForAdmin } from '@/configs/api.config'
+import CustomButton from '../Buttons/CustomButton'
+import { Button } from '@/components/ui/button'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
@@ -53,11 +55,13 @@ const ListOrdersForAdmin = () => {
   return (
     <>
       <div className="">
-        {/* <div className="max-w-[1200px] min-w-[400px] my-auto p-[2rem] text-center"> */}
-        <div className="flex justify-start">
-          <SelectDay setDay={setDay} day={day} />
-        </div>
         <ul className=" bg-slate-50 flex flex-col gap-1  shadow overflow-hidden sm:rounded-md max-w-sm mx-auto ">
+          <div className="flex justify-between">
+            <SelectDay setDay={setDay} day={day} />
+            <CustomButton name={'Создать'} to="/admin/add_order" />
+            <Button variant={'outline'}>Оформить</Button>
+          </div>
+
           {orders &&
             orders.map((order) => (
               <li key={order.id}>
@@ -78,15 +82,18 @@ const ListOrdersForAdmin = () => {
                       {`${order?.numExecutors} / ${order.executorsCount}`}{' '}
                       <span className="text-sm text-gray-400">чел</span>
                     </p>
-                    <p className="mt-1 max-w-2xl text-lg text-gray-500">
-                      {validIconTypeWork(order?.typeWork)}
+                    <p className="text-base leading-6 font-medium text-gray-900">
+                      {order?.hourCost}
+                      <span className="text-sm text-gray-400"> руб</span>
                     </p>
                   </div>
-
-                  <p className="text-sm font-medium text-gray-400 mt-1">
-                    Адрес:{' '}
-                    <span className="text-gray-500">{order?.address}</span>
-                  </p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-medium text-gray-400 mt-1">
+                      Адрес:{' '}
+                      <span className="text-gray-500">{order?.address}</span>
+                    </p>
+                    {validIconTypeWork(order?.typeWork)}
+                  </div>
 
                   <div className="mt-1 flex items-center justify-between">
                     <div className=" flex  items-center gap-2">
@@ -106,12 +113,7 @@ const ListOrdersForAdmin = () => {
               </li>
             ))}
         </ul>
-        {/* {orders &&
-          orders.map((order) => (
-            <div key={order.id}>
-              <h1>{order.authorName}</h1>
-            </div>
-          ))} */}
+
         <Pagination className="flex justify-center mt-4">
           <PaginationContent>
             <PaginationItem>

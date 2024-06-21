@@ -21,6 +21,8 @@ import WelcomeMovers from '@/pages/Welcom/movers/WelcomeMovers'
 import RulesForMovers from '@/pages/Rules/movers/RulesForMovers'
 import HelpForMovers from '@/pages/Help/movers/HelpForMovers'
 import AddOrderSitePage from '@/pages/AddOrderPage/AddOrderSitePage'
+import OrdersPageAdmin from '@/pages/Orders/admin/OrdersPageAdmin'
+import OrderDetailsAdmin from '@/pages/Orders/admin/OrderDetailsAdmin'
 
 // Определение интерфейса RouteElement с обязательным свойством path
 export interface RouteElement {
@@ -126,14 +128,14 @@ export const routes: MainRoute[] = [
             name: 'page_orders_admin',
             title: 'Page Orders for admin',
             hasSideLink: true,
-            component: OrdersPage,
+            component: OrdersPageAdmin,
             path: '/admin/orders'
           },
           {
             name: 'page_orders_admin',
             title: 'Page Orders for admin',
             hasSideLink: true,
-            component: OrderDetails,
+            component: OrderDetailsAdmin,
             path: '/admin/orders/:orderId'
           },
           {

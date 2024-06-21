@@ -27,11 +27,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { transformDate } from '@/utils/dateUtils'
 import SelectDay from '../Form/fieldsForm/SelectDay'
 import { getOrderUrlForAdmin } from '@/configs/api.config'
+import { useOrderStore } from '@/zustand/useOrderStore'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
   const page = urlParams.get('page') || '1'
-  const pageSize = urlParams.get('pageSize') || '3'
+  const pageSize = urlParams.get('pageSize') || '5'
   const days = urlParams.get('days') || 'today'
   return { page, pageSize, days }
 }
@@ -44,11 +45,8 @@ const TableOrdersPag = () => {
   const navigate = useNavigate()
 
   const { deleteOrder, isDeletePending } = useDeleteOrder()
-  const { orders, isLoading, isError, total } = useOrdersPag(
-    page,
-    pageSize,
-    days
-  )
+  const { isLoading, isError, total } = useOrdersPag(page, pageSize, days)
+  const orders = useOrderStore((state) => state.orders)
 
   useEffect(() => {
     setTotalPages(total)

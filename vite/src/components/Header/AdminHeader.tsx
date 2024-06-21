@@ -10,7 +10,31 @@ const AdminHeader = () => {
   console.log(12, 'PublicHeader', currentUser?.userAvatar)
 
   return (
-    <div className="flex flex-col items-center justify-center  px-6 py-4 bg-gray-900 text-white">
+    <header className="w-full h-16 bg-slate-100 shadow-md flex justify-center items-center gap-4 px-4">
+      {/* <header className="flex flex-col items-center justify-center  px-6 py-4 bg-gray-900 text-white"> */}
+      <nav className="flex items-center justify-center space-x-4">
+        <Link
+          to="/admin/orders"
+          className="flex flex-col items-center text-gray-900"
+        >
+          Заказы
+        </Link>
+        <Link
+          to="/admin/add_order"
+          className="flex flex-col items-center text-gray-900"
+        >
+          Добавить заказ
+        </Link>
+        <Link to="/test" className="flex flex-col items-center text-gray-900">
+          Test
+        </Link>
+        {/* <Link
+          to="/test_2"
+          className="flex flex-col items-center text-gray-900"
+        >
+          Form s/ui
+        </Link> */}
+      </nav>
       {currentUser && (
         <div className=" flex gap-2">
           <Avatar>
@@ -30,42 +54,7 @@ const AdminHeader = () => {
           </div>
         </div>
       )}
-      <nav className="flex gap-5 space-x-4">
-        <Link
-          to="/admin/orders"
-          className="text-gray-400 hover:text-white focus:text-white"
-        >
-          Заказы
-        </Link>
-        <Link
-          to="/admin/add_order"
-          className="text-gray-400 hover:text-white focus:text-white"
-        >
-          Добавить заказ
-        </Link>
-        <Link
-          to="/test"
-          className="text-gray-400 hover:text-white focus:text-white"
-        >
-          Test
-        </Link>
-        <Link
-          to="/test_2"
-          className="text-gray-400 hover:text-white focus:text-white"
-        >
-          Form s/ui
-        </Link>
-        {/* {session && (
-          <div className="flex flex-col gap-2 items-center">
-            <p>{session?.currentUser.userName}</p>
-            <div className=" flex gap-2 items-center">
-              <p>Sign Out</p>
-              <LogoutButton />
-            </div>
-          </div>
-        )} */}
-      </nav>
-    </div>
+    </header>
   )
 }
 
