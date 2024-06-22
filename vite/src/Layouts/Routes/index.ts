@@ -7,22 +7,21 @@ import { renderRoutes } from './renderRoutes'
 
 // Pages
 import OrdersPage from '@/pages/Orders/OrdersPage/OrdersPage'
-import Login from '@/pages/Auth/Login'
-import Profile from '@/pages/User/Profile'
 
-import StatisticsPageMover from '@/pages/History/Statistics/StatisticsPageMover'
+import Profile from '@/pages/Users/User/Profile'
+
 import OrdersPageMovers from '@/pages/Orders/movers/OrdersPageMover'
-import AddOrderPage from '@/pages/AddOrderPage/AddOrderPage'
 
 import MowerHistory from '@/pages/History/mowers/MowerHistory'
 import OrderDetailsMover from '@/pages/Orders/movers/OrderDetailsMover'
-import OrderDetails from '@/pages/Orders/OrdersPage/OrderDetails'
+
 import WelcomeMovers from '@/pages/Welcom/movers/WelcomeMovers'
 import RulesForMovers from '@/pages/Rules/movers/RulesForMovers'
 import HelpForMovers from '@/pages/Help/movers/HelpForMovers'
 import AddOrderSitePage from '@/pages/AddOrderPage/AddOrderSitePage'
 import OrdersPageAdmin from '@/pages/Orders/admin/OrdersPageAdmin'
 import OrderDetailsAdmin from '@/pages/Orders/admin/OrderDetailsAdmin'
+import UsersPageAdmin from '@/pages/Users/UsersPageAdmin'
 
 // Определение интерфейса RouteElement с обязательным свойством path
 export interface RouteElement {
@@ -144,6 +143,13 @@ export const routes: MainRoute[] = [
             hasSideLink: true,
             component: AddOrderSitePage,
             path: '/admin/add_order'
+          },
+          {
+            name: 'create_order',
+            title: 'Add order',
+            hasSideLink: true,
+            component: UsersPageAdmin,
+            path: '/admin/users'
           }
         ]
       }

@@ -1,7 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const CustomButton = ({ to, name }: { to: string; name: string }) => {
+const CustomButton = ({
+  to,
+  name,
+  className
+}: {
+  to: string
+  name: string
+  className: string
+}) => {
   return (
     <Link
       to={to}
@@ -12,4 +20,33 @@ const CustomButton = ({ to, name }: { to: string; name: string }) => {
   )
 }
 
+{
+  /* <CustomButtonLink
+name={'Создать'}
+to="/add_order"
+className="text-primary underline-offset-4 hover:underline"
+/> */
+}
+
 export default CustomButton
+
+// import React from 'react'
+// import { Link } from 'react-router-dom'
+
+// const CustomButtonLink = ({
+//   to,
+//   name,
+//   className
+// }: {
+//   to: string
+//   name: string
+//   className: string
+// }) => {
+//   return (
+//     <Link to={to} className={className}>
+//       {name}
+//     </Link>
+//   )
+// }
+
+// export default CustomButtonLink

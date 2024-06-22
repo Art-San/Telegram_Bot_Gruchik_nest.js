@@ -62,6 +62,8 @@ export class OrdersService {
 			yesterday.setDate(today.getDate() - 1)
 			const sevenDaysAgo = new Date(today)
 			sevenDaysAgo.setDate(today.getDate() - 7)
+			const thirtyDaysAgo = new Date(today)
+			thirtyDaysAgo.setDate(today.getDate() - 30)
 
 			let dateCondition: any
 			switch (days) {
@@ -79,6 +81,11 @@ export class OrdersService {
 				case 'last7Days':
 					dateCondition = {
 						gte: sevenDaysAgo,
+					}
+					break
+				case 'last30Days':
+					dateCondition = {
+						gte: thirtyDaysAgo,
 					}
 					break
 				default:

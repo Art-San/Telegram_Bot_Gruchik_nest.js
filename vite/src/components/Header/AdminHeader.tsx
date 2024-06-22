@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useUserStore } from '@/zustand/useUserStore'
+import { BookA, Users } from 'lucide-react'
 
 import { Link } from 'react-router-dom'
 // import { useUserContext } from '@/context/useUser'
@@ -17,13 +18,15 @@ const AdminHeader = () => {
           to="/admin/orders"
           className="flex flex-col items-center text-gray-900"
         >
-          Заказы
+          <BookA />
+          <p className="text-xs">Заказы</p>
         </Link>
         <Link
           to="/admin/add_order"
           className="flex flex-col items-center text-gray-900"
         >
-          Добавить заказ
+          <Users />
+          <p className="text-xs">Грузчики</p>
         </Link>
         <Link to="/test" className="flex flex-col items-center text-gray-900">
           Test

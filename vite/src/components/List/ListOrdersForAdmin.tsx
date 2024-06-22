@@ -17,8 +17,8 @@ import { Eye } from 'lucide-react'
 import { transformDate } from '@/utils/dateUtils'
 import { validIconStatus, validIconTypeWork } from '@/utils/icons/iconUtils'
 import { getOrderUrlForAdmin } from '@/configs/api.config'
-import CustomButton from '../Buttons/CustomButton'
 import { Button } from '@/components/ui/button'
+import CustomButtonLink from '../Buttons/CustomButton'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
@@ -58,8 +58,9 @@ const ListOrdersForAdmin = () => {
         <ul className=" bg-slate-50 flex flex-col gap-1  shadow overflow-hidden sm:rounded-md max-w-sm mx-auto ">
           <div className="flex justify-between">
             <SelectDay setDay={setDay} day={day} />
-            <CustomButton name={'Создать'} to="/admin/add_order" />
-            <Button variant={'outline'}>Оформить</Button>
+            <Button variant={'link'}>
+              <Link to="/admin/add_order">Добавить</Link>
+            </Button>
           </div>
 
           {orders &&

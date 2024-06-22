@@ -2,7 +2,8 @@ export const validDay = (type: string) => {
   const days = {
     today: 'Сегодня',
     yesterday: 'Вчера',
-    last7Days: 'Последние 7 дней'
+    last7Days: 'Последние 7 дней',
+    last30Days: 'Последние 30 дней'
   }
 
   // Использование type assertion для указания, что type является ключом объекта days

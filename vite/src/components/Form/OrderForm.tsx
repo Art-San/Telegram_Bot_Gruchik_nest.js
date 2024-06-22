@@ -93,7 +93,7 @@ export function OrderForm() {
             name="startTime"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Время</FormLabel>
+                {/* <FormLabel>Время</FormLabel> */}
                 {/* <FormLabel className="sr-only">Время</FormLabel> */}
                 <FormControl>
                   <Input

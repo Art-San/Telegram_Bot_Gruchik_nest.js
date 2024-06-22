@@ -35,6 +35,7 @@ const SelectDay: React.FC<SelectDayProps> = ({ setDay, day }) => {
             <SelectItem value="today">Сегодня</SelectItem>
             <SelectItem value="yesterday">Вчера</SelectItem>
             <SelectItem value="last7Days">Последние 7 дней</SelectItem>
+            <SelectItem value="last30Days">Последние 30 дней</SelectItem>
           </SelectContent>
         </Select>
 

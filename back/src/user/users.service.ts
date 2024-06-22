@@ -49,7 +49,7 @@ export class UserService {
 		}
 	}
 
-	async getAllUsers() {
+	async findAllUsers() {
 		try {
 			const users = await this.db.user.findMany()
 			return users
@@ -57,6 +57,56 @@ export class UserService {
 			console.log('Ошибка в getAllUsers', error)
 			throw error
 		}
+	}
+
+	async searchUsers(searchTerm) {
+		console.log(12, searchTerm)
+		const value = searchTerm ? searchTerm : ''
+		// Проверяем, есть ли searchTerm, и если нет, возвращаем пустой массив
+		// if (!searchTerm) {
+		// 	return []
+		// }
+
+		// Ищем пользователей в базе данных
+		const users = await this.db.user.findMany({
+			where: {
+				OR: [
+					{
+						telegramId: {
+							contains: value,
+							mode: 'insensitive',
+						},
+					},
+					{
+						userName: {
+							contains: value,
+							mode: 'insensitive',
+						},
+					},
+				],
+			},
+			select: {
+				id: true,
+				userName: true,
+				isAdmin: true,
+				profile: true,
+				createdAt: true,
+			},
+			orderBy: {
+				createdAt: 'desc',
+			},
+		})
+
+		// Преобразуем результат и возвращаем
+		const res = users.map((user) => ({
+			id: user.id,
+			userName: user.userName,
+			isAdmin: user.isAdmin,
+			profile: user.profile,
+			createdAt: user.createdAt.toISOString(),
+		}))
+		console.log(res)
+		return res
 	}
 
 	async getAllUsersExceptTheAuthor(authorId: string) {

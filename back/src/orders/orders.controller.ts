@@ -35,7 +35,7 @@ export class OrdersController {
 	// getOrdersByStatus
 	@Get()
 	async getTodayYesterdaySevenDay(
-		@Query('days') days: string = 'last7Days', // 'today', // 'yesterday' // 'last7Days' // ast30Days
+		@Query('days') days: string = 'last7Days', // 'today', // 'yesterday' // 'last7Days' // last30Days
 		@Query('page') page: number = 1,
 		@Query('pageSize') pageSize: number = 10
 	) {
@@ -44,6 +44,7 @@ export class OrdersController {
 			+page,
 			+pageSize
 		)
+
 		return res
 	}
 

@@ -6,6 +6,7 @@ import { ArrowBigLeft, Trash, UserX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useDelExecutorFromOrder } from '../hooks/useDelExecutorFromOrder'
 import { Spinner } from '@/components/ui/spinner'
+import BackButton from '@/components/Buttons/BackButton'
 
 const OrderDetailsAdmin: FC = () => {
   const { orderId } = useParams()
@@ -67,10 +68,7 @@ const OrderDetailsAdmin: FC = () => {
   return (
     <div className=" mt-2 flex flex-col items-center justify-center ">
       <div className=" flex  w-1/3 justify-between">
-        <Button variant={'ghost'} onClick={goBack}>
-          {/* <Button onClick={() => navigate(-1)}> */}
-          <ArrowBigLeft /> <p>назад</p>
-        </Button>
+        <BackButton />
         <Button variant={'outline'} onClick={goBack}>
           <p>Удалить</p> <Trash size={15} />
         </Button>
