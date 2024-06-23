@@ -13,6 +13,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useDebounce } from '@/pages/Users/hooks/useDebounce'
 import { useSearchUsersStore } from '@/zustand/useSearchUsersStore'
+import { Search } from 'lucide-react'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
@@ -65,13 +66,14 @@ const ListUsersForAdmin: FC = () => {
 
   return (
     <>
-      <div className="search-container">
+      <div className="w-[300px] mx-auto rounded-3xl border border-gray-700 px-3 py-0.5 flex items-center transition-colors">
+        <Search className="fill-gray-300 mr-2 text-2xl transition-colors focus:not-sr-only" />
         <input
           type="text"
           value={searchTerm}
           onChange={handleSearchChange}
           placeholder="Search users..."
-          className="search-input"
+          className="outline-border-none  placeholder:text-gray-600 placeholder:text-sm block w-full bg-transparent"
         />
       </div>
       <div className="">

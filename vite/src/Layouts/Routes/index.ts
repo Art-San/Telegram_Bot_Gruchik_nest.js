@@ -145,8 +145,8 @@ export const routes: MainRoute[] = [
             path: '/admin/add_order'
           },
           {
-            name: 'create_order',
-            title: 'Add order',
+            name: 'list_users',
+            title: 'List users',
             hasSideLink: true,
             component: UsersPageAdmin,
             path: '/admin/users'

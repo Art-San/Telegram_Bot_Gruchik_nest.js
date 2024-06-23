@@ -22,7 +22,7 @@ const AdminHeader = () => {
           <p className="text-xs">Заказы</p>
         </Link>
         <Link
-          to="/admin/add_order"
+          to="/admin/users"
           className="flex flex-col items-center text-gray-900"
         >
           <Users />

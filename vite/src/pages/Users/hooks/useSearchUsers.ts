@@ -22,7 +22,7 @@ export function useSearchUsers(
   console.log(1256, data?.data)
   useEffect(() => {
     if (data) {
-      setUsers(data)
+      setUsers(data?.data)
       setTotalPages(data?.totalPages)
     }
   }, [data, setUsers, setTotalPages])
