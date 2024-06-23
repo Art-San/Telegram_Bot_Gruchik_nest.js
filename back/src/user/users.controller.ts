@@ -17,9 +17,6 @@ export class UserController {
 		@Query('page') page: number = 1,
 		@Query('pageSize') pageSize: number = 10
 	) {
-		console.log(11, page)
-		console.log(11, pageSize)
-		console.log(11, searchTerm)
 		return this.userService.searchUsers(searchTerm, +page, +pageSize)
 	}
 }
