@@ -5,9 +5,10 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useDebounce } from '@/pages/Users/hooks/useDebounce'
 import { useSearchUsersStore } from '@/zustand/useSearchUsersStore'
 import SearchInput from '@/components/Search/SearchInput'
-import UserList from './UserList'
+import UserList from './UsersList'
 import PaginationComponent from '@/components/Pagination/PaginationComponent'
 import SelectNum from '@/components/Form/fieldsForm/SelectNum'
+import Test from './test'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
@@ -50,10 +51,6 @@ const ListUsersForAdmin: FC = () => {
     navigate({ search: params.toString() })
   }
 
-  // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearchTerm(event.target.value)
-  // }
-
   if (isLoading) return <p>Loading...</p>
   if (isError) return <p>Error loading users</p>
 
@@ -70,6 +67,7 @@ const ListUsersForAdmin: FC = () => {
         <SelectNum setNum={setNum} num={num} />
       </div>
       <UserList users={users} />
+      {/* <Test /> */}
       <PaginationComponent
         page={Number(page)}
         totalPages={totalPages}
