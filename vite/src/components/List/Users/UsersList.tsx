@@ -21,7 +21,7 @@ const UsersList: FC<UserListProps> = ({ users }) => {
       <ul className=" divide-y divide-gray-200">
         {Array.isArray(users) &&
           users.map((user) => (
-            <li className="flex items-center py-4 px-6">
+            <li key={user?.id} className="flex items-center py-4 px-6">
               <span className="text-gray-700 text-lg font-medium mr-4">
                 {user.id}
               </span>

@@ -32,7 +32,7 @@ model Profile {
   phone        String?    @unique
   fullName     String?
   userAvatar   String?
-  role         Role       @default(user)
+  role         Role       
   rating       Int        @default(5)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt

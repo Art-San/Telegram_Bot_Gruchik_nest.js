@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { DbService } from 'src/db/db.service'
 import { IPaginationResult, IUser } from 'src/shared/types/user.types'
 import { UserDto } from './dto/user.dto'
+import { Prisma, Profile } from '@prisma/client'
+import { UpdateProfileDto } from './dto/update-profile.dto'
 
 @Injectable()
 export class UserService {
@@ -49,6 +51,45 @@ export class UserService {
 			console.error('Ошибка при регистрации пользователя:', error)
 			throw error
 		}
+	}
+
+	// Метод для обновления профиля пользователя
+	async updateUserProfile(
+		userId: number,
+		profileData: UpdateProfileDto
+	): Promise<Profile> {
+		const { telegramId, phone, fullName, userAvatar, role, rating } =
+			profileData
+
+		const updateData: Prisma.ProfileUpdateInput = {
+			telegramId: telegramId ? { set: telegramId } : undefined,
+			phone: phone ? { set: phone } : undefined,
+			fullName: fullName ? { set: fullName } : undefined,
+			userAvatar: userAvatar ? { set: userAvatar } : undefined,
+			role: role
+				? { set: role as Prisma.EnumRoleFieldUpdateOperationsInput }
+				: undefined,
+			rating: rating ? { set: rating } : undefined,
+			updatedAt: new Date(),
+		}
+
+		const createData: Prisma.ProfileCreateInput = {
+			telegramId,
+			phone,
+			fullName,
+			userAvatar,
+			role: role as Prisma.Role,
+			rating,
+			user: {
+				connect: { id: userId },
+			},
+		}
+
+		return this.db.profile.upsert({
+			where: { userId },
+			update: updateData,
+			create: createData,
+		})
 	}
 
 	async findAllUsers() {
