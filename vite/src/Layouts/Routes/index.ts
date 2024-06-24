@@ -150,6 +150,13 @@ export const routes: MainRoute[] = [
             hasSideLink: true,
             component: UsersPageAdmin,
             path: '/admin/users'
+          },
+          {
+            name: 'profile_user',
+            title: 'Profile user',
+            hasSideLink: true,
+            component: Profile,
+            path: '/admin/users/profile/:telegramId'
           }
         ]
       }

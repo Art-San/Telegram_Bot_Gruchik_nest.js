@@ -21,4 +21,6 @@ export const getAuthUrl = (string: string) => `/auth${string}`
 
 // Admin
 export const getOrderUrlForAdmin = (string: string) => `/admin/orders${string}`
+export const getUserProfile = (string: string) =>
+  `/admin/users/profile${string}`
 export const getAuthAdminUrl = (string: string) => `/auth/admin${string}`
