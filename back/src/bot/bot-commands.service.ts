@@ -9,7 +9,7 @@ export class BotCommandsService {
 
 	async commandStart(telegramId: string, userName: string, userAvatar: string) {
 		try {
-			const user = await this.userService.getUserByTelegramId(telegramId)
+			const user = await this.userService.findUserByTelegramId(telegramId)
 			if (!user) {
 				const newUser = await this.userService.createUser(
 					userName,
@@ -37,7 +37,7 @@ export class BotCommandsService {
 
 	async getUserInfoMessage(telegramId: string) {
 		try {
-			const user = await this.userService.getUserByTelegramId(telegramId)
+			const user = await this.userService.findUserByTelegramId(telegramId)
 			if (!user) {
 				throw new Error('Пользователь не найден')
 			}
@@ -50,7 +50,7 @@ export class BotCommandsService {
 
 	async commandEnd(telegramId: string) {
 		try {
-			const user = await this.userService.getUserByTelegramId(telegramId)
+			const user = await this.userService.findUserByTelegramId(telegramId)
 			if (!user) {
 				throw new Error('Пользователь не найден')
 			}

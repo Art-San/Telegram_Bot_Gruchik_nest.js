@@ -57,7 +57,7 @@ export class MessageHandlerService {
 	) {
 		const { chatId, orderId, authorId, telegramId, executorId } = data
 		try {
-			const user = await this.userService.getUserByTelegramId(executorId)
+			const user = await this.userService.findUserByTelegramId(executorId)
 
 			const { isExecutorIdPresent, order } =
 				await this.ordersService.getPotentialExecutorIdOrder(
@@ -98,7 +98,7 @@ export class MessageHandlerService {
 				idExecutor
 			)
 
-			const user = await this.userService.getUserByTelegramId(userId)
+			const user = await this.userService.findUserByTelegramId(userId)
 
 			const templatesOrderEnd = formatOrderMsgAuthorFin(order, user)
 

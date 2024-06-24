@@ -11,7 +11,7 @@ export class AuthService {
 	) {}
 	async login(userName: string, telegramId: string) {
 		try {
-			const user = await this.userService.findUserTelegramId(telegramId)
+			const user = await this.userService.findUserByTelegramId(telegramId)
 			if (!user) {
 				throw new UnauthorizedException({ type: 'не верный telegramId' })
 			}
@@ -38,7 +38,7 @@ export class AuthService {
 	}
 	async isAdmin(userName: string, telegramId: string) {
 		try {
-			const user = await this.userService.findUserTelegramId(telegramId)
+			const user = await this.userService.findUserByTelegramId(telegramId)
 			if (!user) {
 				throw new UnauthorizedException({ type: 'не верный telegramId' })
 			}
@@ -54,7 +54,7 @@ export class AuthService {
 	}
 	async isAdmin2(telegramId: string) {
 		try {
-			const user = await this.userService.findUserTelegramId(telegramId)
+			const user = await this.userService.findUserByTelegramId(telegramId)
 			if (!user) {
 				throw new UnauthorizedException({ type: 'не верный telegramId' })
 			}

@@ -70,7 +70,7 @@ export class OrderProcessingService {
 		ctx?: TelegramBot.Message
 	) {
 		const { text, telegramId, chatId } = data
-		const user = await this.userService.getUserByTelegramId(telegramId)
+		const user = await this.userService.findUserByTelegramId(telegramId)
 
 		if (!user) {
 			bot.sendMessage(

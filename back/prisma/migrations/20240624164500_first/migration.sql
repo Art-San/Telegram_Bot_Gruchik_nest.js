@@ -2,6 +2,9 @@
 CREATE TYPE "Role" AS ENUM ('user', 'loader', 'foreman', 'dispatcher');
 
 -- CreateEnum
+CREATE TYPE "Experience" AS ENUM ('newbie', 'experienced', 'veteran');
+
+-- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('created', 'pending', 'inProgress', 'completed');
 
 -- CreateEnum
@@ -32,6 +35,7 @@ CREATE TABLE "Profile" (
     "fullName" TEXT,
     "userAvatar" TEXT,
     "role" "Role" NOT NULL DEFAULT 'user',
+    "experience" "Experience" NOT NULL DEFAULT 'newbie',
     "rating" INTEGER NOT NULL DEFAULT 5,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

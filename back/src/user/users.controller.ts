@@ -22,11 +22,17 @@ export class UserController {
 		return this.userService.createUser(dto.userName, dto.telegramId)
 	}
 
-	@Put(':id/profile')
+	@Get(':userId')
+	async getUserById(@Param('userId') userId: string) {
+		return this.userService.findUserById(userId)
+	}
+
+	@Put(':userId/profile')
 	async updateUserProfile(
-		@Param('id') userId: number,
+		@Param('userId') userId: string,
 		@Body() profileData: UpdateProfileDto
 	): Promise<Profile> {
+		console.log(22, profileData)
 		return this.userService.updateUserProfile(userId, profileData)
 	}
 
@@ -39,12 +45,10 @@ export class UserController {
 		console.log(123, 'getAll')
 		return this.userService.searchUsers(searchTerm, +page, +pageSize)
 	}
-	@Get('profile/:telegramId')
+
+	@Get(':telegramId/profile')
 	async getProfile(@Param('telegramId') telegramId: string) {
 		console.log(123, 'telegramId', typeof telegramId)
-
-		// return this.userService.searchUsers(searchTerm)
-
 		return { telegramId }
 	}
 }
