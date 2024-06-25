@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { DbService } from 'src/db/db.service'
 import { IPaginationResult, IUser } from 'src/shared/types/user.types'
 import { UserDto } from './dto/user.dto'
-import { Prisma, Profile } from '@prisma/client'
 import { UpdateProfileDto } from './dto/update-profile.dto'
+import { Profile } from '@prisma/client'
 
 @Injectable()
 export class UserService {
@@ -56,13 +56,10 @@ export class UserService {
 		}
 	}
 
-	// throw new NotFoundException('Актер не найден')
-	// Метод для обновления профиля пользователя
-	// findUserByTelegramId
 	async updateUserProfile(
 		userId: string,
 		profileData: UpdateProfileDto
-	): Promise<Profile> {
+	): Promise<Profile | string> {
 		const { phone, fullName, userAvatar, role } = profileData
 
 		const user = await this.findUserById(userId)
@@ -70,62 +67,63 @@ export class UserService {
 			throw new NotFoundException('updateUserProfile Юзер в бд не найден')
 		}
 
+		const profileIsPhone = await this.db.profile.findUnique({
+			where: { phone: phone },
+		})
+
+		if (profileIsPhone) {
+			const myProfile = profileIsPhone.userId === +userId
+			if (!myProfile) {
+				return ` телефон используется в профиле с telegramId: ${profileIsPhone.telegramId}`
+			}
+		}
+
 		try {
-			const updateData: Prisma.ProfileUpdateInput = {
-				telegramId: user.telegramId ? { set: user.telegramId } : undefined,
-				phone: phone ? { set: phone } : undefined,
-				fullName: fullName ? { set: fullName } : 'no name',
-				userAvatar: userAvatar ? { set: userAvatar } : undefined,
-				role: role ? { set: role } : 'user',
-				updatedAt: new Date(),
-			}
-
-			const createData: Prisma.ProfileCreateInput = {
-				telegramId: user.telegramId,
-				phone,
-				fullName,
-				userAvatar,
-				role: role,
-				user: {
-					connect: { id: +userId },
-				},
-			}
-
-			return this.db.profile.upsert({
+			let profile: Profile
+			// Проверка существования профиля
+			const existingProfile = await this.db.profile.findUnique({
 				where: { userId: +userId },
-				update: updateData,
-				create: createData,
 			})
+
+			if (existingProfile) {
+				// Обновление существующего профиля
+				profile = await this.db.profile.update({
+					where: { userId: +userId },
+					data: {
+						telegramId: user.telegramId,
+						phone,
+						fullName,
+						userAvatar,
+						role,
+						updatedAt: new Date(),
+					},
+				})
+			} else {
+				// Создание нового профиля
+				profile = await this.db.profile.create({
+					data: {
+						telegramId: user.telegramId,
+						phone,
+						fullName,
+						userAvatar,
+						role,
+						user: {
+							connect: { id: +userId },
+						},
+					},
+				})
+			}
+
+			await this.db.user.update({
+				where: { id: +userId },
+				data: { profileFilled: true },
+			})
+
+			return profile
 		} catch (error) {
 			console.error('Ошибка при обновление профиля updateUserProfile', error)
 			throw error
 		}
-
-		// const updateData: Prisma.ProfileUpdateInput = {
-		// 	telegramId: telegramId ? { set: telegramId } : undefined,
-		// 	phone: phone ? { set: phone } : undefined,
-		// 	fullName: fullName ? { set: fullName } : undefined,
-		// 	userAvatar: userAvatar ? { set: userAvatar } : undefined,
-		// 	role: role ? { set: role } : undefined,
-		// 	updatedAt: new Date(),
-		// }
-
-		// const createData: Prisma.ProfileCreateInput = {
-		// 	telegramId,
-		// 	phone,
-		// 	fullName,
-		// 	userAvatar,
-		// 	role: role,
-		// 	user: {
-		// 		connect: { id: userId },
-		// 	},
-		// }
-
-		// return this.db.profile.upsert({
-		// 	where: { userId },
-		// 	update: updateData,
-		// 	create: createData,
-		// })
 	}
 
 	async findAllUsers() {

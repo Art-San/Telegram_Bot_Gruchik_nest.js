@@ -31,7 +31,7 @@ export class UserController {
 	async updateUserProfile(
 		@Param('userId') userId: string,
 		@Body() profileData: UpdateProfileDto
-	): Promise<Profile> {
+	): Promise<Profile | string> {
 		console.log(22, profileData)
 		return this.userService.updateUserProfile(userId, profileData)
 	}
