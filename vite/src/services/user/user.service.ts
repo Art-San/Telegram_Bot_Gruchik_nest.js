@@ -1,5 +1,5 @@
 import { axiosClassic } from '@/api/interceptors'
-import { getUsersUrl } from '@/configs/api.config'
+import { getUserProfile, getUsersUrl } from '@/configs/api.config'
 import { IUser, IPaginationResult } from '@/types/users.types'
 
 export const UserService = {
@@ -25,11 +25,11 @@ export const UserService = {
       }
     )
     return response.data
-  }
+  },
 
-  // async getProfile() {
-  // 	return axios.get<IUser>(getUsersUrl('/profile'))
-  // },
+  async getProfile(userId: string) {
+    return axiosClassic.get<IUser>(getUserProfile(userId))
+  }
 
   // async updateProfile(data: IProfileInput) {
   // 	return axios.put<string>(getUsersUrl('/profile'), data)

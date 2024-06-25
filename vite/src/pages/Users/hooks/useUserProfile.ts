@@ -1,23 +1,23 @@
 import { UserService } from '@/services/user/user.service'
 import { useQuery } from '@tanstack/react-query'
 
-export function useUserProfile(userId: string) {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['user profile']
-    // queryFn: () => UserService.searchUsers(userId)
-  })
+const baseKey = 'user'
 
-  return { data, isLoading, isError }
-}
+export const getProfileQuery = (userId: string) => ({
+  queryKey: [baseKey, 'getProfileById', userId],
+  queryFn: () => UserService.getProfile(userId)
+})
+// ------------------------------------
+// export function useUserProfile(userId: string) {
+//   const { data, isLoading, isError } = useQuery({
+//     queryKey: [baseKey, 'getProfileById', userId],
+//     queryFn: () => UserService.getProfile(userId)
+//   })
 
-// type Props = {}
-// const useUserProfile = (props: Props) => {
-//   return (
-//     <div>useUserProfile</div>
-//   )
+//   return { data, isLoading, isError }
 // }
-// const isAuth = true
 
+//-------------------
 // export function useSearchUsers(
 //   page: string,
 //   pageSize: string,

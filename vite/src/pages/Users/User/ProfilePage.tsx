@@ -1,4 +1,5 @@
 import BackButton from '@/components/Buttons/BackButton'
+import { UpdateProfileForm } from '@/components/Form/fieldsForm/UpdateProfileForm'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@radix-ui/react-select'
 import { Trash } from 'lucide-react'
@@ -17,12 +18,12 @@ const Profile: FC = () => {
       <div>
         <h3 className="text-lg font-medium">Профиль</h3>
         <p className="text-sm text-muted-foreground">
-          Это как другие пользователи видят вас на сайте
+          Необходима заполнить профиль, тогда будет возможность брать заказы
         </p>
       </div>
       <Separator />
 
-      {/* <UpdateProfileForm userId={1} /> */}
+      <UpdateProfileForm userId={'1'} />
     </main>
   )
   // return (

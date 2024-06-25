@@ -15,12 +15,14 @@ export const getOrderUrlForMover = (string: string) => `/orders${string}`
 
 // Users
 export const getUsersUrl = (string: string) => `/users${string}`
+export const getUserProfile = (string: string) => `/users/${string}/profile`
 
 // Auth
 export const getAuthUrl = (string: string) => `/auth${string}`
 
 // Admin
 export const getOrderUrlForAdmin = (string: string) => `/admin/orders${string}`
-export const getUserProfile = (string: string) =>
+export const getUserProfileAdmin = (string: string) =>
   `/admin/users/${string}/profile`
+
 export const getAuthAdminUrl = (string: string) => `/auth/admin${string}`

@@ -46,10 +46,10 @@ export class UserController {
 		return this.userService.searchUsers(searchTerm, +page, +pageSize)
 	}
 
-	@Get(':telegramId/profile')
-	async getProfile(@Param('telegramId') telegramId: string) {
-		console.log(123, 'telegramId', typeof telegramId)
-		return { telegramId }
+	@Get(':userId/profile')
+	async getProfile(@Param('userId') userId: string) {
+		console.log(123, 'telegramId', typeof userId)
+		return { userId }
 	}
 }
 

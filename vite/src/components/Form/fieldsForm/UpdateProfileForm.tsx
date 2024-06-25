@@ -1,9 +1,9 @@
-import { Spinner } from '@/ui/spinner'
+import { Spinner } from '@/components/ui/spinner'
 import { useQuery } from '@tanstack/react-query'
 // import { ProfileForm } from './_ui/profile-form'
 // import { Spinner } from '@/shared/ui/spinner'
 // import { useRouter } from 'next/navigation'
-// import { getProfileQuery } from '@/entities/user/_queries'
+import { getProfileQuery } from '@/pages/Users/hooks/useUserProfile'
 
 export function UpdateProfileForm({
   userId,
@@ -12,10 +12,10 @@ export function UpdateProfileForm({
   userId: string
   callbackUrl?: string
 }) {
-  // const profileQuery = useQuery({
-  // 	...getProfileQuery(userId),
-  // 	retry: 0,
-  // })
+  const profileQuery = useQuery({
+    ...getProfileQuery(userId),
+    retry: 0
+  })
 
   // const router = useRouter()
   const handleSuccess = () => {
@@ -23,6 +23,8 @@ export function UpdateProfileForm({
       // router.push(callbackUrl)
     }
   }
+
+  console.log(124, profileQuery)
 
   if (profileQuery.isPending) {
     return <Spinner aria-label="Загрузка профиля" />
