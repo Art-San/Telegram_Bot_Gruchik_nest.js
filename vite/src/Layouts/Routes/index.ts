@@ -8,7 +8,7 @@ import { renderRoutes } from './renderRoutes'
 // Pages
 import OrdersPage from '@/pages/Orders/OrdersPage/OrdersPage'
 
-import Profile from '@/pages/Users/User/Profile'
+import Profile from '@/pages/Users/User/ProfilePage'
 
 import OrdersPageMovers from '@/pages/Orders/movers/OrdersPageMover'
 
