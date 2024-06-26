@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 const AdminHeader = () => {
   const currentUser = useUserStore((state) => state.currentUser)
 
-  console.log(12, 'PublicHeader', currentUser?.userAvatar)
+  // console.log(12, 'PublicHeader', currentUser?.userAvatar)
 
   return (
     <header className="w-full h-16 bg-slate-100 shadow-md flex justify-center items-center gap-4 px-4">

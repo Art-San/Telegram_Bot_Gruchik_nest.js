@@ -1,18 +1,27 @@
 import BackButton from '@/components/Buttons/BackButton'
 import { UpdateProfileForm } from '@/components/Form/fieldsForm/UpdateProfileForm'
 import { Button } from '@/components/ui/button'
+import { useUserStore } from '@/zustand/useUserStore'
 import { Separator } from '@radix-ui/react-select'
 import { Trash } from 'lucide-react'
-import { FC } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 
-const Profile: FC = () => {
-  const { telegramId } = useParams()
-  console.log(123, 'Profile', telegramId)
-  const navigate = useNavigate()
-  const goBack = () => {
-    navigate(-1)
+import { useNavigate, useParams, redirect } from 'react-router-dom'
+
+const Profile = () => {
+  // const { telegramId } = useParams()
+  // console.log(123, 'Profile', telegramId)
+
+  const currentUser = useUserStore((state) => state.currentUser)
+  // const navigate = useNavigate()
+  // const goBack = () => {
+  //   navigate(-1)
+  // }
+
+  if (!currentUser) {
+    // return redirect('/orders')
   }
+
+  console.log(123, currentUser)
   return (
     <main className="space-y-6 py-14 container  max-w-[600px]">
       <div>
@@ -20,10 +29,12 @@ const Profile: FC = () => {
         <p className="text-sm text-muted-foreground">
           Необходима заполнить профиль, тогда будет возможность брать заказы
         </p>
+        <p>{currentUser?.userName}</p>
+        <p>{currentUser?.id}</p>
       </div>
       <Separator />
 
-      <UpdateProfileForm userId={'1'} />
+      {/* <UpdateProfileForm userId={currentUser.id} /> */}
     </main>
   )
   // return (

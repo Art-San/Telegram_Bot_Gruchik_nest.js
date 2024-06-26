@@ -12,7 +12,7 @@ export function UpdateProfileForm({
   userId,
   callbackUrl
 }: {
-  userId: string
+  userId: number
   callbackUrl?: string
 }) {
   const { data, isLoading, isError } = useUserProfile(userId)
@@ -22,21 +22,6 @@ export function UpdateProfileForm({
       // router.push(callbackUrl)
     }
   }
-
-  console.log(124, data)
-  console.log(124, isLoading)
-  console.log(124, isError)
-
-  // if (profileQuery) {
-  //   return <Spinner aria-label="Загрузка профиля" />
-  // }
-  // if (profileQuery.isPending) {
-  //   return <Spinner aria-label="Загрузка профиля" />
-  // }
-
-  // if (!profileQuery.data) {
-  //   return <div>Не удалось загрузить профиль, возможно у вас нет прав</div>
-  // }
 
   return <div className="">UpdateProfileForm</div>
 }

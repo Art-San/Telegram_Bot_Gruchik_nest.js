@@ -27,8 +27,8 @@ export const UserService = {
     return response.data
   },
 
-  async getProfile(userId: string) {
-    return axiosClassic.get<IUser>(getUserProfile(userId))
+  async getProfile(userId: number) {
+    return axiosClassic.get<IUser>(getUserProfile(String(userId)))
   }
 
   // async updateProfile(data: IProfileInput) {

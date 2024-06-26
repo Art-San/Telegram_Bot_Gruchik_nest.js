@@ -60,6 +60,7 @@ export class AuthService {
 			}
 
 			const res = {
+				id: user.id,
 				telegramId: user.telegramId,
 				userName: user.userName,
 				userAvatar: user.userAvatar,

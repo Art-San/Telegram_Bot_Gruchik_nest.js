@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 
-interface User {
+interface IUser {
+  id: number
   telegramId: string
   userName: string
   userAvatar: string
@@ -8,8 +9,8 @@ interface User {
 }
 
 interface UserState {
-  currentUser: User | null
-  setCurrentUser: (user: User) => void
+  currentUser: IUser | null
+  setCurrentUser: (user: IUser) => void
 }
 
 export const useUserStore = create<UserState>((set) => ({
