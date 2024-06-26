@@ -3,19 +3,25 @@ import { useQuery } from '@tanstack/react-query'
 
 const baseKey = 'user'
 
-export const getProfileQuery = (userId: string) => ({
-  queryKey: [baseKey, 'getProfileById', userId],
-  queryFn: () => UserService.getProfile(userId)
-})
+// export const getProfileQuery = (userId: string) => ({
+//   queryKey: [baseKey, 'getProfileById', userId],
+//   queryFn: () => UserService.getProfile(userId)
+// })
+// const profileQuery = useQuery({
+//   ...getProfileQuery(userId),
+//   retry: 0
+// })
 // ------------------------------------
-// export function useUserProfile(userId: string) {
-//   const { data, isLoading, isError } = useQuery({
-//     queryKey: [baseKey, 'getProfileById', userId],
-//     queryFn: () => UserService.getProfile(userId)
-//   })
+export function useUserProfile(userId: string) {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: [baseKey, 'getProfileById', userId],
+    queryFn: () => UserService.getProfile(userId),
+    select: (data) => data.data, // избавляемся от лишней data
+    retry: 0
+  })
 
-//   return { data, isLoading, isError }
-// }
+  return { data, isLoading, isError }
+}
 
 //-------------------
 // export function useSearchUsers(

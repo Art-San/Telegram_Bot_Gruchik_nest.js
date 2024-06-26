@@ -3,7 +3,10 @@ import { useQuery } from '@tanstack/react-query'
 // import { ProfileForm } from './_ui/profile-form'
 // import { Spinner } from '@/shared/ui/spinner'
 // import { useRouter } from 'next/navigation'
-import { getProfileQuery } from '@/pages/Users/hooks/useUserProfile'
+import {
+  // getProfileQuery,
+  useUserProfile
+} from '@/pages/Users/hooks/useUserProfile'
 
 export function UpdateProfileForm({
   userId,
@@ -12,11 +15,7 @@ export function UpdateProfileForm({
   userId: string
   callbackUrl?: string
 }) {
-  const profileQuery = useQuery({
-    ...getProfileQuery(userId),
-    retry: 0
-  })
-
+  const { data, isLoading, isError } = useUserProfile(userId)
   // const router = useRouter()
   const handleSuccess = () => {
     if (callbackUrl) {
@@ -24,15 +23,20 @@ export function UpdateProfileForm({
     }
   }
 
-  console.log(124, profileQuery)
+  console.log(124, data)
+  console.log(124, isLoading)
+  console.log(124, isError)
 
-  if (profileQuery.isPending) {
-    return <Spinner aria-label="Загрузка профиля" />
-  }
+  // if (profileQuery) {
+  //   return <Spinner aria-label="Загрузка профиля" />
+  // }
+  // if (profileQuery.isPending) {
+  //   return <Spinner aria-label="Загрузка профиля" />
+  // }
 
-  if (!profileQuery.data) {
-    return <div>Не удалось загрузить профиль, возможно у вас нет прав</div>
-  }
+  // if (!profileQuery.data) {
+  //   return <div>Не удалось загрузить профиль, возможно у вас нет прав</div>
+  // }
 
   return <div className="">UpdateProfileForm</div>
 }
