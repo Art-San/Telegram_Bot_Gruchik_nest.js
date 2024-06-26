@@ -34,7 +34,7 @@ const Profile = () => {
       </div>
       <Separator />
 
-      {/* <UpdateProfileForm userId={currentUser.id} /> */}
+      <UpdateProfileForm userId={currentUser.id} />
     </main>
   )
   // return (
