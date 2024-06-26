@@ -12,7 +12,7 @@ const baseKey = 'user'
 //   retry: 0
 // })
 // ------------------------------------
-export function useUserProfile(userId: number) {
+export function useUserProfile(userId: any) {
   const { data, isLoading, isError } = useQuery({
     queryKey: [baseKey, 'getProfileById', userId],
     queryFn: () => UserService.getProfile(userId),

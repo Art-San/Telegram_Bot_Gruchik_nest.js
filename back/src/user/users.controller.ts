@@ -36,6 +36,15 @@ export class UserController {
 		return this.userService.updateUserProfile(userId, profileData)
 	}
 
+	@Get(':userId/profile')
+	async getProfile(@Param('userId') userId: string) {
+		console.log(123, 'telegramId', typeof userId)
+		// return ':userId/profile'
+		const res = await this.userService.findProfileByUserId(userId)
+		// console.log(124, res)
+		return res
+	}
+
 	@Get()
 	async getAll(
 		@Query('searchTerm') searchTerm?: string,
@@ -44,15 +53,6 @@ export class UserController {
 	) {
 		console.log(123, 'getAll')
 		return this.userService.searchUsers(searchTerm, +page, +pageSize)
-	}
-
-	@Get(':userId/profile')
-	async getProfile(@Param('userId') userId: string) {
-		console.log(123, 'telegramId', userId)
-		// return ':userId/profile'
-		const res = await this.userService.findUserById(userId)
-		// console.log(124, res)
-		return res
 	}
 }
 

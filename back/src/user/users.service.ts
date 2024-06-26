@@ -56,6 +56,22 @@ export class UserService {
 		}
 	}
 
+	async findProfileByUserId(userId: string) {
+		try {
+			const profile = await this.db.profile.findUnique({
+				where: { userId: +userId },
+			})
+			if (!profile) {
+				throw new NotFoundException('Профиль юзера в бд не найден')
+			}
+			// return null
+			return profile
+		} catch (error) {
+			console.log('findProfileByUserId', error)
+			throw error
+		}
+	}
+
 	async updateUserProfile(
 		userId: string,
 		profileData: UpdateProfileDto
