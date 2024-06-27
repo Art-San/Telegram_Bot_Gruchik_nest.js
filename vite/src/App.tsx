@@ -8,8 +8,8 @@ import { useUserStore } from './zustand/useUserStore'
 
 function App() {
   const { telegramId = '721836748' } = useTelegram()
-  const setCurrentUser = useUserStore((state) => state.setCurrentUser)
   const { data: user, isPending } = useUser(String(telegramId))
+  const setCurrentUser = useUserStore((state) => state.setCurrentUser)
 
   useEffect(() => {
     if (user) {

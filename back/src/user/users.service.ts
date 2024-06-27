@@ -57,6 +57,8 @@ export class UserService {
 	}
 
 	async findProfileByUserId(userId: string) {
+		// console.log(111, 'findProfileByUserId', userId)
+		// console.log(111, 'findProfileByUserId', typeof userId)
 		try {
 			const profile = await this.db.profile.findUnique({
 				where: { userId: +userId },

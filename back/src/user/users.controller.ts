@@ -38,10 +38,8 @@ export class UserController {
 
 	@Get(':userId/profile')
 	async getProfile(@Param('userId') userId: string) {
-		console.log(123, 'telegramId', typeof userId)
-		// return ':userId/profile'
 		const res = await this.userService.findProfileByUserId(userId)
-		// console.log(124, res)
+		console.log(124, res)
 		return res
 	}
 
