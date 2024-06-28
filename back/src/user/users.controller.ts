@@ -36,10 +36,12 @@ export class UserController {
 		return this.userService.updateUserProfile(userId, profileData)
 	}
 
+	// http://localhost:3001/api/users/1/profile
+
 	@Get(':userId/profile')
 	async getProfile(@Param('userId') userId: string) {
 		const res = await this.userService.findProfileByUserId(userId)
-		console.log(124, res)
+		// console.log(124, res)
 		return res
 	}
 

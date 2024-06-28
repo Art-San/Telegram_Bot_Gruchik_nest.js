@@ -1,6 +1,8 @@
-import ProfileForm from './ProfileForm'
+interface CreatedProfileProps {
+  userId: number
+}
 
-const UpdateProfileForm = ({ userId }: { userId: number | undefined }) => {
+const UpdateProfileForm: React.FC<CreatedProfileProps> = ({ userId }) => {
   return (
     <>
       <div>UpdateProfileForm</div>

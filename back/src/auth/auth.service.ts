@@ -65,6 +65,7 @@ export class AuthService {
 				userName: user.userName,
 				userAvatar: user.userAvatar,
 				isAdmin: user.isAdmin,
+				profileFilled: user.profileFilled,
 			}
 			return res
 		} catch (error) {

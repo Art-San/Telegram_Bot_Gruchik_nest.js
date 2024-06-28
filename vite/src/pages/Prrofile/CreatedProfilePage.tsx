@@ -22,6 +22,7 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
 import { useCreateProfile } from './hooks/useCreateProfile'
+import { Navigate } from 'react-router-dom'
 
 const phoneRegex = new RegExp(/^\+\d{11}$/)
 
@@ -63,12 +64,10 @@ const CreatedProfile: React.FC<CreatedProfileProps> = ({ userId }) => {
   const { createProfile, isPending } = useCreateProfile()
 
   const handleSubmit = form.handleSubmit(async (data) => {
-    console.log(data)
     const newProfile = createProfile({
       userId,
       data
     })
-    console.log(newProfile)
   })
 
   return (
@@ -92,8 +91,8 @@ const CreatedProfile: React.FC<CreatedProfileProps> = ({ userId }) => {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="loader">Грузчик</SelectItem>
-                    <SelectItem value="foreman">Водитель</SelectItem>
-                    <SelectItem value="dispatcher">Водитель-грузчик</SelectItem>
+                    {/* <SelectItem value="foreman">Водитель</SelectItem>
+                    <SelectItem value="dispatcher">Водитель-грузчик</SelectItem> */}
                   </SelectContent>
                 </Select>
                 <FormDescription>Выберите специализацию </FormDescription>

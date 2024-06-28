@@ -7,7 +7,11 @@ import { IDataFormCreateProfile } from '@/types/profile.types'
 export function useCreateProfile() {
   const queryClient = useQueryClient()
 
-  const { mutate: createProfile, isPending } = useMutation({
+  const {
+    mutate: createProfile,
+    isPending,
+    isSuccess
+  } = useMutation({
     mutationKey: ['create profile'],
     mutationFn: ({
       userId,
@@ -27,5 +31,5 @@ export function useCreateProfile() {
   // если  mutate то react-query сам обрабатывает ошибки
   // если  mutateAsync то самому придется обрабатывает ошибки
 
-  return { createProfile, isPending }
+  return { createProfile, isPending, isSuccess }
 }

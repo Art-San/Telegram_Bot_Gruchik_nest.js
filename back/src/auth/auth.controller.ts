@@ -49,9 +49,9 @@ export class AuthController {
 	}
 
 	@HttpCode(200)
-	@Get('admin/:id')
-	async IsAdmin2(@Param('id') id: string) {
-		const res = await this.authService.isAdmin2(id)
+	@Get('admin/:telegramId')
+	async IsAdmin2(@Param('telegramId') telegramId: string) {
+		const res = await this.authService.isAdmin2(telegramId)
 		// console.log(12, res)
 		return res
 	}

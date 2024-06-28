@@ -33,8 +33,10 @@ export const AuthService = {
     const response = await axiosClassic.post<any>(getAuthUrl('/logout'))
     return response
   },
-  async isAdmin(id: string) {
-    const response = await axiosClassic.get<any>(getAuthAdminUrl(`/${id}`))
+  async getCurrentUser(telegramId: string) {
+    const response = await axiosClassic.get<any>(
+      getAuthAdminUrl(`/${telegramId}`)
+    )
     return response
   }
 

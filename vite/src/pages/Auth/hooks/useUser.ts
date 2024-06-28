@@ -6,7 +6,7 @@ import { AuthService } from '@/services/auth/auth.service'
 export function useUser(telegramId: string) {
   const { data, isPending } = useQuery({
     queryKey: ['user', telegramId],
-    queryFn: () => AuthService.isAdmin(telegramId),
+    queryFn: () => AuthService.getCurrentUser(telegramId),
     select: (data) => data.data,
     // enabled: !!telegramId,
     staleTime: Infinity

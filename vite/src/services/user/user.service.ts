@@ -27,6 +27,11 @@ export const UserService = {
     return response.data
   },
 
+  async getCurrentUser(id: string) {
+    const response = await axiosClassic.get<any>(getUsersUrl(`/${id}`))
+    return response
+  },
+
   async getProfile(userId: number) {
     return axiosClassic.get<IUser>(getUserProfile(String(userId)))
   }
