@@ -23,6 +23,7 @@ import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
 import { useCreateProfile } from './hooks/useCreateProfile'
 import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const phoneRegex = new RegExp(/^\+\d{11}$/)
 
@@ -51,6 +52,7 @@ interface CreatedProfileProps {
 }
 
 const CreatedProfile: React.FC<CreatedProfileProps> = ({ userId }) => {
+  const navigate = useNavigate()
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
@@ -61,7 +63,15 @@ const CreatedProfile: React.FC<CreatedProfileProps> = ({ userId }) => {
     }
   })
 
-  const { createProfile, isPending } = useCreateProfile()
+  const onSuccess = () => {
+    navigate('/orders') // перенаправление на страницу успеха
+  }
+
+  const onError = () => {
+    navigate('/orders') // перенаправление на страницу ошибки
+  }
+
+  const { createProfile, isPending } = useCreateProfile(onSuccess, onError)
 
   const handleSubmit = form.handleSubmit(async (data) => {
     const newProfile = createProfile({
