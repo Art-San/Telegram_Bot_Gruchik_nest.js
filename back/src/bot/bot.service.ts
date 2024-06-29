@@ -135,8 +135,15 @@ export class BotService implements OnModuleInit {
 		bot.on('message', async (ctx) => {
 			// console.log(11, 'message ctx', ctx)
 
-			const { text, telegramId, chatId, userName, nameButton, dataButton } =
-				getUserDetailsFromTelegramContext(ctx)
+			const {
+				text,
+				telegramId,
+				chatId,
+				userName,
+				firstLastName,
+				nameButton,
+				dataButton,
+			} = getUserDetailsFromTelegramContext(ctx)
 
 			// console.log(11, text)
 			// console.log(11, telegramId)
@@ -163,11 +170,19 @@ export class BotService implements OnModuleInit {
 			}
 
 			if (text === '/start') {
+				if (!ctx?.from.username) {
+					bot.sendMessage(
+						chatId,
+						'Имя пользователя отсутствует в профиле телеграмма'
+					)
+					return
+				}
 				try {
 					const userAvatar = await getUserAvatarUrl(+telegramId, bot)
 					const response = await this.botCommandsService.commandStart(
 						telegramId,
 						userName,
+						firstLastName,
 						userAvatar
 					)
 					bot.sendMessage(chatId, response.msg)

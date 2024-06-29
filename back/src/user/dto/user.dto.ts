@@ -5,6 +5,7 @@ export class UserDto {
 	id: number
 	telegramId: string
 	userName: string
+	firstLastName?: string
 	userAvatar?: string
 	isActive: boolean
 	isBlocked: boolean

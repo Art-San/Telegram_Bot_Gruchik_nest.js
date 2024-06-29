@@ -32,7 +32,7 @@ export class UserController {
 		@Param('userId') userId: string,
 		@Body() profileData: UpdateProfileDto
 	): Promise<Profile | string> {
-		console.log(22, profileData)
+		// console.log(22, profileData)
 		return this.userService.updateUserProfile(userId, profileData)
 	}
 

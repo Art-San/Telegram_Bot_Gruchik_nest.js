@@ -7,13 +7,19 @@ import { formatUserInfoMessage } from './templates/user.templates'
 export class BotCommandsService {
 	constructor(private userService: UserService) {}
 
-	async commandStart(telegramId: string, userName: string, userAvatar: string) {
+	async commandStart(
+		telegramId: string,
+		userName: string,
+		firstLastName: string,
+		userAvatar: string
+	) {
 		try {
 			const user = await this.userService.findUserByTelegramId(telegramId)
 			if (!user) {
 				const newUser = await this.userService.createUser(
 					userName,
 					telegramId,
+					firstLastName,
 					userAvatar
 				)
 				return { msg: `${newUser.userName} добро пожаловать` }
