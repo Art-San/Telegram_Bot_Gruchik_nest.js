@@ -168,15 +168,44 @@ export class BotService implements OnModuleInit {
 					bot.sendMessage(chatId, error.message)
 				}
 			}
+			// const photoUrl =
+			// 	'https://drive.google.com/file/d/18bfKWVuD1ZOPxN1Fu8wYyfshViu1f_2b/view?usp=sharing'
+			const photoUrl1 = './uploads/userName.jpg'
 
 			if (text === '/start') {
-				if (!ctx?.from.username) {
-					bot.sendMessage(
-						chatId,
-						'Имя пользователя отсутствует в профиле телеграмма'
-					)
+				// if (!ctx.from?.username) {
+				// 	const message = `*Имя пользователя отсутствует в профиле телеграмма*\n\n[Фото](${photoUrl.replace(/([-_.*+?^${}()|[\]\/\\])/g, '\\$1')})`
+				// 	bot
+				// 		.sendMessage(chatId, message, {
+				// 			parse_mode: 'MarkdownV2',
+				// 		})
+				// 		.catch((error) => {
+				// 			console.error('Ошибка при отправке сообщения:', error)
+				// 		})
+
+				// 	bot.sendPhoto(chatId, photoUrl1).catch((error) => {
+				// 		console.error('Ошибка при отправке фото:', error)
+				// 	})
+				// 	return
+				// }
+
+				if (!ctx.from?.username) {
+					const message = '*Имя пользователя отсутствует в профиле телеграмма*'
+
+					bot
+						.sendPhoto(chatId, photoUrl1)
+						.then(() => {
+							return bot.sendMessage(chatId, message, {
+								parse_mode: 'MarkdownV2',
+							})
+						})
+						.catch((error) => {
+							console.error('Ошибка при отправке фото или сообщения:', error)
+						})
+
 					return
 				}
+
 				try {
 					const userAvatar = await getUserAvatarUrl(+telegramId, bot)
 					const response = await this.botCommandsService.commandStart(
