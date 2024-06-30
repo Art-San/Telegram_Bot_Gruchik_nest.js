@@ -25,24 +25,35 @@ import { useCreateProfile } from './hooks/useCreateProfile'
 import { Navigate } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
-const phoneRegex = new RegExp(/^\+\d{11}$/)
+// const phoneRegex = new RegExp(/^\+\d{11}$/)  // +79138159171
+const phoneRegex = new RegExp(/^(?:\+7|8)\d{10}$/) // +79138159171 или 89138159171
 
 const profileFormSchema = z.object({
-  role: z.string(),
+  role: z.string().min(1, {
+    message: 'Специализация пользователя обязательна к заполнению.'
+  }),
   phone: z
     .string()
     .regex(
       phoneRegex,
-      'Номер телефона должен состоять из 12 знаков, включая +, например: +79138159171'
+      'Номер телефона должен быть, например: +79138159171 или 89138159171'
     ),
-
   fullName: z
     .string()
+    .min(1, {
+      message: 'Имя пользователя обязательно к заполнению.'
+    })
     .max(30, {
       message: 'Имя пользователя не должно быть длиннее 30 символов.'
     })
     .transform((name) => name.trim()),
-  userAvatar: z.string().url().optional()
+  userAvatar: z
+    .string()
+    .url({
+      message:
+        'Должен выглядеть так https://avatarzo.ru/wp-content/uploads/sportivnyj-bmw.jpg'
+    })
+    .optional()
 })
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>

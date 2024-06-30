@@ -27,7 +27,7 @@ export function useCreateProfile(
     onSuccess() {
       toast.success('Успешно создан профиль')
       queryClient.invalidateQueries({
-        queryKey: ['user', 'profile']
+        queryKey: ['user']
       })
       onSuccessCallback() // вызываем колбэк при успешном создании профиля
     },

@@ -173,27 +173,14 @@ export class BotService implements OnModuleInit {
 			const photoUrl1 = './uploads/userName.jpg'
 
 			if (text === '/start') {
-				// if (!ctx.from?.username) {
-				// 	const message = `*Имя пользователя отсутствует в профиле телеграмма*\n\n[Фото](${photoUrl.replace(/([-_.*+?^${}()|[\]\/\\])/g, '\\$1')})`
-				// 	bot
-				// 		.sendMessage(chatId, message, {
-				// 			parse_mode: 'MarkdownV2',
-				// 		})
-				// 		.catch((error) => {
-				// 			console.error('Ошибка при отправке сообщения:', error)
-				// 		})
-
-				// 	bot.sendPhoto(chatId, photoUrl1).catch((error) => {
-				// 		console.error('Ошибка при отправке фото:', error)
-				// 	})
-				// 	return
-				// }
-
 				if (!ctx.from?.username) {
 					const message = '*Имя пользователя отсутствует в профиле телеграмма*'
 
 					bot
-						.sendPhoto(chatId, photoUrl1)
+						.sendPhoto(chatId, photoUrl1, {
+							caption: `${message}`,
+							parse_mode: 'MarkdownV2',
+						})
 						.then(() => {
 							return bot.sendMessage(chatId, message, {
 								parse_mode: 'MarkdownV2',
