@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom'
 import { useGetProfile } from './hooks/useGetProfile'
 import { useUserProfileStore } from '@/zustand/useUserProfileStore'
 import { IDataFormUpdateProfile } from '@/types/profile.types'
+import { useEffect } from 'react'
 // const phoneRegex = new RegExp(/^\+\d{11}$/)  // +79138159171
 const phoneRegex = new RegExp(/^(?:\+7|8)\d{10}$/) // +79138159171 или 89138159171
 
@@ -65,11 +66,11 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
-const getDefaultValues = (profile: IDataFormUpdateProfile) => ({
-  role: profile.role,
-  phone: profile.phone ?? undefined,
-  fullName: profile.fullName ?? '',
-  userAvatar: profile.userAvatar ?? ''
+const getDefaultValues = (profile?: IDataFormUpdateProfile) => ({
+  role: profile?.role ?? '',
+  phone: profile?.phone ?? undefined,
+  fullName: profile?.fullName ?? '',
+  userAvatar: profile?.userAvatar ?? ''
 })
 
 interface CreatedProfileProps {
@@ -82,7 +83,7 @@ const UpdateProfileForm: React.FC<CreatedProfileProps> = ({ userId }) => {
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues: getDefaultValues(data)
+    defaultValues: getDefaultValues()
   })
 
   console.log(12, data)
@@ -100,12 +101,19 @@ const UpdateProfileForm: React.FC<CreatedProfileProps> = ({ userId }) => {
 
   // const { createProfile, isPending } = useCreateProfile(onSuccess, onError)
 
-  // const handleSubmit = form.handleSubmit(async (data) => {
-  //   const newProfile = createProfile({
-  //     userId,
-  //     data
-  //   })
-  // })
+  // Обновление значений формы после загрузки данных
+  // useEffect(() => {
+  //   if (data) {
+  //     form.reset(getDefaultValues(data))
+  //   }
+  // }, [data, form])
+
+  const handleSubmit = form.handleSubmit(async (data) => {
+    // const newProfile = createProfile({
+    //   userId,
+    //   data
+    // })
+  })
   if (isLoading) {
     return <Spinner aria-label="Загрузка профиля" />
   }
@@ -169,7 +177,8 @@ const UpdateProfileForm: React.FC<CreatedProfileProps> = ({ userId }) => {
               </FormItem>
             )}
           />
-          <Button type="submit">
+          <Button type="submit">Сохранить</Button>
+          {/* <Button type="submit">
             {isPending && (
               <Spinner
                 className="mr-2 h-4 w-4 animate-spin"
@@ -177,8 +186,8 @@ const UpdateProfileForm: React.FC<CreatedProfileProps> = ({ userId }) => {
               />
             )}
             Сохранить
-            {/* {submitText} */}
-          </Button>
+            {submitText}
+          </Button> */}
         </form>
       </Form>
     </div>
