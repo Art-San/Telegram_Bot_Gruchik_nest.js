@@ -26,9 +26,8 @@ import { Navigate } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useGetProfile } from './hooks/useGetProfile'
 import { useUserProfileStore } from '@/zustand/useUserProfileStore'
-import { IDataFormUpdateProfile, IProfile } from '@/types/profile.types'
+import { IDataFormUpdateProfile } from '@/types/profile.types'
 import { useEffect } from 'react'
-
 // const phoneRegex = new RegExp(/^\+\d{11}$/)  // +79138159171
 const phoneRegex = new RegExp(/^(?:\+7|8)\d{10}$/) // +79138159171 или 89138159171
 
@@ -74,24 +73,53 @@ const getDefaultValues = (profile?: IDataFormUpdateProfile) => ({
   userAvatar: profile?.userAvatar ?? ''
 })
 
-const ProfileForm = ({
-  userId,
-  profile
-}: {
-  userId: string
-  profile: IProfile
-}) => {
+interface CreatedProfileProps {
+  userId: number
+}
+
+const UpdateProfileForm: React.FC<CreatedProfileProps> = ({ userId }) => {
+  const navigate = useNavigate()
+  const { data, isLoading, isError } = useGetProfile(userId)
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues: getDefaultValues(profile)
+    defaultValues: getDefaultValues()
   })
 
-  const { updateProfile, isPending } = useUpdateProfile()
+  // console.log(12, data)
+  // console.log(13, isLoading)
+  // console.log(15, isError)
+
+  // const {setUserProfile} = useUserProfileStore()
+  // const onSuccess = () => {
+  //   navigate('/orders') // перенаправление на страницу успеха
+  // }
+
+  // const onError = () => {
+  //   navigate('/orders') // перенаправление на страницу ошибки
+  // }
+
+  // const { createProfile, isPending } = useCreateProfile(onSuccess, onError)
+
+  // Обновление значений формы после загрузки данных
+  // useEffect(() => {
+  //   if (data) {
+  //     form.reset(getDefaultValues(data))
+  //   }
+  // }, [data, form])
 
   const handleSubmit = form.handleSubmit(async (data) => {
-    const newProfile = updateProfile({ userId, data })
+    // const newProfile = createProfile({
+    //   userId,
+    //   data
+    // })
   })
-
+  if (isLoading) {
+    return <Spinner aria-label="Загрузка профиля" />
+  }
+  if (!data) {
+    return <div>Не удалось загрузить профиль, возможно у вас нет прав</div>
+  }
   return (
     <div className="m-0 w-[330px] flex flex-col  justify-center text-slate-700">
       <Form {...form}>
@@ -166,4 +194,4 @@ const ProfileForm = ({
   )
 }
 
-export default ProfileForm
+export default UpdateProfileForm

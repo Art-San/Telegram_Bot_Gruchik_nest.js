@@ -1,21 +1,23 @@
-// import { useMutation } from "@tanstack/react-query";
+// import { ProfileService } from '@/services/profile/profile.service'
+// import { useMutation, useQueryClient } from '@tanstack/react-query'
+// import { toast } from 'sonner'
 
 // export const useUpdateProfile = () => {
-//   // const { update: updateSession } = useAppSession();
-//   // const invalidateProfile = useInvalidateProfile();
+//   const queryClient = useQueryClient()
 
-//   const { mutateAsync, isPending } = useMutation({
-//     mutationFn: updateProfileAction,
-//     async onSuccess({ profile }, { userId }) {
-//       await invalidateProfile(userId);
-//       await updateSession({
-//         user: profile,
-//       });
-//     },
-//   });
+//   const { mutate: updateProfile, isPending } = useMutation({
+//     mutationKey: ['profile update'],
+//     mutationFn: ({userId, data}) => ProfileService.updateProfile(userId, data),
+//     async onSuccess() {
+//       toast.success('Профиль успешно обновлен')
+//       queryClient.invalidateQueries({
+//         queryKey: ['profile']
+//       })
+//     }
+//   })
 
 //   return {
-//     update: mutateAsync,
-//     isPending,
-//   };
-// };
+//     updateProfile,
+//     isPending
+//   }
+// }

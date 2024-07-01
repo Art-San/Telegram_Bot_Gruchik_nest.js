@@ -24,6 +24,7 @@ import OrderDetailsAdmin from '@/pages/Orders/admin/OrderDetailsAdmin'
 import UsersPageAdmin from '@/pages/Users/UsersPageAdmin'
 import CreatedProfilePage from '@/pages/Prrofile/CreatedProfilePage'
 import ProfilePage from '@/pages/Prrofile/ProfilePage'
+import NewUserPage from '@/pages/Prrofile/NewUserPage'
 
 // Определение интерфейса RouteElement с обязательным свойством path
 export interface RouteElement {
@@ -79,7 +80,7 @@ export const routes: MainRoute[] = [
         name: 'profile',
         title: 'Profile page',
         component: ProfilePage,
-        path: '/profile',
+        path: ':userId/profile',
         isPublic: true
       },
       {
