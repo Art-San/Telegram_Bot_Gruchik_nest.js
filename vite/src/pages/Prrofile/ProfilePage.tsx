@@ -41,22 +41,24 @@ const ProfilePage = () => {
 
   return (
     <main className=" flex flex-col items-center">
-      <div>
-        <h3 className="text-lg font-medium">Важный шаг</h3>
-        <p className="text-sm text-muted-foreground text-red-400">
-          Чтобы продолжить работу с ботом нужно заполнить профиль
-        </p>
-        <div className=" flex gap-1">
-          <p>{currentUser?.userName}</p>
-          <p>{currentUser?.id}</p>
-          <p>{currentUser?.telegramId}</p>
-        </div>
-        <Separator />
-      </div>
       {currentUser.profileFilled ? (
         <UpdateProfileForm userId={currentUser.id} />
       ) : (
-        <CreatedProfile userId={currentUser.id} />
+        <>
+          <div>
+            <h3 className="text-lg font-medium">Важный шаг</h3>
+            <p className="text-sm text-muted-foreground text-red-400">
+              Чтобы продолжить работу с ботом нужно заполнить профиль
+            </p>
+            <div className=" flex gap-1">
+              <p>{currentUser?.userName}</p>
+              <p>{currentUser?.id}</p>
+              <p>{currentUser?.telegramId}</p>
+            </div>
+            <Separator />
+          </div>
+          <CreatedProfile userId={currentUser.id} />
+        </>
       )}
     </main>
   )

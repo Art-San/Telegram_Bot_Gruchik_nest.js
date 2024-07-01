@@ -1,6 +1,7 @@
 // src/zustand/useUserProfileStore.ts
+import { IUser } from '@/types/users.types'
 import { create } from 'zustand'
-import { IUser } from './useUserStore' // Предполагается, что интерфейс IUser определен здесь
+// Предполагается, что интерфейс IUser определен здесь
 
 interface UserProfileState {
   userProfile: IUser | null

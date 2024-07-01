@@ -1,5 +1,6 @@
 import { axiosClassic } from '@/api/interceptors'
 import { getUserProfile, getUsersUrl } from '@/configs/api.config'
+import { IDataFormUpdateProfile } from '@/types/profile.types'
 import { IUser, IPaginationResult } from '@/types/users.types'
 
 export const UserService = {
@@ -33,7 +34,7 @@ export const UserService = {
   },
 
   async getProfile(userId: number) {
-    return axiosClassic.get<IUser>(getUserProfile(String(userId)))
+    return axiosClassic.get<any>(getUserProfile(String(userId)))
   }
 
   // async updateProfile(data: IProfileInput) {

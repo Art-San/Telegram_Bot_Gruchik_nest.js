@@ -3,8 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 
 const baseKey = 'profile'
 
-export function useGetProfile(userId: any) {
-  const { data, isLoading, isError } = useQuery({
+export function useGetProfile(userId: number) {
+  const { data, isLoading, isPending, isError } = useQuery({
     queryKey: [baseKey, 'getProfileById', userId],
     queryFn: () => UserService.getProfile(userId),
     select: (data) => data.data, // избавляемся от лишней data
@@ -12,7 +12,7 @@ export function useGetProfile(userId: any) {
     enabled: !!userId
   })
 
-  return { data, isLoading, isError }
+  return { data, isLoading, isError, isPending }
 }
 
 // export const getProfileQuery = (userId: string) => ({

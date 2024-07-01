@@ -16,3 +16,9 @@ export interface IDataFormCreateProfile {
   fullName: string
   userAvatar?: string
 }
+export interface IDataFormUpdateProfile {
+  phone: string
+  fullName: string
+  userAvatar?: string
+  role?: string
+}
