@@ -77,6 +77,13 @@ export const routes: MainRoute[] = [
         isPublic: true
       },
       {
+        name: 'creating_profile',
+        title: 'Creating a profile',
+        component: NewUserPage,
+        path: '/profile/creating',
+        isPublic: true
+      },
+      {
         name: 'profile',
         title: 'Profile page',
         component: ProfilePage,

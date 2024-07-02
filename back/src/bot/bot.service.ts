@@ -169,7 +169,7 @@ export class BotService implements OnModuleInit {
 				}
 			}
 			// const photoUrl =
-			// 	'https://drive.google.com/file/d/18bfKWVuD1ZOPxN1Fu8wYyfshViu1f_2b/view?usp=sharing'
+			// ;('https://drive.google.com/file/d/18bfKWVuD1ZOPxN1Fu8wYyfshViu1f_2b/view?usp=sharing')
 			const photoUrl1 = './uploads/userName.jpg'
 
 			if (text === '/start') {
@@ -201,7 +201,7 @@ export class BotService implements OnModuleInit {
 						firstLastName,
 						userAvatar
 					)
-					bot.sendMessage(chatId, response.msg)
+					bot.sendMessage(chatId, response.msg, response.button)
 				} catch (error) {
 					console.error(
 						0,

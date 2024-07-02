@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import * as TelegramBot from 'node-telegram-bot-api'
 import { UserService } from 'src/user/users.service'
 import { formatUserInfoMessage } from './templates/user.templates'
+import { getButtonCreatingProfile } from 'src/message-handler/utils/buttons'
 
 @Injectable()
 export class BotCommandsService {
@@ -13,6 +14,7 @@ export class BotCommandsService {
 		firstLastName: string,
 		userAvatar: string
 	) {
+		const webAppUrl = process.env.NGROK_URL
 		try {
 			const user = await this.userService.findUserByTelegramId(telegramId)
 			if (!user) {
@@ -22,9 +24,18 @@ export class BotCommandsService {
 					firstLastName,
 					userAvatar
 				)
-				return { msg: `${newUser.userName} добро пожаловать` }
+				return {
+					msg: `${newUser.userName} добро пожаловать. Необходимо заполнить профиль.`,
+					button: getButtonCreatingProfile(webAppUrl),
+				}
 			}
 
+			if (!user.profileFilled) {
+				return {
+					msg: 'Профиль не заполнен',
+					button: getButtonCreatingProfile(webAppUrl),
+				}
+			}
 			if (user.isBlocked) {
 				return { msg: 'Бот заблокирован' }
 			}

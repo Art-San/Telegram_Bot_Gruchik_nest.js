@@ -1,4 +1,10 @@
-import { FileQuestion, NotebookPen, ReceiptText, Ruler } from 'lucide-react'
+import {
+  FileQuestion,
+  NotebookPen,
+  ReceiptText,
+  Ruler,
+  User
+} from 'lucide-react'
 import { Link } from 'react-router-dom'
 const PublicFooter = () => {
   return (
@@ -15,8 +21,12 @@ const PublicFooter = () => {
         <NotebookPen />
         <p className="text-xs">Написать</p>
       </Link>
-      <Link to="#" className="flex flex-col items-center text-gray-900">
-        <ReceiptText />
+      <Link
+        to="/profile/creating"
+        className="flex flex-col items-center text-gray-900"
+      >
+        {/* <ReceiptText /> */}
+        <User />
         <p className="text-xs">Test</p>
       </Link>
     </footer>

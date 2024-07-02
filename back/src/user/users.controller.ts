@@ -32,7 +32,7 @@ export class UserController {
 		@Param('userId') userId: string,
 		@Body() profileData: UpdateProfileDto
 	): Promise<Profile | string> {
-		console.log(22, profileData)
+		console.log(122, profileData)
 		return this.userService.updateUserProfile(userId, profileData)
 	}
 
@@ -40,8 +40,9 @@ export class UserController {
 
 	@Get(':userId/profile')
 	async getProfile(@Param('userId') userId: string) {
+		console.log(124, 'userId', userId)
 		const res = await this.userService.findProfileByUserId(userId)
-		// console.log(124, res)
+		console.log(124, res)
 		return res
 	}
 
