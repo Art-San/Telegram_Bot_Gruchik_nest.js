@@ -30,8 +30,13 @@ export interface IDataFormCreateProfile {
   userAvatar?: string
 }
 export interface IDataFormUpdateProfile {
-  phone: string
-  fullName: string
+  phone?: string
+  fullName?: string
   userAvatar?: string
   role?: string
+}
+
+export interface IUpdateProfileParams {
+  userId: number
+  data: IDataFormUpdateProfile
 }

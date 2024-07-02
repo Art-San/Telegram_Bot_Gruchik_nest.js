@@ -28,6 +28,7 @@ import { useGetProfile } from './hooks/useGetProfile'
 import { useUserProfileStore } from '@/zustand/useUserProfileStore'
 import { IDataFormUpdateProfile, IProfile } from '@/types/profile.types'
 import { useEffect } from 'react'
+import { useUpdateProfile } from './hooks/useUpdateProfile'
 
 // const phoneRegex = new RegExp(/^\+\d{11}$/)  // +79138159171
 const phoneRegex = new RegExp(/^(?:\+7|8)\d{10}$/) // +79138159171 или 89138159171
@@ -78,7 +79,7 @@ const ProfileForm = ({
   userId,
   profile
 }: {
-  userId: string
+  userId: number
   profile: IProfile
 }) => {
   const form = useForm<ProfileFormValues>({
@@ -149,8 +150,7 @@ const ProfileForm = ({
               </FormItem>
             )}
           />
-          <Button type="submit">Сохранить</Button>
-          {/* <Button type="submit">
+          <Button type="submit">
             {isPending && (
               <Spinner
                 className="mr-2 h-4 w-4 animate-spin"
@@ -158,8 +158,8 @@ const ProfileForm = ({
               />
             )}
             Сохранить
-            {submitText}
-          </Button> */}
+            {/* {submitText} */}
+          </Button>
         </form>
       </Form>
     </div>

@@ -1,4 +1,4 @@
-import { IProfileResponse, IDataFormCreateProfile } from '@/types/profile.types'
+import { IProfileResponse, IDataFormUpdateProfile } from '@/types/profile.types'
 import { axiosClassic } from '../../api/interceptors'
 import { getUserProfile } from '@/configs/api.config'
 
@@ -6,7 +6,7 @@ export const ProfileService = {
   async getProfile(userId: number) {
     return axiosClassic.get<IProfileResponse>(getUserProfile(String(userId)))
   },
-  async updateProfile(userId: number, data: IDataFormCreateProfile) {
+  async updateProfile(userId: number, data: IDataFormUpdateProfile) {
     return axiosClassic.put<IProfileResponse>(
       getUserProfile(String(userId)),
       data
