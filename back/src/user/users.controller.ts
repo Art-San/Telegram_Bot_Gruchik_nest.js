@@ -32,6 +32,8 @@ export class UserController {
 		@Param('userId') userId: string,
 		@Body() profileData: UpdateProfileDto
 	): Promise<Profile | string> {
+		console.log(121, userId)
+		console.log(121, typeof userId)
 		console.log(122, profileData)
 		return this.userService.updateUserProfile(userId, profileData)
 	}

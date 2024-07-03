@@ -31,8 +31,11 @@ export function useCreateProfile(
       })
       onSuccessCallback() // вызываем колбэк при успешном создании профиля
     },
-    onError() {
-      toast.error('Ошибка при создании профиля')
+    onError(error) {
+      // Проверка типа ошибки и вывод сообщения
+      const errorMessage =
+        error instanceof Error ? error.message : 'Ошибка при создании профиля'
+      toast.error(`Ошибка: ${errorMessage}`)
       onErrorCallback() // вызываем колбэк при ошибке создания профиля
     }
   })
