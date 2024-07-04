@@ -2,7 +2,7 @@ import { toast } from 'sonner'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { TypeOrderFormState } from '@/types/order.types'
+import { TypeOrderFormState } from '@/types/orders/order.types'
 import { OrderService } from '@/services/order/order.service'
 
 export function useCreateOrder() {

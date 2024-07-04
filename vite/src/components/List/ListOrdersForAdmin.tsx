@@ -59,7 +59,7 @@ const ListOrdersForAdmin = () => {
           <div className="flex justify-between">
             <SelectDay setDay={setDay} day={day} />
             <Button variant={'link'}>
-              <Link to="/admin/add_order">Добавить</Link>
+              <Link to="/admin/orders/add_order">Добавить</Link>
             </Button>
           </div>
 

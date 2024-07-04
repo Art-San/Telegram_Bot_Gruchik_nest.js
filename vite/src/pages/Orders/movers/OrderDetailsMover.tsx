@@ -1,11 +1,12 @@
 import { OrderService } from '@/services/order/order.service'
-import { IOrder } from '@/shared/types/order.types'
+
 import { FC, useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowBigLeft, UserX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useDelExecutorFromOrder } from '../hooks/useDelExecutorFromOrder'
 import { Spinner } from '@/components/ui/spinner'
+import { IOrder } from '@/types/orders/order.types'
 
 const OrderDetailsMover: FC = () => {
   const { orderId } = useParams()

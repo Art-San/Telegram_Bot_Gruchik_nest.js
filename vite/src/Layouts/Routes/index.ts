@@ -153,7 +153,7 @@ export const routes: MainRoute[] = [
             title: 'Add order',
             hasSideLink: true,
             component: AddOrderSitePage,
-            path: '/admin/add_order'
+            path: '/admin/orders/add_order'
           },
           {
             name: 'list_users',

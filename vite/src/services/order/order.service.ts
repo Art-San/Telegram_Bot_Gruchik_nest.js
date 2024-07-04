@@ -1,7 +1,10 @@
-import { TypeOrderFormState } from '../../types/order.types'
+import {
+  TypeOrderFormState,
+  IOrder,
+  IPaginationResult
+} from '../../types/orders/order.types'
 // import axios from 'api/interceptors'
 
-import { IOrder, IPaginationResult } from '@/shared/types/order.types'
 import { axiosClassic } from '../../api/interceptors'
 import { getOrderPagUrl, getOrderUrl } from '../../configs/api.config'
 
