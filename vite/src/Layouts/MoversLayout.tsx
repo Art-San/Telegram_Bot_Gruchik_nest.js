@@ -1,5 +1,5 @@
-import PublicFooter from '@/components/Footer/PublicFooter'
 import MoversHeader from '@/components/Header/MoversHeader'
+import MoversFooter from '@/components/Footer/MoversFooter'
 import { Outlet } from 'react-router-dom'
 
 const MoversLayout = () => {
@@ -15,7 +15,7 @@ const MoversLayout = () => {
         <Outlet />
       </main>
       <div className="sticky bottom-0 z-10">
-        <PublicFooter />
+        <MoversFooter />
       </div>
     </div>
   )

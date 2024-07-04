@@ -25,6 +25,7 @@ import UsersPageAdmin from '@/pages/Users/UsersPageAdmin'
 import CreatedProfilePage from '@/pages/Prrofile/CreatedProfilePage'
 import ProfilePage from '@/pages/Prrofile/ProfilePage'
 import NewUserPage from '@/pages/Prrofile/NewUserPage'
+import Login from '@/pages/Auth/Login'
 
 // Определение интерфейса RouteElement с обязательным свойством path
 export interface RouteElement {
@@ -106,18 +107,18 @@ export const routes: MainRoute[] = [
       }
     ]
   },
-  // {
-  //   layout: AnonymousLayout,
-  //   routes: [
-  //     {
-  //       name: 'login',
-  //       title: 'Login page',
-  //       component: Login,
-  //       path: '/login',
-  //       isPublic: true
-  //     }
-  //   ]
-  // },
+  {
+    layout: AnonymousLayout,
+    routes: [
+      {
+        name: 'login',
+        title: 'Login page',
+        component: Login,
+        path: '/login',
+        isPublic: true
+      }
+    ]
+  },
   {
     layout: ProtectedLayout,
     routes: [

@@ -8,7 +8,7 @@ const CustomButton = ({
 }: {
   to: string
   name: string
-  className: string
+  className?: string
 }) => {
   return (
     <Link

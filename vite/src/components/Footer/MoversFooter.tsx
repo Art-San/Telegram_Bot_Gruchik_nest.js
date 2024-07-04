@@ -6,7 +6,7 @@ import {
   User
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
-const PublicFooter = () => {
+const MoversFooter = () => {
   return (
     <footer className="w-full h-16 bg-slate-100 flex justify-center items-center gap-4 px-4">
       <Link to="/help" className="flex flex-col items-center text-gray-900">
@@ -33,4 +33,4 @@ const PublicFooter = () => {
   )
 }
 
-export default PublicFooter
+export default MoversFooter
