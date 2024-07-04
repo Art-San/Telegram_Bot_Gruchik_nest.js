@@ -19,6 +19,12 @@ export class OrdersController {
 	async create(@Body() dto: CreateOrderDto) {
 		return this.ordersService.create(dto)
 	}
+	@Post('add_order')
+	async create2(@Body() dto: CreateOrderDto) {
+		console.log(234, dto)
+		// return this.ordersService.create(dto)
+		return true
+	}
 
 	// @Get()
 	// async getAll() {

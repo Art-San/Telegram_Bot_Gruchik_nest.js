@@ -40,7 +40,13 @@ const formSchema = z.object({
   hourCost: z.string().min(1, { message: 'Не должно быть пустым' })
 })
 
-export function OrderForm() {
+export function OrderForm({
+  telegramId,
+  authorName
+}: {
+  telegramId: string
+  authorName: string
+}) {
   const { createOrder, isPending } = useCreateOrder()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,8 +69,8 @@ export function OrderForm() {
   function onSubmit(formData: any) {
     const transformedData = {
       ...formData,
-      authorId: '721836748',
-      authorName: 'Admin',
+      authorId: telegramId,
+      authorName: authorName,
       numExecutors: parseNumber(formData.numExecutors),
       hourCost: parseNumber(formData.hourCost)
     }
@@ -83,6 +89,8 @@ export function OrderForm() {
 
   return (
     <div className="m-0 w-[330px] flex flex-col  justify-center text-slate-700">
+      <p>{telegramId}</p>
+      <p>{authorName}</p>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

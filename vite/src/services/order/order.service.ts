@@ -57,7 +57,7 @@ export const OrderService = {
     return axiosClassic.get<IOrder>(getOrderUrl(`/${orderId}`))
   },
   async createOrder(data: TypeOrderFormState) {
-    const response = axiosClassic.post(getOrderUrl(''), data)
+    const response = axiosClassic.post(getOrderUrl('/add_order'), data)
     return response
   },
 

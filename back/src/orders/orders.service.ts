@@ -13,6 +13,7 @@ export class OrdersService {
 	constructor(private readonly db: DbService) {}
 
 	async create(orderData: CreateOrderDto) {
+		console.log(234, 'OrdersService', orderData)
 		try {
 			const newOrder = await this.db.order.create({
 				data: orderData,
