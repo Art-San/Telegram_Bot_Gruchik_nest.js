@@ -70,13 +70,13 @@ export class TelegramService {
 // 		})
 // 	}
 
-// 	// async sendMessage(
-// 	// 	msg: string,
-// 	// 	options?:string,
-// 	// 	chatId: string = this.options.chatId
-// 	// ) {
-// 	// 	await this.bot.telegram.sendMessage(chatId, msg, {
-// 	// 		parse_mode: 'HTML', // что бы HTML теги преобразовались в то для чего они прописаны
-// 	// 		...options,
-// 	// 	})
-// 	// }
+// async sendMessage(
+// 	msg: string,
+// 	options?:string,
+// 	chatId: string = this.options.chatId
+// ) {
+// 	await this.bot.telegram.sendMessage(chatId, msg, {
+// 		parse_mode: 'HTML', // что бы HTML теги преобразовались в то для чего они прописаны
+// 		...options,
+// 	})
+// }

@@ -29,6 +29,13 @@ export class BotService implements OnModuleInit {
 		})
 	}
 
+	async sendMessage(chatId: string, msg: string, options?: any) {
+		await this.bot.sendMessage(chatId, msg, {
+			parse_mode: 'HTML', // что бы HTML теги преобразовались в то для чего они прописаны
+			...options,
+		})
+	}
+
 	async onModuleInit() {
 		const webAppUrl = process.env.NGROK_URL
 		// const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {

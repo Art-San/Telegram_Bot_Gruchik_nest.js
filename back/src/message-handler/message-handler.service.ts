@@ -7,7 +7,6 @@ import {
 	getButtonRequestAppointment,
 } from './utils/buttons'
 import * as TelegramBot from 'node-telegram-bot-api'
-import { BotCommandsService } from 'src/bot/bot-commands.service'
 import { formatUserOrderInfoMessage } from 'src/bot/templates/user.templates'
 import {
 	formatOrderMsgAuthorFin,
@@ -26,8 +25,8 @@ interface IData {
 export class MessageHandlerService {
 	constructor(
 		private readonly userService: UserService,
-		private readonly ordersService: OrdersService,
-		private readonly botCommandsService: BotCommandsService
+		private readonly ordersService: OrdersService
+		// private readonly botCommandsService: BotCommandsService
 	) {}
 
 	// async handleMessage(text: string, telegramId: number, chatId: number) {

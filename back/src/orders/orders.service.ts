@@ -7,10 +7,14 @@ import {
 	IPaginationResult,
 } from './dto/order.dto'
 import { OrderStatus, statusMap } from './enum/order-status.enum'
+import { BotService } from 'src/bot/bot.service'
 
 @Injectable()
 export class OrdersService {
-	constructor(private readonly db: DbService) {}
+	constructor(
+		private readonly db: DbService
+		// private readonly botService: BotService
+	) {}
 
 	async create(orderData: CreateOrderDto) {
 		console.log(234, 'OrdersService', orderData)
