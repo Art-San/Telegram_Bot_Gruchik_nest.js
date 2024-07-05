@@ -11,26 +11,33 @@ import { UserService } from 'src/user/users.service'
 import { OrdersService } from 'src/orders/orders.service'
 import { MessageHandlerService } from 'src/message-handler/message-handler.service'
 import { getUserAvatarUrl } from './utils/user-avatar-url'
+import { Telegram } from 'src/telegram/telegram.interface'
 
 @Injectable()
 export class BotService implements OnModuleInit {
+	bot: TelegramBot
+	options: Telegram
 	constructor(
 		private readonly botCommandsService: BotCommandsService,
 		private readonly orderProcessingService: OrderProcessingService,
 		private readonly userService: UserService,
 		private readonly ordersService: OrdersService,
 		private readonly messageHandlerService: MessageHandlerService
-	) {}
+	) {
+		this.bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {
+			polling: true,
+		})
+	}
 
 	async onModuleInit() {
 		const webAppUrl = process.env.NGROK_URL
-		const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {
-			polling: true,
-		})
+		// const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {
+		// 	polling: true,
+		// })
 
-		this.botCommandsService.setBotCommands(bot)
+		this.botCommandsService.setBotCommands(this.bot)
 
-		bot.on('callback_query', async (ctx) => {
+		this.bot.on('callback_query', async (ctx) => {
 			console.log(13, 'callback_query ctx', ctx)
 
 			// entities
@@ -39,7 +46,7 @@ export class BotService implements OnModuleInit {
 
 			// Кнопка 'Редактировать'
 			if (data === 'edit_order') {
-				await this.orderProcessingService.handleOrderCreation(bot, {
+				await this.orderProcessingService.handleOrderCreation(this.bot, {
 					text: '/createorder',
 					telegramId,
 					chatId,
@@ -47,18 +54,18 @@ export class BotService implements OnModuleInit {
 				// Кнопка 'Отправить'
 			} else if (data === 'send_order') {
 				try {
-					await this.orderProcessingService.handleOrderCreation(bot, {
+					await this.orderProcessingService.handleOrderCreation(this.bot, {
 						text: 'send_order',
 						telegramId,
 						chatId,
 					})
 				} catch (error) {
-					bot.sendMessage(chatId, error.message)
+					this.bot.sendMessage(chatId, error.message)
 				}
 			}
 
 			if (data.startsWith('order_status_')) {
-				// await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
+				// await this.bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
 				console.log(2, 'Грузчики набраны')
 			}
 			// ====== Кнопка  'Запрос'
@@ -69,13 +76,16 @@ export class BotService implements OnModuleInit {
 				const authorId = data.split('_')[3]
 				const skip = data.split('_')[4]
 				if (skip) {
-					// await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
+					// await this.bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
 					return
 				}
 
-				await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
+				await this.bot.deleteMessage(
+					ctx.message.chat.id,
+					ctx.message.message_id
+				)
 
-				await this.messageHandlerService.firstMessageAuthorExecutor(bot, {
+				await this.messageHandlerService.firstMessageAuthorExecutor(this.bot, {
 					chatId,
 					orderId,
 					authorId,
@@ -89,10 +99,13 @@ export class BotService implements OnModuleInit {
 				console.log(2, 'Назначить')
 				const orderId = data.split('_')[2]
 				const idExecutor = data.split('_')[3]
-				await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
+				await this.bot.deleteMessage(
+					ctx.message.chat.id,
+					ctx.message.message_id
+				)
 				/*TODO: */
 				await this.messageHandlerService.secondMessageAuthorExecutor(
-					bot,
+					this.bot,
 					chatId,
 					orderId,
 					idExecutor
@@ -108,13 +121,16 @@ export class BotService implements OnModuleInit {
 					// console.log(4, orderId)
 					// console.log(5, idExecutor)
 					await this.messageHandlerService.finishMessageExecutor(
-						bot,
+						this.bot,
 						chatId,
 						orderId,
 						idExecutor
 					)
 					// Удаление сообщения с кнопкой
-					await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
+					await this.bot.deleteMessage(
+						ctx.message.chat.id,
+						ctx.message.message_id
+					)
 					// Здесь можно добавить дополнительную логику, например, обновление статуса заказа в базе данных
 				} catch (error) {
 					console.error(0, 'Ошибка при удалении сообщения:', error)
@@ -125,14 +141,17 @@ export class BotService implements OnModuleInit {
 				console.log(3, 'Кнопка удалить сообщение')
 
 				try {
-					await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id)
+					await this.bot.deleteMessage(
+						ctx.message.chat.id,
+						ctx.message.message_id
+					)
 				} catch (error) {
 					console.error(0, 'Ошибка при удалении сообщения:', error)
 				}
 			}
 		})
 
-		bot.on('message', async (ctx) => {
+		this.bot.on('message', async (ctx) => {
 			// console.log(11, 'message ctx', ctx)
 
 			const {
@@ -159,13 +178,13 @@ export class BotService implements OnModuleInit {
 
 				try {
 					await this.orderProcessingService.handleOrderCreationForm(
-						bot,
+						this.bot,
 						chatId,
 						data
 					)
 				} catch (error) {
 					console.log(0, 'Ошибка при обработке <Создать заявку>', error.message)
-					bot.sendMessage(chatId, error.message)
+					this.bot.sendMessage(chatId, error.message)
 				}
 			}
 			// const photoUrl =
@@ -176,13 +195,13 @@ export class BotService implements OnModuleInit {
 				if (!ctx.from?.username) {
 					const message = '*Имя пользователя отсутствует в профиле телеграмма*'
 
-					bot
+					this.bot
 						.sendPhoto(chatId, photoUrl1, {
 							caption: `${message}`,
 							parse_mode: 'MarkdownV2',
 						})
 						.then(() => {
-							return bot.sendMessage(chatId, message, {
+							return this.bot.sendMessage(chatId, message, {
 								parse_mode: 'MarkdownV2',
 							})
 						})
@@ -194,21 +213,21 @@ export class BotService implements OnModuleInit {
 				}
 
 				try {
-					const userAvatar = await getUserAvatarUrl(+telegramId, bot)
+					const userAvatar = await getUserAvatarUrl(+telegramId, this.bot)
 					const response = await this.botCommandsService.commandStart(
 						telegramId,
 						userName,
 						firstLastName,
 						userAvatar
 					)
-					bot.sendMessage(chatId, response.msg, response.button)
+					this.bot.sendMessage(chatId, response.msg, response.button)
 				} catch (error) {
 					console.error(
 						0,
 						'Ошибка при обработке команды /start:',
 						error.message
 					)
-					bot.sendMessage(
+					this.bot.sendMessage(
 						chatId,
 						'Произошла ошибка при обработке команды /start.'
 					)
@@ -216,7 +235,7 @@ export class BotService implements OnModuleInit {
 			}
 
 			await this.orderProcessingService.handleOrderCreation(
-				bot,
+				this.bot,
 				{
 					text,
 					telegramId,
@@ -229,12 +248,12 @@ export class BotService implements OnModuleInit {
 				try {
 					const response =
 						await this.botCommandsService.getUserInfoMessage(telegramId)
-					bot.sendMessage(chatId, response, {
+					this.bot.sendMessage(chatId, response, {
 						parse_mode: 'HTML',
 					})
 				} catch (error) {
 					console.error(0, 'Ошибка при обработке команды /info', error)
-					bot.sendMessage(
+					this.bot.sendMessage(
 						chatId,
 						'Произошла ошибка при обработке команды /info.'
 					)
@@ -242,7 +261,7 @@ export class BotService implements OnModuleInit {
 			}
 
 			if (text == '/help') {
-				await bot.sendMessage(
+				await this.bot.sendMessage(
 					chatId,
 					`Раздел помощи HTML\n\n<b>Жирный Текст</b>\n<i>Текст Курсивом</i>\n<code>Текст с Копированием</code>\n<s>Перечеркнутый текст</s>\n<u>Подчеркнутый текст</u>\n<pre language='c++'>код на c++</pre>\n<a href='t.me'>Гиперссылка</a>`,
 					{
@@ -254,17 +273,17 @@ export class BotService implements OnModuleInit {
 			if (text === '/end') {
 				try {
 					const response = await this.botCommandsService.commandEnd(telegramId)
-					bot.sendMessage(chatId, response.msg)
+					this.bot.sendMessage(chatId, response.msg)
 				} catch (error) {
 					console.error(0, 'Ошибка при обработке команды /end:', error)
-					bot.sendMessage(
+					this.bot.sendMessage(
 						chatId,
 						'Произошла ошибка при обработке команды /end.'
 					)
 				}
 			}
 			if (text === '/add_order') {
-				await bot.sendMessage(
+				await this.bot.sendMessage(
 					chatId,
 					'Заходи в наш интернет магазин по кнопке ниже',
 					{
@@ -275,36 +294,42 @@ export class BotService implements OnModuleInit {
 						},
 					}
 				)
-				await bot.sendMessage(chatId, 'Ниже появится кнопка, заполни форму', {
-					reply_markup: {
-						keyboard: [
-							[
-								// {
-								// 	text: 'Заказы',
-								// 	web_app: { url: webAppUrl + '/orders' },
-								// },
-								{
-									text: 'Создать заявку',
-									web_app: { url: webAppUrl + '/admin/add_order' },
-								},
+				await this.bot.sendMessage(
+					chatId,
+					'Ниже появится кнопка, заполни форму',
+					{
+						reply_markup: {
+							keyboard: [
+								[
+									// {
+									// 	text: 'Заказы',
+									// 	web_app: { url: webAppUrl + '/orders' },
+									// },
+									{
+										text: 'Создать заявку',
+										web_app: { url: webAppUrl + '/admin/add_order' },
+									},
+								],
+								[
+									{
+										text: 'Заказы',
+										web_app: { url: webAppUrl + '/admin/orders' },
+									},
+									{
+										text: 'Товары',
+										web_app: { url: webAppUrl + '/admin/test_2' },
+									},
+								],
 							],
-							[
-								{
-									text: 'Заказы',
-									web_app: { url: webAppUrl + '/admin/orders' },
-								},
-								{
-									text: 'Товары',
-									web_app: { url: webAppUrl + '/admin/test_2' },
-								},
-							],
-						],
-						resize_keyboard: true,
-					},
-				})
+							resize_keyboard: true,
+						},
+					}
+				)
 			}
 		})
 
-		bot.on('polling_error', (err) => console.log('polling_error', err.message))
+		this.bot.on('polling_error', (err) =>
+			console.log('polling_error', err.message)
+		)
 	}
 }

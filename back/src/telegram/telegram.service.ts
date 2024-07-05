@@ -65,9 +65,9 @@ export class TelegramService {
 // 		private readonly ordersService: OrdersService,
 // 		private readonly messageHandlerService: MessageHandlerService
 // 	) {
-// 		// this.bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {
-// 		// 	polling: true,
-// 		// })
+// 		this.bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {
+// 			polling: true,
+// 		})
 // 	}
 
 // 	// async sendMessage(
