@@ -320,6 +320,7 @@ export class UserService {
 						not: authorId,
 					},
 					isActive: true,
+					profileFilled: true,
 				},
 			})
 
