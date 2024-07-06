@@ -11,12 +11,15 @@ import {
 import { OrdersService } from './orders.service'
 import { CreateOrderDto } from './dto/order.dto'
 import { BotService } from 'src/bot/bot.service'
+import { MessageHandlerService } from 'src/message-handler/message-handler.service'
+import { sendsOutToUsers } from './utils/user-message-sender_1'
 
 @Controller('orders')
 export class OrdersController {
 	constructor(
 		private readonly ordersService: OrdersService,
-		private readonly botService: BotService
+		private readonly botService: BotService,
+		private readonly messageHandlerService: MessageHandlerService
 	) {}
 
 	@Post()
@@ -25,11 +28,14 @@ export class OrdersController {
 	}
 	@Post('add_order')
 	async create2(@Body() dto: CreateOrderDto) {
-		console.log(234, dto)
+		const newOrder = await this.ordersService.create(dto)
 
-		const newOrder = this.ordersService.create(dto)
+		const usersTelegramId =
+			await this.messageHandlerService.sendingMessageOrdersUsers(
+				newOrder.authorId
+			)
+		await sendsOutToUsers(this.botService.bot, usersTelegramId, newOrder)
 
-		await this.botService.sendMessage('721836748', 'все окей')
 		return newOrder
 	}
 
