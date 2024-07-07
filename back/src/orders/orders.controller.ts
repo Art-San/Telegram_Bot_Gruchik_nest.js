@@ -90,8 +90,8 @@ export class OrdersController {
 		@Param('orderId') orderId: string,
 		@Param('executorId') executorId: string
 	) {
-		console.log(1, 'orderId', orderId)
-		console.log(1, 'executorId', executorId)
+		// console.log(1, 'orderId', orderId)
+		// console.log(1, 'executorId', executorId)
 		return this.ordersService.removeExecutorFromOrder(orderId, executorId)
 	}
 }

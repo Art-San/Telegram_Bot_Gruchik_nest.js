@@ -24,8 +24,19 @@ export function useDelExecutorFromOrder() {
       toast.success('Executor удален!')
       queryClient.invalidateQueries({ queryKey: ['orders'] })
       queryClient.invalidateQueries({ queryKey: ['order'] })
-      queryClient.invalidateQueries({ queryKey: ['executors'] })
+      // queryClient.invalidateQueries({ queryKey: ['executors'] })
       // Add any additional keys here if needed
+    },
+    onError: (error) => {
+      toast.error('Произошла ошибка при удалении  Executor')
+    },
+    onSettled: (data, error) => {
+      console.log('Этот код будет выполнен как при успехе, так и при ошибке')
+      if (error) {
+        console.log('Обработка ошибки')
+      } else {
+        console.log('Обработка успеха', data)
+      }
     }
   })
 

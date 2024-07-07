@@ -1,13 +1,13 @@
-import { OrderService } from '@/services/order/order.service'
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowBigLeft, Trash, UserX, UserX2, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useDelExecutorFromOrder } from '../hooks/useDelExecutorFromOrder'
 import { Spinner } from '@/components/ui/spinner'
 import BackButton from '@/components/Buttons/BackButton'
-import { IOrderResponseP } from '@/types/orders/order_response.types'
+
 import { useGetOrder } from '../hooks/useGetOrder'
+import ListExecutors from './ListExecutors'
 
 const OrderDetailsAdmin: FC = () => {
   const { orderId } = useParams<{ orderId: string }>()
@@ -25,19 +25,15 @@ const OrderDetailsAdmin: FC = () => {
 
   const { order, isLoading, isPending, isError, error } = useGetOrder(orderId)
 
+  console.log(345, order?.potentialExecutors)
   const handleDeleteExecutor = async (executorId: string, orderId: number) => {
     try {
       const response = deleteExecutorFromOrder({
         orderId: String(orderId),
         executorId
       })
-      if (response.ok) {
-        // Обновление состояния, например, перезагрузка списка исполнителей
-        // или удаление конкретного исполнителя из UI
-        console.log('Исполнитель успешно удален')
-      } else {
-        console.error('Не удалось удалить исполнителя.')
-      }
+
+      console.log(555, 'response', response)
     } catch (error) {
       console.error('Ошибка удаления исполнителя:', error)
     }
@@ -98,6 +94,7 @@ const OrderDetailsAdmin: FC = () => {
               <p className=" text-sm text-slate-500 ">автор:</p>
               <h2 className="w-full text-lg">{order?.authorName}</h2>
             </div>
+            <ListExecutors executors={order.executors} orderId={order.id} />
             <div className="flex flex-col gap-1">
               <p className=" text-lg m-auto text-blue-400">Исполнители</p>
               {executorsNum ? (

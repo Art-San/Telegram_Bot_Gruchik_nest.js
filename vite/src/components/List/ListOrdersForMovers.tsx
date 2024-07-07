@@ -12,11 +12,12 @@ import { useOrdersPag } from '@/pages/Orders/hooks/useOrdersPag'
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import SelectDay from '../Form/fieldsForm/SelectDay'
-import { useOrdersStore } from '@/zustand/useOrders/useOrdersStore'
+
 import { Eye } from 'lucide-react'
 import { transformDate } from '@/utils/dateUtils'
 import { validIconStatus, validIconTypeWork } from '@/utils/icons/iconUtils'
 import { getOrderUrlForMover } from '@/configs/api.config'
+import { useOrdersStore } from '@/zustand/useOrders/useOrdersStore'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
