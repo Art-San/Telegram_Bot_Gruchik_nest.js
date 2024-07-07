@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { OrderService } from '@/services/order/order.service'
-import { IOrder, IPaginationResult } from '@/shared/types/order.types'
-import { useOrderStore } from '@/zustand/useOrderStore'
+
+import { useOrdersStore } from '@/zustand/useOrders/useOrdersStore'
+import { IOrder, IPaginationResult } from '@/types/orders/order.types'
 
 const isAuth = true
 
 export function useOrdersPag(page: string, pageSize: string, days?: string) {
-  const { setOrders, setTotalPages } = useOrderStore()
+  const { setOrders, setTotalPages } = useOrdersStore()
 
   const { data, isLoading, isError } = useQuery<IPaginationResult<IOrder>>({
     queryKey: ['orders', page, pageSize, days],

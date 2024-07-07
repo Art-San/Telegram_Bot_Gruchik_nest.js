@@ -7,6 +7,7 @@ import {
 
 import { axiosClassic } from '../../api/interceptors'
 import { getOrderPagUrl, getOrderUrl } from '../../configs/api.config'
+import { IOrderResponseP } from '@/types/orders/order_response.types'
 
 export const OrderService = {
   // async create() {
@@ -54,7 +55,7 @@ export const OrderService = {
   },
 
   async getByOrder(orderId: string) {
-    return axiosClassic.get<IOrder>(getOrderUrl(`/${orderId}`))
+    return axiosClassic.get<IOrderResponseP>(getOrderUrl(`/${orderId}`))
   },
   async createOrder(data: TypeOrderFormState) {
     const response = axiosClassic.post(getOrderUrl('/add_order'), data)
@@ -64,7 +65,14 @@ export const OrderService = {
   async deleteExecutorFromOrder(orderId: string, executorId: string) {
     console.log(12, 'executorId', executorId)
     console.log(12, 'orderId', orderId)
-    return { orderId, executorId }
+    const response = axiosClassic.delete(
+      getOrderUrl(`/${orderId}/remove-executor/${executorId}`),
+      {
+        params: { orderId, executorId }
+      }
+    )
+
+    return response
   },
   async deleteOrder(orderId: number) {
     console.log('orderId', typeof orderId)

@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 import { OrderService } from '@/services/order/order.service'
-import { IOrder } from '@/shared/types/order.types'
+import { IOrder } from '@/types/orders/order.types'
 
 const isAuth = true
 // pagination
 export function useOrders() {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['orders'],
     queryFn: () => OrderService.getAllOrders(),
     select: (data) => data.data, // избавляемся от лишней data
@@ -28,7 +28,7 @@ export function useOrders() {
     setOrders(data)
   }, [data])
 
-  return { orders, isLoading, isError }
+  return { orders, isLoading, isError, error }
 }
 
 // --------- keepPreviousData

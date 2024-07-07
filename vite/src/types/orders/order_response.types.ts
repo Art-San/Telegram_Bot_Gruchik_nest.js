@@ -1,4 +1,4 @@
-export interface IOrderResponseIOrderResponseP {
+export interface IOrderResponseP {
   id: number
   authorId: string
   authorName: string

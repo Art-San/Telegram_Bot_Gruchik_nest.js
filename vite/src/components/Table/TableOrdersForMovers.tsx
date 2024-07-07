@@ -12,7 +12,7 @@ import { useOrdersPag } from '@/pages/Orders/hooks/useOrdersPag'
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import SelectDay from '../Form/fieldsForm/SelectDay'
-import { useOrderStore } from '@/zustand/useOrderStore'
+import { useOrdersStore } from '@/zustand/useOrders/useOrdersStore'
 
 function getPaginationParamsFromUrl() {
   const urlParams = new URLSearchParams(window.location.search)
@@ -30,7 +30,7 @@ const TableOrdersForMovers = () => {
   const navigate = useNavigate()
 
   const { isLoading, isError, total } = useOrdersPag(page, pageSize, days)
-  const orders = useOrderStore((state) => state.orders)
+  const orders = useOrdersStore((state) => state.orders)
 
   useEffect(() => {
     setTotalPages(total)

@@ -12,7 +12,7 @@ import { useOrdersPag } from '@/pages/Orders/hooks/useOrdersPag'
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import SelectDay from '../Form/fieldsForm/SelectDay'
-import { useOrderStore } from '@/zustand/useOrderStore'
+import { useOrdersStore } from '@/zustand/useOrders/useOrdersStore'
 import { Eye } from 'lucide-react'
 import { transformDate } from '@/utils/dateUtils'
 import { validIconStatus, validIconTypeWork } from '@/utils/icons/iconUtils'
@@ -36,7 +36,7 @@ const ListOrdersForAdmin = () => {
   const navigate = useNavigate()
 
   const { isLoading, isError, total } = useOrdersPag(page, pageSize, days)
-  const orders = useOrderStore((state) => state.orders)
+  const orders = useOrdersStore((state) => state.orders)
 
   useEffect(() => {
     setTotalPages(total)

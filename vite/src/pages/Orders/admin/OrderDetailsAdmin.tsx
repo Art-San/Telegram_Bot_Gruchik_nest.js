@@ -6,47 +6,41 @@ import { Button } from '@/components/ui/button'
 import { useDelExecutorFromOrder } from '../hooks/useDelExecutorFromOrder'
 import { Spinner } from '@/components/ui/spinner'
 import BackButton from '@/components/Buttons/BackButton'
-import { IOrderResponseIOrderResponseP } from '@/types/orders/order_response.types'
+import { IOrderResponseP } from '@/types/orders/order_response.types'
+import { useGetOrder } from '../hooks/useGetOrder'
 
 const OrderDetailsAdmin: FC = () => {
-  const { orderId } = useParams()
+  const { orderId } = useParams<{ orderId: string }>()
   const { deleteExecutorFromOrder } = useDelExecutorFromOrder()
   const navigate = useNavigate()
 
-  const [order, setOrder] = useState<IOrderResponseIOrderResponseP>()
+  if (!orderId) {
+    return (
+      <div>
+        <p>Order ID is missing</p>
+        <BackButton />
+      </div>
+    )
+  }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (typeof orderId === 'string') {
-        const { data } = await OrderService.getByOrder(orderId)
-        console.log(123, data)
-        setOrder(data)
-      } else {
-        console.error('Order ID is undefined')
-        // Обработка случая, когда orderId undefined
-      }
-    }
-
-    fetchData()
-  }, [orderId]) // Добавьте orderId в массив зависимостей, если он используется внутри useEffect
+  const { order, isLoading, isPending, isError, error } = useGetOrder(orderId)
 
   const handleDeleteExecutor = async (executorId: string, orderId: number) => {
-    console.log(123, 'deleteExecutorFromOrder')
-    // try {
-    //   const response = deleteExecutorFromOrder({
-    //     orderId: String(orderId),
-    //     executorId
-    //   })
-    //   if (response.ok) {
-    //     // Обновление состояния, например, перезагрузка списка исполнителей
-    //     // или удаление конкретного исполнителя из UI
-    //     console.log('Исполнитель успешно удален')
-    //   } else {
-    //     console.error('Не удалось удалить исполнителя.')
-    //   }
-    // } catch (error) {
-    //   console.error('Ошибка удаления исполнителя:', error)
-    // }
+    try {
+      const response = deleteExecutorFromOrder({
+        orderId: String(orderId),
+        executorId
+      })
+      if (response.ok) {
+        // Обновление состояния, например, перезагрузка списка исполнителей
+        // или удаление конкретного исполнителя из UI
+        console.log('Исполнитель успешно удален')
+      } else {
+        console.error('Не удалось удалить исполнителя.')
+      }
+    } catch (error) {
+      console.error('Ошибка удаления исполнителя:', error)
+    }
   }
 
   const executorsNum = order?.executors.length === 0
@@ -56,7 +50,7 @@ const OrderDetailsAdmin: FC = () => {
     navigate(-1)
   }
 
-  if (!order)
+  if (isLoading)
     return (
       <div className=" flex items-center justify-center h-screen w-screen">
         <Spinner
@@ -65,6 +59,10 @@ const OrderDetailsAdmin: FC = () => {
         />
       </div>
     )
+
+  if (isError) {
+    return <div>Error: {error?.message}</div>
+  }
 
   return (
     <div className=" mt-2 flex flex-col items-center justify-center ">
@@ -114,7 +112,9 @@ const OrderDetailsAdmin: FC = () => {
                       <p className=" font-medium text-gray-500 text-xs">
                         telegramId:
                       </p>
-                      <p>{executor.user.telegramId}</p>
+                      <p className=" text-green-600">
+                        {executor.user.telegramId}
+                      </p>
                     </div>
                     <div className="flex flex-col">
                       <p className=" font-medium text-gray-500 text-xs">имя:</p>
@@ -158,3 +158,22 @@ const OrderDetailsAdmin: FC = () => {
 }
 
 export default OrderDetailsAdmin
+
+// import { FC,  } from 'react'
+// import { useParams} from 'react-router-dom'
+
+// import { useGetOrder } from '../hooks/useGetOrder'
+
+// const OrderDetailsAdmin: FC = () => {
+//   const { orderId } = useParams()
+
+//   const { order } = useGetOrder(orderId)
+
+//   return (
+//     <div className="  ">
+//         {order?.status}
+//     </div>
+//   )
+// }
+
+// export default OrderDetailsAdmin
